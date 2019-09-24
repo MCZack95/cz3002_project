@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    block content
+        p Welcome to the #{title}
+        form.form-inline(method = 'GET' action = '/')
+            button.button.btn.btn(type='submit') Log Out
+        br
+        br
+        br
+        h5 This is where the Main Forum Page is located.

@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    block content
+        p Welcome to the #{title}
+        form.form-inline(method = 'POST' action = '/signup')
+            input(name='username' type='text' required)
+            button.btn.btn-primary.mb-2(type='submit') Submit
+        br
+        form.form-inline(method = 'GET' action = '/')
+            button.button.btn.btn(type='submit') Back
