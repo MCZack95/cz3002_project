@@ -5,7 +5,8 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     block content
-        p Welcome to the #{title}
+        h1 #{title}
+        p Welcome #{matric_id}
         form.form-inline(method = 'GET' action = '/')
             button.button.btn.btn(type='submit') Log Out
         br
