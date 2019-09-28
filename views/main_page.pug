@@ -1,11 +1,49 @@
 extends layout
 
 block content
-        h1 #{title}
-        p Welcome #{matric_id}
-        form(method = 'GET' action = '/')
-            button.btn.btn-dark(type='submit') Log Out
-        br
-        br
-        br
-        h5 This is where the Main Forum Page is located.
+  h1 #{title}
+  p Welcome #{matric_id}
+  form(method = 'GET' action = '/')
+      button.btn.btn-dark(type='submit') Log Out
+  br
+  br
+  br
+  h5 This is where the Main Forum Page is located.
+
+  nav.navbar.navbar-dark.navbar-expand-sm
+    .navbar-header
+      img#forum_logo(src="/images/discussion_icon.png" alt="NTU Learning Platform")
+      span
+      h5.navbar-brand(href="#") Discussion Forum
+    .navbar-text
+      h5#filter Search By: Default
+    ul.navbar-nav
+      // Dropdown
+      li.nav-item.dropdown
+        button.btn.btn-dark.dropdown-toggle(data-toggle="dropdown") Courses
+        .dropdown-menu
+          button.dropdown-item(id='cc0' value='Default' onclick="changeFilter(this)") Reset Filter
+          button.dropdown-item(id='cc1' value='code1' onclick="changeFilter(this)") Course Code 1
+          button.dropdown-item(id='cc2' value='code2' onclick="changeFilter(this)") Course Code 2
+          button.dropdown-item(id='cc3' value='code3' onclick="changeFilter(this)") Course Code 3
+  br
+  table
+    tr#table-headings
+      td
+        h5 Title
+      td
+        h5 Number of Replies
+      td
+        h5 Rating
+    tr
+      td Is there a neutron star in the milky way?
+      td 42
+      td 4.2/5
+    
+  script.
+
+    function changeFilter(code){
+      document.getElementById('filter').innerHTML = 'Search By: ' + code.value;
+    }
+
+  link(rel='stylesheet', href='/stylesheets/main_page.css')

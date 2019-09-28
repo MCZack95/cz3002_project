@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'NTU Learning Platform', username: ''});
 });
 
-/* Use this route to make test /main easier */
+/* Use this route to make testing /main easier */
 router.get('/main', function(req, res, next) {
   console.log('Logging in via GET');
   res.render('main_page', { title: 'Main Page', matric_id: 'Developer' });
