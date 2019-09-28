@@ -39,15 +39,13 @@
 }
 
 table {
-    width: 100%;
-    border: 1px solid black;
-}
-
-#table-headings {
     text-align: center;
-    background-color: darkseagreen;
 }
 
-tr, td {
+table, tbody, tbody > tr, td {
     border: 1px solid black;
+}
+
+tbody > tr > td > span {
+    margin-left: 5px;
 }
