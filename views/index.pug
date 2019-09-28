@@ -4,11 +4,11 @@ block content
   h1= title
   p Welcome to #{title}
 
-  form.form-inline(method='POST' action='/main')
+  form(method='POST' action='/main')
     input(type='text' name='matric_id' placeholder='Enter Matric ID' required)
     br
     br
-    button.btn.btn-primary.mb-2(type='submit') Log In 
+    button.btn.btn-dark(type='submit') Log In 
   br
   br
   h5 This is where we can filter between professors and students
