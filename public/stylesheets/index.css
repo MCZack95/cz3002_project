@@ -1,0 +1,75 @@
+body {
+    background-image: url(https://73v3u36iopz178i0z3a33g7d-wpengine.netdna-ssl.com/wp-content/uploads/2016/06/blog-eLearning-templates.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    /* background-position: center; */
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#ewhiteboard {
+    height: 80px;
+    margin: 50px 0 50px 0;
+}
+
+.container {
+    height: 400px !important;
+    width: 500px !important;
+    background-color: white;
+    opacity: 0.8;
+    border-radius: 5px;
+    padding: 20px;
+    display: block;
+    text-align: center;
+}
+
+.container:hover {
+    opacity: 1;
+}
+
+input {
+    border: 0 !important;
+    border-bottom: 1px solid gray !important;
+    width: 50%;
+}
+
+#password {
+    margin-top: 10px;
+}
+
+#loginbutt {
+    color: #fff;
+    background-color: #1464F4;
+    border-color: #1464F4;
+    margin-top: 40px;
+    width: 110px;
+    /* transition: all 0.5s; */
+}
+
+#loginbutt span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+  
+#loginbutt span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+  
+#loginbutt:hover span {
+    padding-right: 25px;
+}
+  
+#loginbutt:hover span:after {
+    opacity: 1;
+    right: 0;
+}
