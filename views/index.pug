@@ -1,14 +1,17 @@
-extends layout
+link(rel='stylesheet', href='/stylesheets/index.css')
+link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous")
 
-block content
-  h1= title
-  p Welcome to #{title}
+.container
+  img#ewhiteboard(src="/images/ewhiteboard.png")
 
   form(method='POST' action='/main')
-    input(type='text' name='matric_id' placeholder='Enter Matric ID' required)
+    input#username(type='text' name='username' placeholder='username' required)
     br
+    input#password(type='password' name='password' placeholder='password' required)
     br
-    button.btn.btn-dark(type='submit') Log In 
-  br
-  br
-  h5 This is where we can filter between professors and students
+    button.btn#loginbutt(type='submit') 
+      span Log In 
+
+
+
+
