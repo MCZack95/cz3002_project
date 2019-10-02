@@ -1,14 +1,7 @@
 extends layout
 
 block content
-  h1 #{title}
-  p Welcome #{username}
-  form(method = 'GET' action = '/')
-      button.btn.btn-dark(type='submit') Log Out
-  br
-  br
-  br
-  h5 This is where the Main Forum Page is located.
+  p Welcome #{matric_id}
 
   nav.navbar.navbar-dark.navbar-expand-sm
     .navbar-header
@@ -20,7 +13,7 @@ block content
     ul.navbar-nav
       // Dropdown
       li.nav-item.dropdown
-        button.btn.btn-dark.dropdown-toggle(data-toggle="dropdown") Courses
+        button.btn.btn-primary.dropdown-toggle(data-toggle="dropdown") Courses
         .dropdown-menu
           button.dropdown-item(id='cc0' value='Default' onclick="changeFilter(this)") Reset Filter
           button.dropdown-item(id='cc1' value='code1' onclick="changeFilter(this)") Course Code 1
@@ -36,6 +29,12 @@ block content
         th Rating
     tbody#table-records
 
+  br
+  br
+  br
+  form(method = 'GET' action = '/')
+      button.btn.btn-primary(type='submit') Log Out
+  
   script.
 
     initData();
@@ -61,8 +60,8 @@ block content
 
       data_list.forEach(function(record){
         html_string = "<tr>";
-        
-        html_string += "<td>" + record['title'] + "</td>";
+
+        html_string += "<td><a href='/'>" + record['title'] + "</a></td>";
 
         html_string += "<td>";
         record['tags'].forEach(function(tag){

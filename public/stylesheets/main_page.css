@@ -1,3 +1,11 @@
+body {
+  background-image: url(https://73v3u36iopz178i0z3a33g7d-wpengine.netdna-ssl.com/wp-content/uploads/2016/06/blog-eLearning-templates.png);
+}
+
+body > p {
+  color: white;
+}
+
 .navbar.navbar-dark.navbar-expand-sm {
   background-color: #5599AA;
 }
@@ -33,7 +41,7 @@
   margin-left: 10px;
   padding: 10px 10px 10px;
   padding-right: 200px;
-  background-color: #FFFFFF;
+  background-color: white;
   color: #000000;
   border: 1px solid black;
 }
@@ -42,10 +50,26 @@ table {
   text-align: center;
 }
 
-table, tbody, tbody > tr, td {
+tbody > tr, td {
   border: 1px solid black;
+}
+
+tbody > tr {
+  background-color: white;
+}
+
+tbody > tr:hover {
+  background-color: lightgrey;
 }
 
 tbody > tr > td > span {
   margin-left: 5px;
+}
+
+tbody > tr > td > a {
+  color: brown;
+}
+
+tbody > tr > td > a:hover {
+  color: blue;
 }
