@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 /* Use this route to make testing /main easier */
 router.get('/main', function(req, res, next) {
   Promise.resolve(main_page.getForumData()).then(function(data){
-    res.render('main_page', { title: 'Main Page', matric_id: 'Developer', data: data });
+    res.render('main_page', { title: 'Main Page', username: 'Developer', data: data });
   });
 })
 
