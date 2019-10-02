@@ -12,7 +12,7 @@ body {
 
 #ewhiteboard {
     height: 80px;
-    margin: 50px 0 50px 0;
+    margin: 40px 0 40px 0;
 }
 
 .container {
@@ -36,8 +36,27 @@ input {
     width: 50%;
 }
 
+input:focus, textarea:focus, select:focus {
+    outline: none;
+}
+
+.passwordcontainer {
+    position: relative;
+}
+
 #password {
     margin-top: 10px;
+}
+
+#showpassword {
+    position: absolute;
+    right: 120px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
 }
 
 #loginbutt {

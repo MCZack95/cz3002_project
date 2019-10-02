@@ -21,7 +21,7 @@ router.post('/main', function(req, res, next) {
 
   details_dict = {}
 
-  var details = firebase.database().ref('/Users');
+  var details = firebase.database().ref('/users');
 
   details.on('value',
   function(snapshot) {
@@ -34,11 +34,20 @@ router.post('/main', function(req, res, next) {
     console.log('details_dict: ' + JSON.stringify(details_dict));
   }, 1500);
   
-  if (req.body.username in details_dict && details_dict[req.body.username] == req.body.password) {
-    res.render('main_page', { title: 'Main Page', username: req.body.username });
-  } else {
-    res.redirect('/');
-  }
+  Object.keys(details_dict).forEach(function(key) {
+    if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {
+      res.render('main_page', { title: 'Main Page', username: req.body.username });
+    }
+  });
+
+  res.redirect('/');
+  
+  // if (req.body.username in details_dict && details_dict[req.body.username] == req.body.password) {
+  //   res.render('main_page', { title: 'Main Page', username: req.body.username });
+  // } else {
+  //   res.redirect('/');
+  // }
+  
 });
 
 module.exports = router;

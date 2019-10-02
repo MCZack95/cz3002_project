@@ -7,11 +7,24 @@ link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/
   form(method='POST' action='/main')
     input#username(type='text' name='username' placeholder='username' required)
     br
-    input#password(type='password' name='password' placeholder='password' required)
+    .passwordcontainer
+      input#password(type='password' name='password' placeholder='password' required)
+      button#showpassword(type='button' onclick='showPassword()') SHOW
     br
     button.btn#loginbutt(type='submit') 
       span Log In 
 
+script.
+
+  function showPassword() {
+    var text = document.getElementById("password");
+    if (text.type === "password") {
+      text.type = "text";
+    } else {
+      text.type = "password";
+    }
+  }
 
 
-
+//- oninvalid="this.setCustomValidity('Please Enter valid email')"
+//-  oninput="setCustomValidity('')"
