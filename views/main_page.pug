@@ -34,20 +34,50 @@ block content
         th Tags
         th Number of Replies
         th Rating
-    tbody
-      tr
-        td Is there a neutron star in the milky way?
-        td 
-          span.badge.badge-pill.badge-primary code1
-          span
-          span.badge.badge-pill.badge-primary code2
-        td 42
-        td 4.2/5
-    
+    tbody#table-records
+
   script.
+
+    initData();
 
     function changeFilter(code){
       document.getElementById('filter').innerHTML = 'Search By: ' + code.value;
+    }
+
+    function initData(){
+      data = "#{data}".split('_');
+      data_list = [];
+      data.forEach(function(record){
+        record = record.split('~');
+        forumData = {}
+
+        forumData['title'] = record[0];
+        forumData['tags'] = record[1].split('+');
+        forumData['num_of_replies'] = record[2];
+        forumData['rating'] = record[3];
+
+        data_list.push(forumData);
+      });
+
+      data_list.forEach(function(record){
+        html_string = "<tr>";
+        
+        html_string += "<td>" + record['title'] + "</td>";
+
+        html_string += "<td>";
+        record['tags'].forEach(function(tag){
+          html_string += "<span class= 'badge badge-pill badge-primary'>" + tag + "</span><span></span>";
+        });
+        html_string += "</td>";
+
+        html_string += "<td>" + record['num_of_replies'] + "</td>";
+
+        html_string += "<td>" + record['rating'] + "</td>";
+
+        html_string += "</tr>";
+
+        $('#table-records').append(html_string);
+      });
     }
 
   link(rel='stylesheet', href='/stylesheets/main_page.css')
