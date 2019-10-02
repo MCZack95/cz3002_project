@@ -1,14 +1,7 @@
 extends layout
 
 block content
-  h1 #{title}
-  p Welcome #{username}
-  form(method = 'GET' action = '/')
-      button.btn.btn-dark(type='submit') Log Out
-  br
-  br
-  br
-  h5 This is where the Main Forum Page is located.
+  p Welcome #{matric_id}
 
   nav.navbar.navbar-dark.navbar-expand-sm
     .navbar-header
@@ -20,7 +13,7 @@ block content
     ul.navbar-nav
       // Dropdown
       li.nav-item.dropdown
-        button.btn.btn-dark.dropdown-toggle(data-toggle="dropdown") Courses
+        button.btn.btn-primary.dropdown-toggle(data-toggle="dropdown") Courses
         .dropdown-menu
           button.dropdown-item(id='cc0' value='Default' onclick="changeFilter(this)") Reset Filter
           button.dropdown-item(id='cc1' value='code1' onclick="changeFilter(this)") Course Code 1
@@ -34,20 +27,56 @@ block content
         th Tags
         th Number of Replies
         th Rating
-    tbody
-      tr
-        td Is there a neutron star in the milky way?
-        td 
-          span.badge.badge-pill.badge-primary code1
-          span
-          span.badge.badge-pill.badge-primary code2
-        td 42
-        td 4.2/5
-    
+    tbody#table-records
+
+  br
+  br
+  br
+  form(method = 'GET' action = '/')
+      button.btn.btn-primary(type='submit') Log Out
+  
   script.
+
+    initData();
 
     function changeFilter(code){
       document.getElementById('filter').innerHTML = 'Search By: ' + code.value;
+    }
+
+    function initData(){
+      data = "#{data}".split('_');
+      data_list = [];
+      data.forEach(function(record){
+        record = record.split('~');
+        forumData = {}
+
+        forumData['title'] = record[0];
+        forumData['tags'] = record[1].split('+');
+        forumData['num_of_replies'] = record[2];
+        forumData['rating'] = record[3];
+
+        data_list.push(forumData);
+      });
+
+      data_list.forEach(function(record){
+        html_string = "<tr>";
+
+        html_string += "<td><a href='/'>" + record['title'] + "</a></td>";
+
+        html_string += "<td>";
+        record['tags'].forEach(function(tag){
+          html_string += "<span class= 'badge badge-pill badge-primary'>" + tag + "</span><span></span>";
+        });
+        html_string += "</td>";
+
+        html_string += "<td>" + record['num_of_replies'] + "</td>";
+
+        html_string += "<td>" + record['rating'] + "</td>";
+
+        html_string += "</tr>";
+
+        $('#table-records').append(html_string);
+      });
     }
 
   link(rel='stylesheet', href='/stylesheets/main_page.css')
