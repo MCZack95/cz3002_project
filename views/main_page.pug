@@ -50,10 +50,11 @@ block content
         record = record.split('~');
         forumData = {}
 
-        forumData['title'] = record[0];
-        forumData['tags'] = record[1].split('+');
-        forumData['num_of_replies'] = record[2];
-        forumData['rating'] = record[3];
+        forumData['id'] = record[0];
+        forumData['title'] = record[1];
+        forumData['tags'] = record[2].split('+');
+        forumData['num_of_replies'] = record[3];
+        forumData['rating'] = record[4];
 
         data_list.push(forumData);
       });
@@ -61,11 +62,12 @@ block content
       data_list.forEach(function(record){
         html_string = "<tr>";
 
-        html_string += "<td><a href='/'>" + record['title'] + "</a></td>";
+        html_string += "<td>" + create_form(record['id'], record['title']) +"</td>";
 
         html_string += "<td>";
         record['tags'].forEach(function(tag){
-          html_string += "<span class= 'badge badge-pill badge-primary'>" + tag + "</span><span></span>";
+          html_string += "<span class= 'badge badge-pill badge-primary'>" + tag + "</span>";
+          html_string += "<span></span>";
         });
         html_string += "</td>";
 
@@ -77,6 +79,16 @@ block content
 
         $('#table-records').append(html_string);
       });
+    }
+
+    function create_form(id, title){
+      return "<form method='POST' action='/main/" + id + "'>" +
+                "<input type='hidden' name='id' value=" + id + ">" +
+                "<input type='hidden' name='title' value='" + title + "'>" +
+                "<button type='submit' name='thread_submit' value=" + id + " class='link-button'>" + 
+                  title + 
+                "</button>" +
+            "</form>"
     }
 
   link(rel='stylesheet', href='/stylesheets/main_page.css')

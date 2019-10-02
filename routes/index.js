@@ -51,4 +51,13 @@ router.post('/main', function(req, res, next) {
 
 });
 
+// Use this url to test
+router.get('/thread', function(req, res, next) {
+  res.render('thread', { title: 'Developer Thread' });
+});
+
+router.post('/main/:thread_id', function(req, res, next){
+  res.render('thread', { title: req.body.title });
+});
+
 module.exports = router;

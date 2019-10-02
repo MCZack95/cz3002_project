@@ -1,10 +1,10 @@
 {
-    "apiKey": "AIzaSyCZr0DyidIqjDxuAFQ0SnFYapQPZVMI1Hg",
-    "authDomain": "ewhiteboard-18e73.firebaseapp.com",
-    "databaseURL": "https://ewhiteboard-18e73.firebaseio.com",
-    "projectId": "ewhiteboard-18e73",
-    "storageBucket": "ewhiteboard-18e73.appspot.com",
-    "messagingSenderId": "535472024155",
-    "appId": "1:535472024155:web:09f970ca10d30249b4ad7e",
-    "measurementId": "G-1T5Q5X6LFD"
+  "apiKey": "AIzaSyCZr0DyidIqjDxuAFQ0SnFYapQPZVMI1Hg",
+  "authDomain": "ewhiteboard-18e73.firebaseapp.com",
+  "databaseURL": "https://ewhiteboard-18e73.firebaseio.com",
+  "projectId": "ewhiteboard-18e73",
+  "storageBucket": "ewhiteboard-18e73.appspot.com",
+  "messagingSenderId": "535472024155",
+  "appId": "1:535472024155:web:09f970ca10d30249b4ad7e",
+  "measurementId": "G-1T5Q5X6LFD"
 }
