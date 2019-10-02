@@ -27,7 +27,7 @@ router.post('/main', function(req, res, next) {
   details.on('value',
   function(snapshot) {
     details_dict = snapshot.val()
-    console.log(snapshot.val());
+    // console.log(snapshot.val());
   }
   )
 
@@ -48,7 +48,7 @@ router.post('/main', function(req, res, next) {
   // } else {
   //   res.redirect('/');
   // }
-  
+
 });
 
 module.exports = router;

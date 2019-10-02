@@ -16,24 +16,25 @@ body {
 }
 
 .container {
-  height: 400px !important;
-  width: 500px !important;
-  background-color: white;
-  opacity: 0.8;
-  border-radius: 5px;
-  padding: 20px;
-  display: block;
-  text-align: center;
+    height: 400px !important;
+    width: 500px !important;
+    background-color: white;
+    opacity: 0.8;
+    border-radius: 5px;
+    padding: 20px;
+    display: block;
+    text-align: center;
+    position: relative;
 }
 
 .container:hover {
-  opacity: 1;
+    opacity: 1;
 }
 
 input {
-  border: 0 !important;
-  border-bottom: 1px solid gray !important;
-  width: 50%;
+    border: 0 !important;
+    border-bottom: 1px solid gray !important;
+    width: 50%;
 }
 
 input:focus, textarea:focus, select:focus {
@@ -44,19 +45,34 @@ input:focus, textarea:focus, select:focus {
     position: relative;
 }
 
+#username, #password {
+    font-family: "Courier New", Courier, monospace;
+}
+
 #password {
-  margin-top: 10px;
+    margin-top: 10px;
+    /* max-width: 12ch; */
 }
 
 #showpassword {
     position: absolute;
-    right: 120px;
+    right: 25%;
+    top: 14px;
     background-color: transparent;
     background-repeat: no-repeat;
     border: none;
     cursor: pointer;
     overflow: hidden;
     outline: none;
+    font-family: "Arial Black", Gadget, sans-serif;
+    font-size: 10px;
+}
+
+#forgotpassword {
+    font-size: 10px;
+    position: absolute;
+    right: 26.9%;
+    margin-top: 3px;
 }
 
 #loginbutt {

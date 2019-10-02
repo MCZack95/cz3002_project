@@ -9,7 +9,8 @@ link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/
     br
     .passwordcontainer
       input#password(type='password' name='password' placeholder='password' required)
-      button#showpassword(type='button' onclick='showPassword()') SHOW
+      button#showpassword(type='button' onclick='showPassword()' maxlength='12') SHOW
+    a#forgotpassword(href='https://www.mayoclinic.org/diseases-conditions/amnesia/diagnosis-treatment/drc-20353366') Forgot your password?
     br
     button.btn#loginbutt(type='submit') 
       span Log In 
@@ -17,11 +18,14 @@ link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/
 script.
 
   function showPassword() {
-    var text = document.getElementById("password");
-    if (text.type === "password") {
-      text.type = "text";
+    var password = document.getElementById("password");
+    var showPasswordButton = document.getElementById("showpassword");
+    if (password.type === "password") {
+      password.type = "text";
+      showPasswordButton.innerHTML = "HIDE"
     } else {
-      text.type = "password";
+      password.type = "password";
+      showPasswordButton.innerHTML = "SHOW"
     }
   }
 
