@@ -1,13 +1,26 @@
 extends layout
 
 block content
+  
+  .thread-title(align='center')
     h1 #{title}
-    
 
-    br
-    br
-    br
-    form(method='GET' action='/main')
-        button.btn.btn-primary(type='submit') Return to Main Page
+  .threads(align='center')
+    table.table-dark.table-striped
+      thead
+        tr
+          th 
+            h3 Replies
+      tbody#replies
+        tr
+          td Reply 1
+        tr
+          td Reply 2
 
-    link(rel='stylesheet', href='/stylesheets/main_page.css')
+  br
+  br
+  br
+  form(method='GET' action='/main')
+    button.btn.btn-primary(type='submit') Return to Main Page
+
+  link(rel='stylesheet', href='/stylesheets/thread.css')
