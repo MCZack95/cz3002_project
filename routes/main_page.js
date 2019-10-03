@@ -57,7 +57,7 @@ var forum_data = [
     'rating': 4 },
   { 
     'id': 3,
-    'title': 'How do you used nodemon?',
+    'title': 'How do you use nodemon?',
     'tags': ['code3', 'code6'],
     'num_of_replies': 3,
     'rating': 17 

@@ -11,14 +11,39 @@ body {
   color: white;
 }
 
-table {
+#threads > div {
+  margin-top: 20px;
+  background-color: beige;
+}
+
+.row > :first-child.col-lg-2 {
+  padding: 20px 20px 20px 20px;
+  border-right: 5px solid black;
+}
+
+.col-lg-8 {
+  padding-top: 20px;
+  background-color: inherit;
+}
+
+.row > :last-child.col-lg-2 {
+  background-color: darkslategrey;
+}
+
+.slider_image {
+  height: 50%;
+  width: 50%;
+}
+
+.slider_image:hover {
+  opacity: 0;
+  transition: .5s ease;
+}
+
+#thread_buttons {
   width: 100%;
 }
 
-th > h3 {
-  padding: 20px 20px 20px 20px;
-}
-
-tr, th {
-  text-align: center;
+#thread_buttons > span {
+  margin-left: 50px;
 }

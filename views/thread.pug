@@ -5,22 +5,80 @@ block content
   .thread-title(align='center')
     h1 #{title}
 
-  .threads(align='center')
-    table.table-dark.table-striped
-      thead
-        tr
-          th 
-            h3 Replies
-      tbody#replies
-        tr
-          td Reply 1
-        tr
-          td Reply 2
+  .container-fluid#threads
 
   br
-  br
-  br
-  form(method='GET' action='/main')
-    button.btn.btn-primary(type='submit') Return to Main Page
+  .container-fluid#thread_buttons
+    .row
+      .col-lg-1
+        button.btn.btn-primary(type='submit' align='left') Add Reply
+      .col-lg-1
+        button.btn.btn-primary(type='submit' align='left') Watch this Thread
+      .col-lg-10
+    .row
+      .col-lg-12
+        br
+        br
+        br
+    .row
+      .col-lg-6
+        form(method='GET' action='/main')
+          button.btn.btn-primary(type='submit') Return to Main Page
+      .col-lg-6
+  
+  script.
+
+    initData()
+    
+    function initData(){
+      data = "#{data}";
+      data_list = [];
+      if (#{thread_size} == 0) {
+        return;
+      } else if (#{thread_size} == 1) {
+        reply = data.split('~');
+        replyData = {}
+
+        replyData['reply_pos'] = reply[0];
+        replyData['user'] = reply[1];
+        replyData['content'] = reply[2];
+        
+        data_list.push(replyData);
+      } else {
+        data = data.split('_');
+        data.forEach(function(reply){
+          reply = reply.split('~');
+          replyData = {}
+
+          replyData['reply_pos'] = reply[0];
+          replyData['user'] = reply[1];
+          replyData['content'] = reply[2];
+
+          data_list.push(replyData);
+        });
+      }
+
+      data_list.forEach(function(reply){
+        html_string = "<div class='row'>";
+
+        html_string += "<div class='col-lg-2'><h3>" + reply['user'] +"</h3></div>";
+
+        html_string += "<div class='col-lg-8'><h5>" + reply['content'] + "</h5></div>";
+
+        html_string += "<div class='col-lg-2'>" + create_slider() + "</div>";
+
+        html_string += "</div>";
+
+        $('#threads').append(html_string);
+      });
+    }
+
+    function create_slider(){
+      html_string = "<div class='container' align='center'>";
+      html_string += "<img class='rounded slider_image' src='/images/deck_of_cards.png' alt='More' align='center'>";
+      html_string += "</div>";
+
+      return html_string;
+    }
 
   link(rel='stylesheet', href='/stylesheets/thread.css')

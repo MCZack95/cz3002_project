@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var main_page = require('./main_page');
+var thread = require('./thread');
 
 var firebase = require('firebase');
 firebase.initializeApp(require('../firebaseconfig.json'));
@@ -15,7 +16,7 @@ router.get('/main', function(req, res, next) {
   Promise.resolve(main_page.getForumData()).then(function(data){
     res.render('main_page', { title: 'Main Page', username: 'Developer', data: data });
   });
-})
+});
 
 router.post('/main', function(req, res, next) {
   console.log('Logging in via POST');
@@ -53,11 +54,21 @@ router.post('/main', function(req, res, next) {
 
 // Use this url to test
 router.get('/thread', function(req, res, next) {
-  res.render('thread', { title: 'Developer Thread' });
+  Promise.resolve(thread.get_thread_replies(0)).then(function(data){
+    Promise.resolve(thread.get_thread_size(0)).then(function(thread_size){
+      console.log(data);
+      console.log(thread_size);
+      res.render('thread', { title: 'Developer Thread', data: data, thread_size: thread_size });
+    });
+  });
 });
 
 router.post('/main/:thread_id', function(req, res, next){
-  res.render('thread', { title: req.body.title });
+  Promise.resolve(thread.get_thread_replies(req.body.id)).then(function(data){
+    Promise.resolve(thread.get_thread_size(req.body.id)).then(function(thread_size){
+      res.render('thread', { title: req.body.title, data: data, thread_size: thread_size });
+    });
+  });
 });
 
 module.exports = router;
