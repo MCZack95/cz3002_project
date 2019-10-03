@@ -21,6 +21,7 @@ body {
   border-right: 5px solid black;
 }
 
+#threads
 .col-lg-8 {
   padding-top: 20px;
   background-color: inherit;
@@ -30,12 +31,13 @@ body {
   background-color: darkslategrey;
 }
 
-.slider_image {
-  height: 50%;
-  width: 50%;
+#quote, #report, #up, #down {
+  height: 50px;
+  width: 60px;
+  margin-top: 15px;
 }
 
-.slider_image:hover {
+#quote:hover, #report:hover, #up:hover, #down:hover {
   opacity: 0;
   transition: .5s ease;
 }

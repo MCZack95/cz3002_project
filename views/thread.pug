@@ -65,7 +65,7 @@ block content
 
         html_string += "<div class='col-lg-8'><h5>" + reply['content'] + "</h5></div>";
 
-        html_string += "<div class='col-lg-2'>" + create_slider() + "</div>";
+        html_string += "<div class='col-lg-2'>" + create_icon() + "</div>";
 
         html_string += "</div>";
 
@@ -73,9 +73,12 @@ block content
       });
     }
 
-    function create_slider(){
+    function create_icon(){
       html_string = "<div class='container' align='center'>";
-      html_string += "<img class='rounded slider_image' src='/images/deck_of_cards.png' alt='More' align='center'>";
+      html_string += "<img id='quote' class='float-left' src='/images/return_arrow.png' alt='Quote'>";
+      html_string += "<img id='report' class='float-left' src='/images/exclamation_mark.png' alt='Report'>";
+      html_string += "<img id='up' class='float-left' src='/images/thumbs_up.png' alt='Vote Up'>";
+      html_string += "<img id='down' class='float-left' src='/images/thumbs_down.png' alt='Vote Down'>";
       html_string += "</div>";
 
       return html_string;

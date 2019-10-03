@@ -56,8 +56,6 @@ router.post('/main', function(req, res, next) {
 router.get('/thread', function(req, res, next) {
   Promise.resolve(thread.get_thread_replies(0)).then(function(data){
     Promise.resolve(thread.get_thread_size(0)).then(function(thread_size){
-      console.log(data);
-      console.log(thread_size);
       res.render('thread', { title: 'Developer Thread', data: data, thread_size: thread_size });
     });
   });
