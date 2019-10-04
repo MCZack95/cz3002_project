@@ -28,6 +28,10 @@ module.exports.getForumData = async () => {
   });
 }
 
+module.exports.getAllForumData = () => {
+  return get_data();
+}
+
 // LOCAL METHODS
 function get_data(){
   return forum_data;

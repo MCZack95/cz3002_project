@@ -13,9 +13,7 @@ router.get('/', function(req, res, next) {
 
 /* Use this route to make testing /main easier */
 router.get('/main', function(req, res, next) {  
-  Promise.resolve(main_page.getForumData()).then(function(data){
-    res.render('main_page', { title: 'Main Page', username: 'Developer', data: data });
-  });
+  res.render('main_page', { title: 'Main Page', username: 'Developer', data: main_page.getAllForumData() });
 });
 
 router.post('/main', function(req, res, next) {
@@ -35,13 +33,10 @@ router.post('/main', function(req, res, next) {
   setTimeout(function() { 
     console.log('details_dict: ' + JSON.stringify(details_dict));
   }, 1500);
-  
-  test_obj = [{'t_id':'1', 'title': 'ASE', 'tags': 'abc', 'numOfReplies': 123, 'rating': 4},
-              {'t_id':'3', 'title': 'ABC', 'tags': 'efg', 'numOfReplies': 456, 'rating': 9}];
 
   Object.keys(details_dict).forEach(function(key) {
     if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {
-      res.render('main_page', { title: 'Main Page', username: req.body.username, data: test_obj });
+      res.render('main_page', { title: 'Main Page', username: req.body.username, data: main_page.getAllForumData() });
     }
   });
 

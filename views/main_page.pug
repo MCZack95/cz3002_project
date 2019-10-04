@@ -32,8 +32,11 @@ block content
         //- tr(data-href='//localhost:3000/main/' + `${thread.t_id}`)
         tr(data-href=`${thread.t_id}` id=`${thread.t_id}`)
           td #{thread.title}
-          td #{thread.tags}
-          td #{thread.numOfReplies}
+          td
+            each tag in thread.tags
+              span.badge.badge-pill.badge-primary #{tag}
+              span
+          td #{thread.num_of_replies}
           td #{thread.rating}
   br
   br
@@ -76,12 +79,10 @@ block content
       form.submit();
     }
 
-    initData();
-
     function changeFilter(code){
       document.getElementById('filter').innerHTML = 'Search By: ' + code.value;
     }
-
+    /*
     function initData(){
       data = "#{data}".split('_');
       data_list = [];
@@ -128,6 +129,6 @@ block content
                   title + 
                 "</button>" +
             "</form>"
-    }
+    }*/
 
   link(rel='stylesheet', href='/stylesheets/main_page.css')
