@@ -33,8 +33,9 @@ body {
 
 #quote, #report, #up, #down {
   height: 50px;
-  width: 60px;
+  width: 50px;
   margin-top: 15px;
+  margin-left: 5px;
 }
 
 #quote:hover, #report:hover, #up:hover, #down:hover {

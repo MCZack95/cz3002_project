@@ -30,7 +30,7 @@ block content
     tbody#table-records
       each thread in data
         //- tr(data-href='//localhost:3000/main/' + `${thread.t_id}`)
-        tr(data-href=`${thread.t_id}` id=`${thread.t_id}`)
+        tr(data-href=`${thread.id}` id=`${thread.id}`)
           td #{thread.title}
           td
             each tag in thread.tags
@@ -43,11 +43,11 @@ block content
   br
   form(method = 'GET' action = '/')
       button.btn.btn-primary(type='submit') Log Out
-  
+
   script.
 
     document.addEventListener('DOMContentLoaded', () => {
-      const rows = document.querySelectorAll('tr[data-href]');
+      var rows = document.querySelectorAll('tr[data-href]');
       rows.forEach(row => {
         row.addEventListener('click', () => {
           //- window.location.href = row.dataset.href;
@@ -82,53 +82,5 @@ block content
     function changeFilter(code){
       document.getElementById('filter').innerHTML = 'Search By: ' + code.value;
     }
-    /*
-    function initData(){
-      data = "#{data}".split('_');
-      data_list = [];
-      data.forEach(function(record){
-        record = record.split('~');
-        forumData = {}
-
-        forumData['id'] = record[0];
-        forumData['title'] = record[1];
-        forumData['tags'] = record[2].split('+');
-        forumData['num_of_replies'] = record[3];
-        forumData['rating'] = record[4];
-
-        data_list.push(forumData);
-      });
-
-      data_list.forEach(function(record){
-        html_string = "<tr>";
-
-        html_string += "<td>" + create_form(record['id'], record['title']) +"</td>";
-
-        html_string += "<td>";
-        record['tags'].forEach(function(tag){
-          html_string += "<span class= 'badge badge-pill badge-primary'>" + tag + "</span>";
-          html_string += "<span></span>";
-        });
-        html_string += "</td>";
-
-        html_string += "<td>" + record['num_of_replies'] + "</td>";
-
-        html_string += "<td>" + record['rating'] + "</td>";
-
-        html_string += "</tr>";
-
-        $('#table-records').append(html_string);
-      });
-    }
-
-    function create_form(id, title){
-      return "<form method='POST' action='/main/" + id + "'>" +
-                "<input type='hidden' name='id' value=" + id + ">" +
-                "<input type='hidden' name='title' value='" + title + "'>" +
-                "<button type='submit' name='thread_submit' value=" + id + " class='link-button'>" + 
-                  title + 
-                "</button>" +
-            "</form>"
-    }*/
 
   link(rel='stylesheet', href='/stylesheets/main_page.css')

@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 
 /* Use this route to make testing /main easier */
 router.get('/main', function(req, res, next) {  
-  res.render('main_page', { title: 'Main Page', username: 'Developer', data: main_page.getAllForumData() });
+  res.render('main_page', { title: 'Main Page', username: 'Developer', data: main_page.get_all_forum_data() });
 });
 
 router.post('/main', function(req, res, next) {
@@ -36,7 +36,7 @@ router.post('/main', function(req, res, next) {
 
   Object.keys(details_dict).forEach(function(key) {
     if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {
-      res.render('main_page', { title: 'Main Page', username: req.body.username, data: main_page.getAllForumData() });
+      res.render('main_page', { title: 'Main Page', username: req.body.username, data: main_page.get_all_forum_data() });
     }
   });
 
@@ -52,19 +52,11 @@ router.post('/main', function(req, res, next) {
 
 // Use this url to test
 router.get('/thread', function(req, res, next) {
-  Promise.resolve(thread.get_thread_replies(0)).then(function(data){
-    Promise.resolve(thread.get_thread_size(0)).then(function(thread_size){
-      res.render('thread', { title: 'Developer Thread', data: data, thread_size: thread_size });
-    });
-  });
+  res.render('thread', { title: 'Developer Thread', data: thread.get_thread_replies(0), thread_size: thread.get_thread_size(0) });
 });
 
 router.post('/main/:thread_id', function(req, res, next){
-  Promise.resolve(thread.get_thread_replies(req.body.id)).then(function(data){
-    Promise.resolve(thread.get_thread_size(req.body.id)).then(function(thread_size){
-      res.render('thread', { title: req.body.title, data: data, thread_size: thread_size });
-    });
-  });
+  res.render('thread', { title: req.body.title, data: thread.get_thread_replies(req.body.id), thread_size: thread.get_thread_size(req.body.id) });
 });
 
 module.exports = router;

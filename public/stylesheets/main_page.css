@@ -66,10 +66,14 @@ tbody > tr > td > span {
   margin-left: 5px;
 }
 
-tbody > tr > td > a {
-  color: brown;
+tbody > tr > td:first-child {
+  text-decoration: underline;
 }
 
-tbody > tr > td > a:hover {
+tbody > tr > td:first-child:hover {
   color: blue;
+}
+
+tbody > tr:hover {
+  cursor: pointer;
 }

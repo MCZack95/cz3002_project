@@ -1,33 +1,18 @@
 // EXPORTED METHODS
-module.exports.get_thread_replies = async (t_id) => {
-  string_data_list = "";
-  return Promise.resolve(get_thread_replies(t_id)).then(function(replies){
-    // Parse data
-    replies.forEach(function(reply){
-      if (replies.indexOf(reply) != 0) {
-        string_data_list += "_";
-      }
-      string_data_list += parseData(reply['reply_pos']);
-
-      string_data_list += '~' + parseData(reply['user']);
-
-      string_data_list += '~' + parseData(reply['content']);
-    });
-
-    return string_data_list;
-  });
+module.exports.get_thread_size = (t_id) => {
+  return get_thread(t_id).length;
 };
 
-module.exports.get_thread_size = async (t_id) => {
-  return get_thread_replies(t_id).length;
-};
+module.exports.get_thread_replies = (t_id) => {
+  return get_thread(t_id);
+}
 
 // LOCAL METHODS
 function get_all_replies(){
   return replies;
 };
 
-function get_thread_replies(t_id){
+function get_thread(t_id){
   reply_list = [];
   get_all_replies().forEach(function(reply){
     if (reply.t_id == t_id) {
@@ -37,14 +22,7 @@ function get_thread_replies(t_id){
   return reply_list;
 };
 
-function parseData(data){
-  data = data.toString();
-  data = data.replace(/\~/g, '');
-  data = data.replace(/\+/g, '');
-  return data;
-}
-
-// OTHERS
+// HARDCODE DATA
 var replies = [
   {
     't_id': 1,

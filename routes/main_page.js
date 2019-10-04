@@ -1,34 +1,5 @@
 // EXPORTED MAIN_PAGE METHODS
-module.exports.getForumData = async () => {
-  var string_data_list = "";
-  return Promise.resolve(get_data()).then(function(data){
-    // Parse data
-    data.forEach(function(record){
-      if (data.indexOf(record) != 0) {
-        string_data_list += "_";
-      }
-      string_data_list += parseData(record['id']);
-
-      string_data_list += '~' + parseData(record['title']);
-
-      string_data_list += "~";
-      record['tags'].forEach(function(tag){
-        if (record['tags'].indexOf(tag) == 0) {
-          string_data_list += parseData(tag);
-        } else {
-          string_data_list += "+" + parseData(tag);
-        }
-      });
-      
-      string_data_list += '~' + parseData(record['num_of_replies']);
-      string_data_list += '~' + parseData(record['rating']);
-    });
-
-    return string_data_list;
-  });
-}
-
-module.exports.getAllForumData = () => {
+module.exports.get_all_forum_data = () => {
   return get_data();
 }
 
@@ -36,13 +7,6 @@ module.exports.getAllForumData = () => {
 function get_data(){
   return forum_data;
 };
-
-function parseData(data){
-  data = data.toString();
-  data = data.replace(/\~/g, '');
-  data = data.replace(/\+/g, '');
-  return data;
-}
 
 // HARDCODE DATA
 var forum_data = [

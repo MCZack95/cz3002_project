@@ -6,6 +6,18 @@ block content
     h1 #{title}
 
   .container-fluid#threads
+    each reply in data
+      .row
+        .col-lg-2
+          h3 #{reply.user}
+        .col-lg-8
+          h5 #{reply.content}
+        .col-lg-2
+          .container(align='center')
+            img.float-left#quote(src='/images/return_arrow.png')
+            img.float-left#report(src='/images/exclamation_mark.png')
+            img.float-left#up(src='/images/thumbs_up.png')
+            img.float-left#down(src='/images/thumbs_down.png')
 
   br
   .container-fluid#thread_buttons
@@ -28,60 +40,5 @@ block content
   
   script.
 
-    initData()
-    
-    function initData(){
-      data = "#{data}";
-      data_list = [];
-      if (#{thread_size} == 0) {
-        return;
-      } else if (#{thread_size} == 1) {
-        reply = data.split('~');
-        replyData = {}
-
-        replyData['reply_pos'] = reply[0];
-        replyData['user'] = reply[1];
-        replyData['content'] = reply[2];
-        
-        data_list.push(replyData);
-      } else {
-        data = data.split('_');
-        data.forEach(function(reply){
-          reply = reply.split('~');
-          replyData = {}
-
-          replyData['reply_pos'] = reply[0];
-          replyData['user'] = reply[1];
-          replyData['content'] = reply[2];
-
-          data_list.push(replyData);
-        });
-      }
-
-      data_list.forEach(function(reply){
-        html_string = "<div class='row'>";
-
-        html_string += "<div class='col-lg-2'><h3>" + reply['user'] +"</h3></div>";
-
-        html_string += "<div class='col-lg-8'><h5>" + reply['content'] + "</h5></div>";
-
-        html_string += "<div class='col-lg-2'>" + create_icon() + "</div>";
-
-        html_string += "</div>";
-
-        $('#threads').append(html_string);
-      });
-    }
-
-    function create_icon(){
-      html_string = "<div class='container' align='center'>";
-      html_string += "<img id='quote' class='float-left' src='/images/return_arrow.png' alt='Quote'>";
-      html_string += "<img id='report' class='float-left' src='/images/exclamation_mark.png' alt='Report'>";
-      html_string += "<img id='up' class='float-left' src='/images/thumbs_up.png' alt='Vote Up'>";
-      html_string += "<img id='down' class='float-left' src='/images/thumbs_down.png' alt='Vote Down'>";
-      html_string += "</div>";
-
-      return html_string;
-    }
 
   link(rel='stylesheet', href='/stylesheets/thread.css')
