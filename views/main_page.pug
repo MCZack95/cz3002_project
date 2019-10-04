@@ -28,7 +28,13 @@ block content
         th Number of Replies
         th Rating
     tbody#table-records
-
+      each thread in data
+        //- tr(data-href='//localhost:3000/main/' + `${thread.t_id}`)
+        tr(data-href=`${thread.t_id}` id=`${thread.t_id}`)
+          td #{thread.title}
+          td #{thread.tags}
+          td #{thread.numOfReplies}
+          td #{thread.rating}
   br
   br
   br
@@ -36,6 +42,39 @@ block content
       button.btn.btn-primary(type='submit') Log Out
   
   script.
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const rows = document.querySelectorAll('tr[data-href]');
+      rows.forEach(row => {
+        row.addEventListener('click', () => {
+          //- window.location.href = row.dataset.href;
+          //- console.log(row.id);
+          var threadTitle = document.getElementById(row.id).getElementsByTagName('td')[0].innerText;
+          toThreadViaPost('/main/' + row.id, {'id': row.id, 'title': threadTitle});
+        });
+      });
+    });
+
+    function toThreadViaPost(path, params, method='post') {
+
+      const form = document.createElement('form');
+      form.method = method;
+      form.action = path;
+
+      for (const key in params) {
+        if (params.hasOwnProperty(key)) {
+          const hiddenField = document.createElement('input');
+          hiddenField.type = 'hidden';
+          hiddenField.name = key;
+          hiddenField.value = params[key];
+
+          form.appendChild(hiddenField);
+        }
+      }
+
+      document.body.appendChild(form);
+      form.submit();
+    }
 
     initData();
 
