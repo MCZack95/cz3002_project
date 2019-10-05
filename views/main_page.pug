@@ -30,20 +30,17 @@ block content
     thead.thead-dark
       tr
         th Title
-        th Tags
+        th Course Code
         th Number of Replies
         th Rating
     tbody#table-records
       each thread in data
         //- tr(data-href='//localhost:3000/main/' + `${thread.t_id}`)
-        tr(data-href=`${thread.id}` id=`${thread.id}`)
-          td #{thread.title}
-          td
-            each tag in thread.tags
-              span.badge.badge-pill.badge-primary #{tag}
-              span
-          td #{thread.num_of_replies}
-          td #{thread.rating}
+        tr(data-href=`${thread["ID"]}` id=`${thread["ID"]}`)
+          td #{thread["Title"]}
+          td #{thread["coursecode"]}
+          td #{thread["noOfReplies"]}
+          //td #{thread.rating}
   br
   br
   br
