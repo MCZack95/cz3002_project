@@ -3,6 +3,12 @@ extends layout
 block content
   p Welcome #{username}
 
+  form(method = 'POST' action = '/createthread')
+    input#coursecode(type='text' name='coursecode' placeholder='Course Code' required)
+    input#title(type='text' name='title' placeholder='Title' required)
+    input#content(type='text' name='content' placeholder='Content' required)
+    button.btn.btn-primary(type='submit') Create Thread
+
   nav.navbar.navbar-dark.navbar-expand-sm
     .navbar-header
       img#forum_logo(src="/images/discussion_icon.png" alt="NTU Learning Platform")
@@ -41,6 +47,7 @@ block content
   br
   br
   br
+
   form(method = 'GET' action = '/')
       button.btn.btn-primary(type='submit') Log Out
 
