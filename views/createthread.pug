@@ -1,0 +1,17 @@
+extends layout
+
+block content
+
+    .overallcont
+        form.cont(method = 'POST' action = '/createthread/newthread')
+            input#coursecode(type='text' name='coursecode' placeholder='Course Code' required)
+            br
+            input#title(type='text' name='title' placeholder='Title' required)
+            br
+            input#content(type='text' name='content' placeholder='Content' required)
+            br
+            button.btn.btn-primary(type='submit') Submit
+
+
+
+    link(rel='stylesheet', href='/stylesheets/createthread.css')

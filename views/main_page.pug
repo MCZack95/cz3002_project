@@ -4,10 +4,7 @@ block content
   p Welcome #{username}
 
   form(method = 'POST' action = '/createthread')
-    input#coursecode(type='text' name='coursecode' placeholder='Course Code' required)
-    input#title(type='text' name='title' placeholder='Title' required)
-    input#content(type='text' name='content' placeholder='Content' required)
-    button.btn.btn-primary(type='submit') Create Thread
+    button.btn.btn-primary(type='submit') New Thread
 
   nav.navbar.navbar-dark.navbar-expand-sm
     .navbar-header

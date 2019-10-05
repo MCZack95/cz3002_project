@@ -1,7 +1,22 @@
-body {
+html {
   padding: 50px;
+  background-image: url('/images/plain-background.png');
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
 }
+
+/* html {
+  background-image: url('/images/plain-background.png');
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+} */
 
 a {
   color: #00B7FF;
