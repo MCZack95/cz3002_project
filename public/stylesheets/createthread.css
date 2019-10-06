@@ -12,7 +12,9 @@
     box-shadow: 0px 0px 15px -5px rgba(0,0,0,0.75); */
 }
 
+
 .minicont_coursecode {
+    right: 0;
     font-family: 'PN Bold', sans-serif;
     font-size: 15px;
     color: white;
@@ -24,15 +26,20 @@
     font-family: 'PN Alt Thin';
     padding-left: 10px;
     font-size: 20px;
+    width: 20%;
 }
 
 .minicont_title {
+    float: left;
     font-family: 'PN Bold', sans-serif;
     font-size: 15px;
     color: white;
+    width: 60%;
+    margin-right: 20%;
 }
 
 #title {
+    width: 130%;
     border: none;
     border-radius: 7px;
     font-family: 'PN Alt Thin';
@@ -51,6 +58,19 @@ input:focus, textarea:focus, select:focus {
 
 a#logo {
     display: none;
+}
+
+.fr-toolbar {
+    border: 0 !important;
+}
+
+.fr-box.fr-basic .fr-wrapper {
+    border-left: 0 !important;
+    border-right: 0 !important;
+}
+
+.second-toolbar {
+    border: 0 !important;
 }
 
 @font-face {
