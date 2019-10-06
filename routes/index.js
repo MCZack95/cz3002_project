@@ -100,6 +100,12 @@ router.post('/createthread', function(req, res, next) {
   res.render('createthread');
 });
 
+//post to create Quiz
+router.post('/createquiz', function(req, res, next) {
+  console.log('Creating a Quiz');
+  res.render('createquiz');
+});
+
 // Use this url to test
 router.get('/thread', function(req, res, next) {
   res.render('thread', { title: 'Developer Thread', data: thread.get_thread_replies(0), thread_size: thread.get_thread_size(0) });

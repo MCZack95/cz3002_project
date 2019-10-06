@@ -1,0 +1,66 @@
+extends layout
+
+block content
+
+    form.cont(method='POST' action='/createquiz/newquiz')
+        .minicont_title Title
+            br
+            input#title(type='text' name='title' placeholder='' required)
+        .minicont_coursecode Course Code
+            br
+            input#coursecode(type='text' name='coursecode' placeholder='CZ4047 for TEST' required)
+        br
+        .minicont_title Question 1
+        br
+        textarea#content(type='text' name='question1' placeholder='Enter question here.' contenteditable='true' required)
+        br
+        .minicont_title Option 1
+        br
+        textarea#content(type='text' name='option1' placeholder='Enter option1 here.' contenteditable='true' required)
+        br
+        .minicont_title Option 2
+        br
+        textarea#content(type='text' name='option2' placeholder='Enter option2 here.' contenteditable='true' required)
+        br
+        .minicont_title Option 3 
+        br
+        textarea#content(type='text' name='option3' placeholder='Enter option3 here.' contenteditable='true' required)
+        br
+        .minicont_title Option 4
+        br
+        textarea#content(type='text' name='option4' placeholder='Enter option4 here.' contenteditable='true' required)
+        br
+        .minicont_title Correct Answer:
+        br
+        br
+        input(type='radio', name='correctans', value='1')
+        | &nbsp 1 
+        br
+        input(type='radio', name='correctans', value='2')
+        | &nbsp 2
+        br
+        input(type='radio', name='correctans', value='3')
+        | &nbsp 3
+        br
+        input(type='radio', name='correctans', value='4')
+        | &nbsp 4
+        br
+        .minicont_title Short Explanation
+        br
+        textarea#content(type='text' name='exp' placeholder='Enter a short explanation of the answer.' contenteditable='true' required)
+        br
+        
+        .buttcont
+            button.btn.btn-primary(type='submit' style='margin-right: 10px;') Save Quiz
+            button.btn.btn-light(onclick='goBack()') Cancel
+
+    link(rel='stylesheet', href='/stylesheets/createthread.css')
+    //link(href='https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css', rel='stylesheet', type='text/css')
+    //script(type='text/javascript', src='https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js')
+    //script.
+      //  new FroalaEditor('textarea');
+
+    script.
+        function goBack() {
+            window.history.back();
+        }
