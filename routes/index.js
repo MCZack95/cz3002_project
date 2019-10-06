@@ -45,8 +45,7 @@ router.post('/main', function(req, res, next) {
   function(snapshot) {
     details_dict = snapshot.val()
     // console.log(snapshot.val());
-  }
-  )
+  });
 
   var threaddetails1 = firebase.database().ref('CZ3002/threads');
   var threaddetails2 = firebase.database().ref('CZ3003/threads');
