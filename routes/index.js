@@ -27,12 +27,11 @@ router.post('/main', function(req, res, next) {
   function(snapshot) {
     details_dict = snapshot.val()
     // console.log(snapshot.val());
-  }
-  )
+  });
 
-  setTimeout(function() { 
-    console.log('details_dict: ' + JSON.stringify(details_dict));
-  }, 1500);
+  // setTimeout(function() { 
+  //   console.log('details_dict: ' + JSON.stringify(details_dict));
+  // }, 1500);
 
   Object.keys(details_dict).forEach(function(key) {
     if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {

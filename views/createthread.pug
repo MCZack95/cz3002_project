@@ -2,16 +2,23 @@ extends layout
 
 block content
 
-    .overallcont
-        form.cont(method = 'POST' action = '/createthread/newthread')
-            input#coursecode(type='text' name='coursecode' placeholder='Course Code' required)
+    form.cont(method = 'POST' action = '/createthread/newthread')
+        .minicont_title Title
             br
-            input#title(type='text' name='title' placeholder='Title' required)
+            input#title(type='text' name='title' placeholder='' required)
+        .minicont_coursecode Course Code
             br
-            input#content(type='text' name='content' placeholder='Content' required)
-            br
-            button.btn.btn-primary(type='submit') Submit
-
+            input#coursecode(type='text' name='coursecode' placeholder='' required)
+        br
+        textarea#content(type='text' name='content' placeholder='Content' contenteditable='true' required)
+        br
+        button.btn.btn-primary(type='submit') Submit
 
 
     link(rel='stylesheet', href='/stylesheets/createthread.css')
+    link(href='https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css', rel='stylesheet', type='text/css')
+    script(type='text/javascript', src='https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js')
+    script.
+        new FroalaEditor('textarea');
+
+
