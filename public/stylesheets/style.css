@@ -21,3 +21,10 @@ html {
 a {
   color: #00B7FF;
 }
+
+.mainhead {
+  border: 1px solid black;
+  height: 50px;
+  width: 100%;
+  margin-bottom: 2%;
+}

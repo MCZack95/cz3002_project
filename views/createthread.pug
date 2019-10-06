@@ -12,8 +12,9 @@ block content
         br
         textarea#content(type='text' name='content' placeholder='Content' contenteditable='true' required)
         br
-        button.btn.btn-primary(type='submit' style='margin-right: 10px;') Publish
-        button.btn.btn-light(onclick='goBack()') Cancel
+        .buttcont
+            button.btn.btn-primary(type='submit' style='margin-right: 10px;') Publish
+            button.btn.btn-light(onclick='goBack()') Cancel
 
     link(rel='stylesheet', href='/stylesheets/createthread.css')
     link(href='https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css', rel='stylesheet', type='text/css')
