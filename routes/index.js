@@ -56,19 +56,19 @@ router.post('/main', function(req, res, next) {
   threaddetails1.on('value',
   function(snapshot) {
     thread_dict1 = snapshot.val()
-    console.log("CZ3002 Threads : " + snapshot.val());
+    console.log("CZ3002 Threads : " + JSON.stringify(snapshot.val()));
   })
 
   threaddetails2.on('value',
   function(snapshot) {
     thread_dict2 = snapshot.val()
-    console.log("CZ3003 Threads : " + snapshot.val());
+    console.log("CZ3003 Threads : " + JSON.stringify(snapshot.val()));
   })
 
   threaddetails3.on('value',
   function(snapshot) {
     thread_dict3 = snapshot.val()
-    console.log("CZ3002 Threads : " + snapshot.val());
+    console.log("CZ4047 Threads : " + JSON.stringify(snapshot.val()));
   })
 
   tmpthread_dict = Object.assign({}, thread_dict1, thread_dict2);

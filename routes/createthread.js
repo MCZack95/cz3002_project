@@ -37,10 +37,10 @@ router.post('/newthread', function(req, res, next) {
 
   var newThreadindex =  noOfThreads +1;
   console.log("New Thread ID : " + newThreadindex);
-  details.child("Thread"+(newThreadindex)).child("Post1").set(newThread);
+  details.child(req.body.coursecode+"Thread"+(newThreadindex)).child("Post1").set(newThread);
   // Post 1 cause create thread always is first post
   
-  var details = firebase.database().ref('/'+req.body.coursecode+"/threads/Thread"+ newThreadindex);
+  var details = firebase.database().ref('/'+req.body.coursecode+"/threads/"+req.body.coursecode+"Thread"+ newThreadindex);
   details.child("Title").set(req.body.title);
 
   console.log('hi'+req.body.coursecode);
