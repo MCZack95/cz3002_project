@@ -106,6 +106,177 @@ router.post('/createquiz', function(req, res, next) {
   res.render('createquiz');
 });
 
+//post to view quiz
+router.post('/viewquiz', function(req, res, next) {
+
+  res.render('attemptquiz');
+});
+
+//thread methods
+router.post('/votepost', function(req, res, next) {
+  console.log('Voting test');
+  var coursecode = "CZ4047";
+  var threadno = "Thread1";
+  var postno = "Post1";
+  var votes
+
+  details_dict = {}
+
+  var details = firebase.database().ref('/'+ coursecode + "/threads/" + coursecode+threadno + "/" + postno);
+  //console.log(req.body.coursecode);
+  details.on('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    console.log(snapshot.val());
+    votes = details_dict["noOfVotes"];
+    //add logic to decide + or -
+    votes += 1;
+    details.child("noOfVotes").set(votes);
+
+  }
+  )
+
+  res.render('createquiz');
+
+});
+
+router.post('/votepost', function(req, res, next) {
+  console.log('Voting test');
+  var coursecode = "CZ4047";
+  var threadno = "Thread1";
+  var postno = "Post1";
+  var votes
+
+  details_dict = {}
+
+  var details = firebase.database().ref('/'+ coursecode + "/threads/" + coursecode+threadno + "/" + postno);
+  //console.log(req.body.coursecode);
+  details.on('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    console.log(snapshot.val());
+    votes = details_dict["noOfVotes"];
+    //add logic to decide + or -
+    votes += 1;
+    details.child("noOfVotes").set(votes);
+
+  }
+  )
+
+  res.render('createquiz');
+
+});
+
+router.post('/votepost', function(req, res, next) {
+  console.log('Voting test');
+  var coursecode = "CZ4047";
+  var threadno = "Thread1";
+  var postno = "Post1";
+  var votes;
+
+  details_dict = {}
+
+  var details = firebase.database().ref('/'+ coursecode + "/threads/" + coursecode+threadno + "/" + postno);
+  //console.log(req.body.coursecode);
+  details.on('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    console.log(snapshot.val());
+    votes = details_dict["noOfVotes"];
+    //add logic to decide + or -
+    votes += 1;
+    details.child("noOfVotes").set(votes);
+
+  }
+  )
+
+  res.render('createquiz');
+
+});
+
+router.post('/editpost', function(req, res, next) {
+  console.log('Editing test');
+  var coursecode = "CZ4047";
+  var threadno = "Thread1";
+  var postno = "Post1";
+  var content = "New content here."
+
+  details_dict = {}
+
+  var details = firebase.database().ref('/'+ coursecode + "/threads/" + coursecode+threadno + "/" + postno);
+  //console.log(req.body.coursecode);
+  details.on('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    console.log(snapshot.val());
+    //push new content to DB
+    details.child("content").set(content);
+    details.child("dateTime").set(Date.now());
+
+  }
+  )
+
+  res.render('createquiz');
+
+});
+
+router.post('/deletepost', function(req, res, next) {
+  console.log('Deleting test');
+  var coursecode = "CZ4047";
+  var threadno = "Thread1";
+  var postno = "Post2";
+
+  details_dict = {}
+
+  var details = firebase.database().ref('/'+ coursecode + "/threads/" + coursecode+threadno + "/" + postno);
+  //console.log(req.body.coursecode);
+  details.on('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    console.log(snapshot.val());
+    //push new content to DB
+    details.remove();
+  }
+  )
+
+  res.render('createquiz');
+
+});
+
+router.post('/makepost', function(req, res, next) {
+  console.log('Create post test');
+  var coursecode = "CZ4047";
+  var threadno = "Thread1";
+  
+  details_dict = {};
+
+  var details = firebase.database().ref('/'+coursecode+"/threads/"+coursecode+threadno);
+ 
+  details.orderByKey().startAt("Post").endAt("Post"+"\uf8ff").once('value',
+  function(snapshot) {
+    details_dict = snapshot.val()
+    console.log(snapshot.val());
+    var noOfPosts = Object.keys(details_dict).length;
+    var newpostno = noOfPosts + 1;
+
+    var newPost =
+    {
+      id : noOfPosts + 1,
+      username : "Username",
+      content : "New Post Content",
+      dateTime : Date.now(),
+      noOfLikes : 0,
+      noOfVotes : 0,
+      replyTo : " ",
+    }
+    details.child("Post" + newpostno).set(newPost);
+
+  res.render('createquiz');
+
+});
+
+})
+
 // Use this url to test
 router.get('/thread', function(req, res, next) {
   res.render('thread', { title: 'Developer Thread', data: thread.get_thread_replies(0), thread_size: thread.get_thread_size(0) });

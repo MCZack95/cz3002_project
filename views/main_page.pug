@@ -6,6 +6,21 @@ block content
 
   form(method = 'POST' action = '/createquiz')
     button.btn.btn-primary(type='submit') New Quiz
+  
+  form(method = 'POST' action = '/votepost')
+    button.btn.btn-primary(type='submit') Upvote/Downvote Post
+
+  form(method = 'POST' action = '/editpost')
+    button.btn.btn-primary(type='submit') Edit Post
+
+  form(method = 'POST' action = '/deletepost')
+    button.btn.btn-primary(type='submit') Delete Post
+
+  form(method = 'POST' action = '/makepost')
+    button.btn.btn-primary(type='submit') Make Post
+
+  form(method = 'POST' action = '/viewquiz')
+    button.btn.btn-primary(type='submit') View Quiz
 
   nav.navbar.navbar-dark.navbar-expand-sm
     .navbar-header
