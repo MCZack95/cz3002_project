@@ -1,7 +1,6 @@
 html {
   padding: 50px;
-  background-image: url('/images/plain-background.png');
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
