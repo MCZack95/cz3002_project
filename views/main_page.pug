@@ -36,11 +36,11 @@ block content
     tbody#table-records
       each thread in data
         //- tr(data-href='//localhost:3000/main/' + `${thread.t_id}`)
-        tr(data-href=`${thread["ID"]}` id=`${thread["ID"]}`)
+        tr(data-href=`${thread["id"]}` id=`${thread["id"]}`)
           td #{thread["Title"]}
           td #{thread["coursecode"]}
           td #{thread["noOfReplies"]}
-          //td #{thread.rating}
+          //td #{thread["rating"]}
   br
   br
   br
@@ -55,9 +55,11 @@ block content
       rows.forEach(row => {
         row.addEventListener('click', () => {
           //- window.location.href = row.dataset.href;
-          //- console.log(row.id);
+          //var threadTitle = document.getElementByNames(row.courseCode);
           var threadTitle = document.getElementById(row.id).getElementsByTagName('td')[0].innerText;
-          toThreadViaPost('/main/' + row.id, {'id': row.id, 'title': threadTitle});
+          var courseCode = document.getElementById(row.id).getElementsByTagName('td')[1].innerText;
+          console.log("Thread : " + threadTitle + " / Course Code : " + courseCode);
+          toThreadViaPost('/main/' + row.id, {'id': row.id, 'title': threadTitle, 'coursecode' : courseCode});
         });
       });
     });

@@ -86,12 +86,6 @@ router.post('/main', function(req, res, next) {
 
   res.redirect('/');
   
-  // if (req.body.username in details_dict && details_dict[req.body.username] == req.body.password) {
-  //   res.render('main_page', { title: 'Main Page', username: req.body.username });
-  // } else {
-  //   res.redirect('/');
-  // }
-
 });
 
 //post to create Thread
@@ -112,7 +106,20 @@ router.get('/thread', function(req, res, next) {
 });
 
 router.post('/main/:thread_id', function(req, res, next){
-  res.render('thread', { title: req.body.title, data: thread.get_thread_replies(req.body.id), thread_size: thread.get_thread_size(req.body.id) });
+  
+  details_dict = {};
+
+  var details = firebase.database().ref('/'+req.body.coursecode+'/threads/'+req.body.coursecode +'Thread'+req.body.id.charAt(0));
+  details.orderByKey().startAt("Post").endAt("Post"+"\uf8ff").on('value',
+  function(snapshot) {
+    details_dict = snapshot.val()
+    console.log("Thread ID : "+ req.body.id + " /n "+ JSON.stringify(snapshot.val()));
+  });
+  
+  console.log("Course code is " + req.body.coursecode + " ID : " + req.body.id);
+
+
+  res.render('thread', { title: req.body.title, data: details_dict, thread_size: thread.get_thread_size(req.body.id) });
 });
 
 module.exports = router;

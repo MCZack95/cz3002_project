@@ -1,7 +1,6 @@
 extends layout
 
 block content
-  
   .thread-title(align='center')
     h1 #{title}
 
@@ -9,8 +8,8 @@ block content
     each reply in data
       .row
         .col-lg-2
-          h3 #{reply.user}
-        .col-lg-8
+          h3 #{reply.username}
+                  .col-lg-8
           h5 #{reply.content}
         .col-lg-2
           .container(align='center')
