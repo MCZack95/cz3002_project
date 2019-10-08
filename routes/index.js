@@ -102,7 +102,22 @@ router.post('/createquiz', function(req, res, next) {
 //post to view quiz
 router.post('/viewquiz', function(req, res, next) {
 
-  res.render('attemptquiz');
+  var details_dict = {};
+  var coursecode = "CZ4047";
+  var quizno = "Quiz1";
+  var details = firebase.database().ref('/'+ coursecode + "/quizzes/" +quizno);
+  var title;
+
+  details.on('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    console.log(snapshot.val());
+    title = details_dict.Title;
+  })
+  
+  delete details_dict.Title;
+  console.log(details_dict);
+  res.render('attemptquiz', { quiz: details_dict, title: title});
 });
 
 //thread methods
@@ -111,7 +126,7 @@ router.post('/votepost', function(req, res, next) {
   var coursecode = "CZ4047";
   var threadno = "Thread1";
   var postno = "Post1";
-  var votes
+  var votes;
 
   details_dict = {}
 
