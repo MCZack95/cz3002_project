@@ -1,7 +1,6 @@
 html {
   padding: 50px;
-  background-image: url('/images/plain-background.png');
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -23,8 +22,19 @@ a {
 }
 
 .mainhead {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   height: 50px;
   width: 100%;
   margin-bottom: 2%;
+}
+
+.zoom {
+  transition: transform .2s;
+  width: 20%;
+  height: 100%;
+  display: inline-block;
+}
+
+.zoom:hover {
+  transform: scale(1.2); 
 }

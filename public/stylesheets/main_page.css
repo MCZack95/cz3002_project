@@ -1,5 +1,5 @@
 body {
-  background-image: url('/images/plain-background.png')
+  background-image: url('/images/background.png')
 }
 
 body > p {
@@ -22,8 +22,12 @@ body > p {
   height: 50px;
 }
 
+.coursesbutt {
+  margin-left: 15%;
+}
+
 .navbar-nav {
-  display: block; 
+  /* display: block;  */
   margin-left: auto;
   margin-right: 20px;
 }
