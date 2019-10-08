@@ -18,14 +18,13 @@ router.get('/main', function(req, res, next) {
   details_dict = {}
 
   var details = firebase.database().ref('/users');
-
+ 
   details.on('value',
   function(snapshot) {
     details_dict = snapshot.val()
     // console.log(snapshot.val());
   }
   )
-
 
   res.render('main_page', { title: 'Main Page', username: 'Developer', data: main_page.get_all_forum_data() });
 });
