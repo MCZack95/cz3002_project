@@ -7,28 +7,24 @@ block content
   .container-fluid#threads
     each post in data
       .row
-        .col-lg-2
+        .username
           h3 #{post.username}
-                  .col-lg-8
+        .content
           h5 #{post.content}
-        .col-lg-3
+        .buttons
           .container(align='center')
-            form(method = 'POST' action = '/replypost')
+            form.float-left#quote_form(method = 'POST' action = '/replypost')
               button(type="submit" name="returnarrow" value="1")
-                img.float-left#quote(src='/images/return_arrow.png' alt="ReplyButton")
-            form(method = 'POST' action = '/reportpost')
+                img#quote(src='/images/return_arrow.png' alt="ReplyButton")
+            form.float-left#report_form(method = 'POST' action = '/reportpost')
               button(type="submit" name="reportarrow" value="2")
-                img.float-left#report(src='/images/exclamation_mark.png' alt="ReportButton")
-            form(method = 'POST' action = '/votepost')
+                img#report(src='/images/exclamation_mark.png' alt="ReportButton")
+            form.float-left#up_form(method = 'POST' action = '/votepost')
               button(type="submit" name="votebutton" value="3")
-                img.float-left#report(src='/images/thumbs_up.png' alt="VoteButton")
-            form(method = 'POST' action = '/votepost')
+                img#up(src='/images/thumbs_up.png' alt="VoteButton")
+            form.float-left#down_form(method = 'POST' action = '/votepost')
               button(type="submit" name="votebutton" value="4")
-                img.float-left#report(src='/images/thumbs_down.png' alt="DownvoteButton")      
-            //img.float-left#quote(src='/images/return_arrow.png')
-            //img.float-left#report(src='/images/exclamation_mark.png')
-            //img.float-left#up(src='/images/thumbs_up.png')
-            //img.float-left#down(src='/images/thumbs_down.png')
+                img#down(src='/images/thumbs_down.png' alt="DownvoteButton")      
 
   br
   .container-fluid#thread_buttons

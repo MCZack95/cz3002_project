@@ -6,6 +6,8 @@ var thread = require('./thread');
 var firebase = require('firebase');
 firebase.initializeApp(require('../firebaseconfig.json'));
 
+var username = "";
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'NTU Learning Platform'});
@@ -16,17 +18,51 @@ router.get('/main', function(req, res, next) {
   console.log('Getting Main Page');
 
   details_dict = {}
+  thread_dict1 = {}
+  thread_dict2 = {}
+  thread_dict3 = {}
+  finalthread_dict = {}
+  tmpthread_dict = {}
 
   var details = firebase.database().ref('/users');
- 
   details.on('value',
   function(snapshot) {
     details_dict = snapshot.val()
     // console.log(snapshot.val());
-  }
-  )
+  });
 
-  res.render('main_page', { title: 'Main Page', username: 'Developer', data: main_page.get_all_forum_data() });
+  var threaddetails1 = firebase.database().ref('CZ3002/threads');
+  var threaddetails2 = firebase.database().ref('CZ3003/threads');
+  var threaddetails3 = firebase.database().ref('CZ4047/threads');
+
+  //Get threads in each course code
+  threaddetails1.on('value',
+  function(snapshot) {
+    thread_dict1 = snapshot.val()
+    console.log("CZ3002 Threads : " + JSON.stringify(snapshot.val()));
+  })
+
+  threaddetails2.on('value',
+  function(snapshot) {
+    thread_dict2 = snapshot.val()
+    console.log("CZ3003 Threads : " + JSON.stringify(snapshot.val()));
+  })
+
+  threaddetails3.on('value',
+  function(snapshot) {
+    thread_dict3 = snapshot.val()
+    console.log("CZ4047 Threads : " + JSON.stringify(snapshot.val()));
+  })
+
+  tmpthread_dict = Object.assign({}, thread_dict1, thread_dict2);
+  finalthread_dict = Object.assign({}, thread_dict3,tmpthread_dict);
+  console.log("Final Threads : " + JSON.stringify(finalthread_dict));
+
+  setTimeout(function() { 
+    console.log('details_dict: ' + JSON.stringify(details_dict));
+  }, 1500);
+
+  res.render('main_page', { title: 'Main Page', username: username, data: finalthread_dict });
 });
 
 router.post('/main', function(req, res, next) {
@@ -78,6 +114,7 @@ router.post('/main', function(req, res, next) {
 
   Object.keys(details_dict).forEach(function(key) {
     if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {
+      username = req.body.username;
       res.render('main_page', { title: 'Main Page', username: req.body.username, data: finalthread_dict });
     }
   });
