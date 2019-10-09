@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
 /* Use this route to make testing /main easier */
 router.get('/main', function(req, res, next) {  
   console.log('Getting Main Page');
-
+  console.log('username: ' + username);
   details_dict = {}
   thread_dict1 = {}
   thread_dict2 = {}
@@ -31,7 +31,6 @@ router.get('/main', function(req, res, next) {
   tmpthread_dict = Object.assign({}, thread_dict1, thread_dict2);
   finalthread_dict = Object.assign({}, thread_dict3,tmpthread_dict);
   console.log("Final Threads : " + JSON.stringify(finalthread_dict));
-
 
   if (username != null) {
     res.render('main_page', { title: 'Main Page', username: username, data: finalthread_dict });
