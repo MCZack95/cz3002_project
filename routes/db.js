@@ -165,7 +165,7 @@ module.exports.viewQuiz = (coursecode,quizno) =>
 module.exports.getAllThreadsinOneCourse = (coursecode) => 
 {
   details_dict = {}
-  var details = firebase.database().ref('/users/'+coursecode);
+  var details = firebase.database().ref('/'+coursecode+'/threads');
   details.on('value',
   function(snapshot) {
     details_dict = snapshot.val()
@@ -180,5 +180,6 @@ module.exports.getAllThreadsinOneCourse = (coursecode) =>
     {
         console.log("DB get All Threads from course Error");
     }
+
   return details_dict;
 }

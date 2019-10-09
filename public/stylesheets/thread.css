@@ -16,15 +16,19 @@ body {
   background-color: beige;
 }
 
+#container_row {
+  width: 100%;
+  padding: 1% 1% 1% 1%;
+}
+
 #main_row {
   width: 100%;
   padding: 1% 1% 1% 1%;
-  max-height: 500px;
+  margin-left: 1%;
 }
 
 #main_row > .score {
   width: 10px;
-  margin-left: 1%;
   align-self: center;
 }
 
@@ -36,23 +40,27 @@ body {
 
 #main_row > .content {
   width: 80%;
-  margin-left: 50px;
+  margin-left: 5%;
+  padding-left: 2%;
   text-align: left;
-  word-wrap: break-word;
+}
+
+#content_row {
+  max-height: 500px;
+}
+
+#content_row > h5 {
+  word-break: break-all;
+  overflow-y: auto;
 }
 
 #up, #down {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
 }
 
 #down_form {
   margin-top: 50%;
-}
-
-#quote, #report {
-  width: 20px;
-  height: 20px;
 }
 
 #quote:hover, #report:hover, #up:hover, #down:hover {
@@ -62,6 +70,36 @@ body {
 
 #extra_row {
   width: 100%;
+  margin-left: 1%;
+}
+
+#extra_row > .report, .edit, .delete {
+  margin-left: 1%;
+}
+
+.quote > h5, .report > h5, .edit > h5, .delete > h5 {
+  margin-left: 5px;
+}
+
+#quote, #report, #edit, #delete {
+  width: 20px;
+  height: 20px;
+}
+
+.quote {
+  width: 100px;
+}
+
+.report {
+  width: 100px;
+}
+
+.edit {
+  width: 120px;
+}
+
+.delete {
+  width: 140px;
 }
 
 #thread_buttons {

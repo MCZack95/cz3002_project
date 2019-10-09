@@ -52,7 +52,7 @@ router.post('/newthread', function(req, res, next) {
 
 module.exports = router;
 
-/**  EXPORTED METHODS
+//  EXPORTED METHODS
 module.exports.get_thread_size = (t_id) => {
   return get_thread(t_id).length;
 };
@@ -60,7 +60,7 @@ module.exports.get_thread_size = (t_id) => {
 module.exports.get_thread_replies = (t_id) => {
   return get_thread(t_id);
 }
- 
+
 // LOCAL METHODS
 function get_all_replies(){
   return replies;
@@ -163,5 +163,3 @@ var replies = [
     'reply_pos': 1
   }
 ];
-
-**/
