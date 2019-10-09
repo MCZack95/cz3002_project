@@ -6,6 +6,7 @@ module.exports.get_all_forum_data = () => {
 }
 
 module.exports.UniqueCourse = (t_id) => {
+  console.log(UniqueCourse(t_id))
   return UniqueCourse(t_id);
 }
 
