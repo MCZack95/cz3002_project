@@ -3,31 +3,35 @@ extends layout
 block content
 
     form.cont(method='POST' action='/createquiz/newquiz')
-        .minicont_title Title
-        br
-        textarea#content(type='text' name='title' placeholder='Enter title here.' contenteditable='true' required)
-        br
-        .minicont_title Course Code
-        br
-        textarea#content(type='text' name='coursecode' placeholder='Enter course code here.' contenteditable='true' required)
-        br
-        h5 No of questions: 
-        select(id="options" name="noques" onchange="testfunc();")
-            option(value="0") 0
-            option(value="5") 5
-            option(value="10") 10
-            option(value="15") 15
-            option(value="20") 20
-        br
+        .quizcont 
+            #titlecourse
+                #quiztitle Title
+                    br
+                    input(type='text' name='title' placeholder='Title' contenteditable='true' required)
+                #quizcourse Course Code
+                    br
+                    input(type='text' name='coursecode' placeholder='Course Code' contenteditable='true' required)
+                #quizqn No. of Questions
+                    br
+                    select(id="options" name="noques" onchange="testfunc();")
+                        option(value="0") 0
+                        option(value="5") 5
+                        option(value="10") 10
+                        option(value="15") 15
+                        option(value="20") 20
+                div(id="div1")
 
-        div(id="div1")
+
+
+
         
         
         .buttcont
             button.btn.btn-primary(type='submit' style='margin-right: 10px;') Save Quiz
             button.btn.btn-light(onclick='goBack()') Cancel
 
-    link(rel='stylesheet', href='/stylesheets/createthread.css')
+    link(rel='stylesheet', href='/stylesheets/createquiz.css')
+
     //link(href='https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css', rel='stylesheet', type='text/css')
     //script(type='text/javascript', src='https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js')
     //script.

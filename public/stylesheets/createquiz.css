@@ -1,0 +1,59 @@
+body {
+    background-image: url('/images/plain-background.png');
+}
+
+.quizcont {
+    background-color: white;
+    padding: 20px;
+    width: 100%;
+    /* border-radius: 10px;
+    -webkit-box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75); */
+}
+
+#titlecourse {
+    display: grid;
+    grid-template-columns: 70% 20% 10%;
+    padding: 20px;
+    /* -webkit-box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);  */
+    border-left: 1px solid black;
+    border-top: .2px solid gray;
+    border-right: .2px solid gray;
+    border-bottom: .2px solid gray;
+}
+
+#anscont {
+    padding: 20px;
+    border-left: 1px solid black;
+    border-top: .2px solid gray;
+    border-right: .2px solid gray;
+    border-bottom: .2px solid gray;
+}
+
+#quiztitle > input, #quizcourse > input {
+    border: none;
+    border-bottom: 1px grey solid;
+    font-family: 'PN Regular';
+    font-size: 15px;
+}
+
+#quiztitle > input {
+    width: 90%;
+}
+
+#quiztitle, #quizcourse, #quizqn {
+    font-family: 'PN Black';
+    font-size: 12px;
+}
+
+
+#quizqn > select {
+    border: none;
+    border-bottom: 1px grey solid;
+    font-family: 'PN Regular';
+    font-size: 15px;
+    margin-top: 4%;
+}
