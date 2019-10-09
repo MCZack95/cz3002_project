@@ -13,20 +13,17 @@ html
       .icon
     .menu
       ul
-        li(a href='#') Home
-        li Threads
-        li Whatever
-        li
-          form(method = 'GET' action = '/')
-            button.logoutbutt(type='submit') Log Out
+        form(method='GET' action='/main')
+          button.normalbutt(type='submit') Home
+        form(method='GET' action='/quiz')
+          button.normalbutt(type='submit') View Quiz
+        form(method='GET' action='/')
+          button.logoutbutt(type='submit') Log Out
 
     script.
-      $(".navbutt").click(function() {
-        //- $("body").toggleClass("navOpen");
-        //- $("nav").toggleClass("open");
-        $(".menu").toggleClass("open");
-        //- $(".wrapper").toggleClass("open");
-        $(this).toggleClass("open");
+      $('.navbutt').click(function() {
+        $('.menu').toggleClass('open');
+        $(this).toggleClass('open');
         console.log('pressed');
       });
 
