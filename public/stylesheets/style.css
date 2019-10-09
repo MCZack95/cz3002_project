@@ -153,9 +153,3 @@ a {
   border: none;
   background: none;
 }
-
-.menu.open ul li .logoutbutt:hover {
-  cursor: pointer;
-  color: white;
-  background-color: red;
-}
