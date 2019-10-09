@@ -22,6 +22,11 @@ router.post('/newquiz', function(req, res, next) {
     console.log(snapshot.val());
   }
   )
+
+  setTimeout(function() { 
+    console.log('details_dict: ' + JSON.stringify(details_dict));
+  }, 2500);
+
   var noOfQuizzes = Object.keys(details_dict).length;
   var newQuizindex =  noOfQuizzes +1;
 

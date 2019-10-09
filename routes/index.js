@@ -133,6 +133,7 @@ router.post('/createthread', function(req, res, next) {
 });
 
 //post to create Quiz
+
 router.post('/createquiz', function(req, res, next) {
   console.log('Creating a Quiz');
   res.render('createquiz');
@@ -147,33 +148,45 @@ router.post('/quizscore', function(req, res, next) {
   //fetch answers
   var details = firebase.database().ref('/'+ cc + "/quizzes/" +quizno);
   var title;
+  var score = 0;
 
-  details.on('value',
+  details.once('value',
   function(snapshot) {
     details_dict = snapshot.val();
-    console.log(snapshot.val());
+    //console.log(snapshot.val());
     title = details_dict.Title;
+    console.log(title);
+    delete details_dict.Title;
+    console.log(details_dict);
+
+     //get actual answers in an array
+    var answerkey = [];
+    for(var x=0;x<Object.keys(details_dict).length;x++){
+      answerkey[x] = details_dict["Question" + (x+1)]["answer"];
+    }
+
+    console.log("LOL " + answerkey);
+
+    //store user's answers in an array 
+    var answer = [];
+    for(var x=0;x<req.body.testing;x++){
+      answer[x] = req.body["q" + (x+1)];
+    }
+
+    //calculate score
+    for(var x=0;x<req.body.testing;x++){
+       if(answer[x]==answerkey[x]){
+         score += 1;
+       }
+    }
+
+    console.log("AAA " + answer);
+
+    res.render('quizscore', {answers: answer, answerkey: answerkey, details: details_dict, title: title, score: score, quesnos: req.body.testing});
+
   })
-  console.log(title);
-  delete details_dict.Title;
 
-  //get actual answers in an array
-  var answerkey = [];
-  for(var x=0;x<Object.keys(details_dict).length;x++){
-    answer[x] = details_dict["Question" + (x+1)]["answer"];
-  }
 
-  console.log("LOL " + answerkey);
-
-  //store user's answers in an array 
-  var answer = [];
-  for(var x=0;x<req.body.testing;x++){
-    answer[x] = req.body["q" + (x+1)];
-  }
-
-  console.log("AAA " + answer);
-
-  res.render('quizscore', {answers: answer, details: details_dict, title: title});
 });
 
 //post to view quiz
@@ -181,10 +194,9 @@ router.post('/viewquiz', function(req, res, next) {
 
   var details_dict = {};
   var coursecode = "CZ4047";
-  var quizno = "Quiz5";
+  var quizno = "Quiz1";
   var details = firebase.database().ref('/'+ coursecode + "/quizzes/" +quizno);
   var title;
-  var score = 0;
 
   details.on('value',
   function(snapshot) {
