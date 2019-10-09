@@ -1,12 +1,38 @@
+var firebase = require('firebase');
+
 // EXPORTED MAIN_PAGE METHODS
 module.exports.get_all_forum_data = () => {
   return get_data();
+}
+
+module.exports.UniqueCourse = (t_id) => {
+  return UniqueCourse(t_id);
 }
 
 // LOCAL METHODS
 function get_data(){
   return forum_data;
 };
+
+// Get Unique Course ID
+function UniqueCourse(t_id){
+  reply_list = [];
+  var details = firebase.database().ref('/users');
+  for (var id in details) {
+    if (id == t_id) {
+        //console.log(id);
+    };
+  }
+  console.log("Over Here");
+  //console.log(details);
+  return reply_list;
+}
+
+// Filter Course
+function filterCourse(){
+
+}
+
 
 // HARDCODE DATA
 var forum_data = [

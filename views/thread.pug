@@ -5,18 +5,22 @@ block content
     h1 #{title}
 
   .container-fluid#threads
-    each reply in data
-      .row
-        .col-lg-2
-          h3 #{reply.username}
-                  .col-lg-8
-          h5 #{reply.content}
-        .col-lg-2
-          .container(align='center')
-            img.float-left#quote(src='/images/return_arrow.png')
-            img.float-left#report(src='/images/exclamation_mark.png')
-            img.float-left#up(src='/images/thumbs_up.png')
-            img.float-left#down(src='/images/thumbs_down.png')
+    each post in data
+      .row#main_row
+        .score(align="center")
+          b#score 5
+        .vote(align="center")
+          form#up_form(method = 'POST' action = '/votepost')
+            button(type="submit" name="votebutton" value="3")
+              img#up(src='/images/thumbs_up.png' alt="VoteButton")
+          form#down_form(method = 'POST' action = '/votepost')
+            button(type="submit" name="votebutton" value="4")
+              img#down(src='/images/thumbs_down.png' alt="DownvoteButton") 
+        .content
+          h3 #{post.username}
+          h5 #{post.content}
+      .row#extra_row
+
 
   br
   .container-fluid#thread_buttons
