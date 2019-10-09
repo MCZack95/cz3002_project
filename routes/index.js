@@ -112,17 +112,22 @@ router.post('/main', function(req, res, next) {
     console.log('details_dict: ' + JSON.stringify(details_dict));
   }, 1500);
 
+  var verified = false;
+
   Object.keys(details_dict).forEach(function(key) {
     if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {
       username = req.body.username;
+      verified = true;
       res.render('main_page', { title: 'Main Page', username: req.body.username, data: finalthread_dict });
     }
   });
 
   const courseArray = main_page.UniqueCourse(req.body.username);
-  //res.render("")
+  console.log(courseArray);
 
-  res.redirect('/');
+  if (!verified) {
+    res.redirect('/');
+  }
   
 });
 
