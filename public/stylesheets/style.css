@@ -34,6 +34,16 @@ a {
   transform: scale(1.2); 
 }
 
+.error404 {
+  background-image: url('/images/error404.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
 .navbutt {
   transition-duration: 0.4s;
   transition-timing-function: ease-in-out;
@@ -147,6 +157,30 @@ ul {
   background-color: #015CE0;
 }
 
+.menu.open .normalbutt {
+  transition-duration: 0.25s;
+  display: block;
+  padding: 5px 40px;
+  color: #0B1A51;
+  letter-spacing: 0.02em;
+  text-align: left;
+  font-family: 'PN Extrabold', sans-serif;
+  font-size: 15px;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+.menu.open .normalbutt:hover {
+  cursor: pointer;
+  color: white;
+  background-color: #015CE0;
+}
+
+.normalbutt {
+  border: none;
+  background: none;
+}
+
 .menu.open .logoutbutt {
   transition-duration: 0.25s;
   display: block;
@@ -169,4 +203,10 @@ ul {
 .logoutbutt {
   border: none;
   background: none;
+}
+
+.push {
+  margin-left: 240px;
+  margin-right: -240px;
+  transition: .3s ease-in;
 }

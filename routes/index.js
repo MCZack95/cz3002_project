@@ -6,10 +6,11 @@ var db = require('./db');
 var firebase = require('firebase');
 firebase.initializeApp(require('../firebaseconfig.json'));
 
-var username = "";
+var username = null;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  username = null;
   res.render('index', { title: 'NTU Learning Platform'});
 });
 
@@ -62,7 +63,11 @@ router.get('/main', function(req, res, next) {
     console.log('details_dict: ' + JSON.stringify(details_dict));
   }, 1500);
 
-  res.render('main_page', { title: 'Main Page', username: username, data: finalthread_dict });
+  if (username != null) {
+    res.render('main_page', { title: 'Main Page', username: username, data: finalthread_dict });
+  } else {
+    res.render('error404');
+  }
 });
 
 router.post('/main', function(req, res, next) {
@@ -296,6 +301,16 @@ router.get('/main/:thread_id', function(req, res, next){
   details_dict = db.getAllPosts(req.body.coursecode,req.body.id);
   
   res.render('thread', { title: req.body.title, data: details_dict, threadid: req.body.id });
+});
+
+
+// view quiz
+router.get('/quiz', function(req, res, next){ 
+  if (username != null) {
+    res.render('quiz');
+  } else {
+    res.render('error404');
+  }
 });
 
 module.exports = router;
