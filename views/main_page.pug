@@ -53,7 +53,7 @@ block content
       each thread in data
         //- tr(data-href='//localhost:3000/main/' + `${thread.t_id}`)
         tr(data-href=`${thread["id"]}` id=`${thread["id"]}`)
-          td #{thread["Title"]}
+          td #{thread["title"]}
           td #{thread["coursecode"]}
           td #{thread["noOfReplies"]}
           //td #{thread["rating"]}

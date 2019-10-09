@@ -274,6 +274,7 @@ router.get('/main/:thread_id', function(req, res, next){
   res.render('thread', { title: req.body.title, data: details_dict, threadid: req.body.id });
 });
 
+
 router.get('/thread', function(req, res, next){
   res.render('thread', { title: 'Developer', data: thread.get_thread_replies(0), threadid: thread.get_thread_size(0)});
 });

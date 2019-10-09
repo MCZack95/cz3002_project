@@ -77,7 +77,7 @@ module.exports.deletePost = (coursecode,threadid,postid) =>
 {
   details_dict = {};
   var details = firebase.database().ref('/'+ coursecode + "/threads/" + coursecode+"Thread"+threadno + "/Post" + postno);
-  details.on('value',
+  details.once('value',
   function(snapshot) {
     details_dict = snapshot.val();
     console.log(snapshot.val());
@@ -104,7 +104,7 @@ module.exports.makePost = (coursecode,threadid,newpost) => {
   });
 }
 
-
+/**may be redundant
 module.exports.createThread = (coursecode) => 
 {
   details_dict = {}
@@ -143,6 +143,7 @@ module.exports.createThread = (coursecode) =>
   console.log('hi'+req.body.coursecode);
 
 }
+**/
 
 module.exports.viewQuiz = (coursecode,quizno) => 
 {

@@ -10,7 +10,7 @@ block content
       .row#container_row
         .row#main_row
           .score(align="center")
-            b#score 5
+            b#score #{post.noOfVotes}
           .vote(align="center")
             form#up_form(method = 'POST' action = '/votepost')
               input(type="hidden" name="threadid" value=threadid)            

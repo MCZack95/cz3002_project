@@ -15,17 +15,15 @@ router.post('/newthread', function(req, res, next) {
 
   var details = firebase.database().ref('/'+req.body.coursecode+"/threads");
   //console.log(req.body.coursecode);
-  details.on('value',
+  details.once('value',
   function(snapshot) {
+
     details_dict = snapshot.val()
     console.log(snapshot.val());
-  }
-  )
-  var noOfThreads = Object.keys(details_dict).length
+    var noOfThreads = Object.keys(details_dict).length
 
   console.log("Number of Threads : " + noOfThreads);
-
-  var newThread =
+  var newThreadPost =
   {
     id : 1,
     username : "Username",
@@ -35,17 +33,22 @@ router.post('/newthread', function(req, res, next) {
     noOfVotes : 0,
     replyTo : " ",
   }
-
   var newThreadindex =  noOfThreads +1;
   console.log("New Thread ID : " + newThreadindex);
-  details.child(req.body.coursecode+"Thread"+(newThreadindex)).child("Post1").set(newThread);
+  var details = firebase.database().ref('/'+req.body.coursecode+"/threads");
+  details.child(req.body.coursecode+"Thread"+(newThreadindex)).child("Post1").set(newThreadPost);
   // Post 1 cause create thread always is first post
   
   var details = firebase.database().ref('/'+req.body.coursecode+"/threads/"+req.body.coursecode+"Thread"+ newThreadindex);
-  details.child("Title").set(req.body.title);
-
-  console.log('hi'+req.body.coursecode);
-
+  details.child("title").set(req.body.title);
+  details.child("coursecode").set(req.body.coursecode);
+  details.child("dateMod").set(Date.now());
+  details.child("id").set(newThreadindex+req.body.coursecode);
+  details.child("noOfReplies").set("0");
+  
+  }
+  )
+  
   // can change this to directly to the new thread
   res.redirect('/createthread');
 });
