@@ -10,10 +10,11 @@ block content
       -var index =post.id
         .col-lg-2
           h3 #{post.username}
-                  .col-lg-8
           h5 #{post.content}
-        .col-lg-2
-          .container(align='center')
+        .row#main_row
+          .score(align="center")
+            b#score 5
+          .vote(align="center")
             form(method = 'POST' action = '/replypost' )
               input(type="hidden" name="threadid" value=threadid)
               button(type="submit" name="returnarrow" value=index+";1")
@@ -22,18 +23,14 @@ block content
               input(type="hidden" name="threadid" value=threadid)
               button(type="submit" name="reportarrow" value=index+";2")
                 img.float-left#report(src='/images/exclamation_mark.png' alt="ReportButton")
-            form(method = 'POST' action = '/votepost')
+            form#up_form(method = 'POST' action = '/votepost')
               input(type="hidden" name="threadid" value=threadid)            
               button(type="submit" name="votebutton" value=index+";3")
                 img.float-left#report(src='/images/thumbs_up.png' alt="VoteButton")
-            form(method = 'POST' action = '/votepost')
+            form#down_form(method = 'POST' action = '/votepost')
               input(type="hidden" name="threadid" value=threadid)
               button(type="submit" name="votebutton" value=index+";4")
                 img.float-left#report(src='/images/thumbs_down.png' alt="DownvoteButton")      
-            //img.float-left#quote(src='/images/return_arrow.png')
-            //img.float-left#report(src='/images/exclamation_mark.png')
-            //img.float-left#up(src='/images/thumbs_up.png')
-            //img.float-left#down(src='/images/thumbs_down.png')
 
   br
   .container-fluid#thread_buttons

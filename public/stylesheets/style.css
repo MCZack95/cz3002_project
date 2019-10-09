@@ -1,6 +1,8 @@
+@import 'fonts.css';
+
 html {
   padding: 50px;
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -21,13 +23,6 @@ a {
   color: #00B7FF;
 }
 
-.mainhead {
-  /* border: 1px solid black; */
-  height: 50px;
-  width: 100%;
-  margin-bottom: 2%;
-}
-
 .zoom {
   transition: transform .2s;
   width: 20%;
@@ -37,4 +32,124 @@ a {
 
 .zoom:hover {
   transform: scale(1.2); 
+}
+
+.navbutt {
+  transition-duration: 0.4s;
+  transition-timing-function: ease-in-out;
+  width: 50px;
+  height: 50px;
+  background-color: #062DA2;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+}
+
+.navbutt:hover {
+  cursor: pointer;
+}
+
+.navbutt .icon {
+  transition-duration: 0.2s;
+  position: absolute;
+  width: 30px;
+  height: 2px;
+  background-color: white;
+  top: 24px;
+  left: 10px;
+}
+
+.navbutt .icon:before,
+.navbutt .icon:after {
+  transition-duration: 0.5s;
+  background-color: white;
+  position: absolute;
+  content: "";
+  width: 30px;
+  height: 2px;
+  left: 0px;
+}
+
+.navbutt .icon:before {
+  top: -7px;
+}
+
+.navbutt .icon:after {
+  top: 7px;
+}
+
+.navbutt.open {
+  transform: translateX(110px);
+  -webkit-transform: translateX(110px);
+}
+
+.navbutt.open .icon {
+  background-color: transparent;
+}
+
+.navbutt.open .icon:before,
+.navbutt.open .icon:after {
+  top: 0;
+}
+
+.navbutt.open .icon:before {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.navbutt.open .icon:after {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #fff;
+  width: 200px;
+  height: 100%;
+  transform: translate3d(-200px, 0, 0);
+  transition: transform 0.4s;
+  padding-top: 100px;
+  z-index: 9;
+  /* opacity: .85; */
+}
+
+.menu.open {
+  transform: translate3d(0, 0, 0);
+}
+
+.menu.open ul {
+  width: 250px;
+  margin-top: 50px;
+}
+
+.menu.open ul:hover li {
+  /* color: rgba(255, 255, 255, 0.5); */
+  color: black;
+}
+
+.menu.open ul li {
+  transition-duration: 0.25s;
+  display: block;
+  padding: 5px 40px;
+  color: #0B1A51;
+  letter-spacing: 0.02em;
+  text-align: left;
+  font-family: 'PN Extrabold', sans-serif;
+  font-size: 15px;
+  text-transform: uppercase;
+}
+
+.menu.open ul li:hover {
+  cursor: pointer;
+  color: white;
+  background-color: #015CE0;
+}
+
+.logoutbutt {
+  border: none;
+  background: none;
 }

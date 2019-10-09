@@ -4,51 +4,24 @@ block content
 
     form.cont(method='POST' action='/createquiz/newquiz')
         .minicont_title Title
-            br
-            input#title(type='text' name='title' placeholder='' required)
-        .minicont_coursecode Course Code
-            br
-            input#coursecode(type='text' name='coursecode' placeholder='CZ4047 for TEST' required)
         br
-        .minicont_title Question 1
+        textarea#content(type='text' name='title' placeholder='Enter title here.' contenteditable='true' required)
         br
-        textarea#content(type='text' name='question1' placeholder='Enter question here.' contenteditable='true' required)
+        .minicont_title Course Code
         br
-        .minicont_title Option 1
+        textarea#content(type='text' name='coursecode' placeholder='Enter course code here.' contenteditable='true' required)
         br
-        textarea#content(type='text' name='option1' placeholder='Enter option1 here.' contenteditable='true' required)
+        h5 No of questions: 
+        select(id="options" name="noques" onchange="testfunc();")
+            option(value="0") 0
+            option(value="5") 5
+            option(value="10") 10
+            option(value="15") 15
+            option(value="20") 20
         br
-        .minicont_title Option 2
-        br
-        textarea#content(type='text' name='option2' placeholder='Enter option2 here.' contenteditable='true' required)
-        br
-        .minicont_title Option 3 
-        br
-        textarea#content(type='text' name='option3' placeholder='Enter option3 here.' contenteditable='true' required)
-        br
-        .minicont_title Option 4
-        br
-        textarea#content(type='text' name='option4' placeholder='Enter option4 here.' contenteditable='true' required)
-        br
-        .minicont_title Correct Answer:
-        br
-        br
-        input(type='radio', name='correctans', value='1')
-        | &nbsp 1 
-        br
-        input(type='radio', name='correctans', value='2')
-        | &nbsp 2
-        br
-        input(type='radio', name='correctans', value='3')
-        | &nbsp 3
-        br
-        input(type='radio', name='correctans', value='4')
-        | &nbsp 4
-        br
-        .minicont_title Short Explanation
-        br
-        textarea#content(type='text' name='exp' placeholder='Enter a short explanation of the answer.' contenteditable='true' required)
-        br
+
+        div(id="div1")
+        
         
         .buttcont
             button.btn.btn-primary(type='submit' style='margin-right: 10px;') Save Quiz
@@ -63,4 +36,70 @@ block content
     script.
         function goBack() {
             window.history.back();
+        }
+        function testfunc(){
+            
+            var div = document.getElementById("div1");
+            while (div.hasChildNodes()) {
+                div.removeChild(div.lastChild);
+            }
+            console.log(document.getElementById("options").value);
+            var count = document.getElementById("options").value;
+            var i;
+            for (i = 1; i <= count; i++) {
+                var quesno = document.createTextNode("Question " + i);
+                var input1 = document.createElement('input');
+                input1.name = "question" + i;
+                var opt1 = document.createElement('input');
+                opt1.name = "opt1" + i;
+                var opt2 = document.createElement('input');
+                opt2.name = "opt2" + i;
+                var opt3 = document.createElement('input');
+                opt3.name = "opt3" + i;
+                var opt4  = document.createElement('input');
+                opt4.name = "opt4" + i;
+                var exp  = document.createElement('input');
+                exp.name = "exp" + i;
+            
+                var ans = document.createElement('select');
+                ans.name = "ans" + i;
+                var ans1 = document.createElement('option');
+                ans1.text = "1";
+                ans1.value = "1";
+                var ans2 = document.createElement('option');
+                ans2.value = "2";
+                ans2.text = "2";
+                var ans3 = document.createElement('option');
+                ans3.value = "3";
+                ans3.text = "3";
+                var ans4 = document.createElement('option');
+                ans4.value = "4";
+                ans4.text = "4";
+                ans.appendChild(ans1); ans.appendChild(ans2); ans.appendChild(ans3); ans.appendChild(ans4); 
+
+                div.appendChild(document.createElement("br"));
+                div.appendChild(quesno);
+                div.appendChild(input1);
+                div.appendChild(document.createElement("br"));
+                div.appendChild(document.createTextNode("Option 1"));
+                div.appendChild(opt1);
+                div.appendChild(document.createElement("br"));
+                div.appendChild(document.createTextNode("Option 2"));
+                div.appendChild(opt2);
+                div.appendChild(document.createElement("br"));
+                div.appendChild(document.createTextNode("Option 3"));
+                div.appendChild(opt3);
+                div.appendChild(document.createElement("br"));
+                div.appendChild(document.createTextNode("Option 4"));
+                div.appendChild(opt4);
+                div.appendChild(document.createElement("br"));
+                div.appendChild(document.createTextNode("Correct answer:"));
+                div.appendChild(ans);
+                div.appendChild(document.createElement("br"));
+                div.appendChild(document.createTextNode("Explanation: "));
+                div.appendChild(exp);
+                div.appendChild(document.createElement("br"));
+                
+            }
+        
         }
