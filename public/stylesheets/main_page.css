@@ -1,3 +1,5 @@
+@import 'fonts.css';
+
 body {
   background-image: url('/images/plain-background.png')
   /* background-color: #57F2FF; */
@@ -52,11 +54,18 @@ body > p {
 }
 
 table {
-  text-align: center;
+  text-align: left;
 }
 
-tbody > tr, td {
-  border: 1px solid black;
+.headhead {
+  background: #062DA2;
+  border: 3px solid #0B1A51;
+  color: white;
+  text-transform: uppercase;
+}
+
+tbody > tr {
+  border: 3px solid #f7f7f7;
 }
 
 tbody > tr {
@@ -64,7 +73,8 @@ tbody > tr {
 }
 
 tbody > tr:hover {
-  background-color: lightgrey;
+  background-color: #57F2FF;
+  cursor: pointer;
 }
 
 tbody > tr > td > span {
@@ -72,13 +82,77 @@ tbody > tr > td > span {
 }
 
 tbody > tr > td:first-child {
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 
 tbody > tr > td:first-child:hover {
   color: blue;
 }
 
-tbody > tr:hover {
-  cursor: pointer;
+#title {
+  width: 89%;
+  text-align: left;
+}
+
+#latestpost {
+  width: 11%;
+  text-align: left;
+}
+
+#replies {
+  width: 5%;
+}
+
+#views {
+  width: 5%;
+}
+
+#replies, #views {
+  text-align: center;
+}
+
+#title, #latestpost, #replies, #views {
+  font-size: 12px;
+}
+
+td {
+  /* white-space: pre; */
+  padding: 5px !important;
+}
+
+p#titles, p#username, p#datetime, p#replier {
+  margin: 0px !important;
+}
+
+span#titles {
+  font-family: 'PN Alt Bold';
+}
+
+p#username {
+  font-family: 'PN Alt Light';
+}
+
+p#datetime {
+  font-family: 'PN Regular';
+}
+
+p#replier {
+  font-family: 'PN Alt Light';
+}
+
+#tdreplies, #tdviews {
+  text-align: center;
+  font-family: 'PN Alt Light';
+}
+
+.coursetag {
+  /* border: 1px solid black; */
+  width: 34px;
+  height: 12px;
+  display: inline-block;
+  margin-right: 5px;
+  font-size: 9px;
+  color: white;
+  background-color: #015CE0;
+  text-align: center;
 }

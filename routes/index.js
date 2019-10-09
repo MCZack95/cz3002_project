@@ -40,6 +40,7 @@ router.get('/main', function(req, res, next) {
 });
 
 router.post('/main', function(req, res, next) {
+  console.log('CLICK CLICK CLICK');
   console.log('Logging in via POST');
   details_dict = {}
   thread_dict1 = {}
@@ -95,6 +96,7 @@ router.post('/main', function(req, res, next) {
     if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {
       username = req.body.username;
       verified = true;
+      console.log('INSIDE');
       res.render('main_page', { title: 'Main Page', username: req.body.username, data: finalthread_dict });
     }
   });

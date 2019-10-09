@@ -38,26 +38,22 @@ body {
 }
 
 #quizcourse > input {
-    width: 28%;
+    width: 31%;
 }
 
 #quiztitle, #quizcourse, #quizqn {
     font-family: 'PN Black';
-    font-size: 12px;
-}
-
-#quizqn > select {
-    margin-top: 4%;
+    font-size: 15px;
 }
 
 .question {
     font-family: 'PN Black';
-    font-size: 12px;
+    font-size: 15px;
 }
 
 .optcont, .corans, .exp {
     font-family: 'PN Regular';
-    font-size: 12px;
+    font-size: 15px;
 }
 
 select, input {
@@ -68,6 +64,7 @@ select, input {
 }
 
 input {
+    padding: 0 5px 0 5px;
     width: 100%;
 }
 
@@ -78,6 +75,7 @@ textarea {
     border: 1px grey solid;
     font-family: 'PN Regular';
     font-size: 15px;
+    padding: 0 5px 0 5px;
 }
 
 .anscont {
@@ -102,5 +100,5 @@ button:focus {
 
 .buttcont {
     text-align: right;
-    margin-top: 15px;
+    margin: 15px 0 15px 0;
 }
