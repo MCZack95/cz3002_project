@@ -99,14 +99,53 @@ router.post('/createquiz', function(req, res, next) {
   res.render('createquiz');
 });
 
+//post to view quiz score
+router.post('/quizscore', function(req, res, next) {
+  console.log(req.body.testing);
+  var cc = req.body.coursecode;
+  var quizno = req.body.quizno;
+  var details_dict = {};
+  //fetch answers
+  var details = firebase.database().ref('/'+ cc + "/quizzes/" +quizno);
+  var title;
+
+  details.on('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    console.log(snapshot.val());
+    title = details_dict.Title;
+  })
+  console.log(title);
+  delete details_dict.Title;
+
+  //get actual answers in an array
+  var answerkey = [];
+  for(var x=0;x<Object.keys(details_dict).length;x++){
+    answer[x] = details_dict["Question" + (x+1)]["answer"];
+  }
+
+  console.log("LOL " + answerkey);
+
+  //store user's answers in an array 
+  var answer = [];
+  for(var x=0;x<req.body.testing;x++){
+    answer[x] = req.body["q" + (x+1)];
+  }
+
+  console.log("AAA " + answer);
+
+  res.render('quizscore', {answers: answer, details: details_dict, title: title});
+});
+
 //post to view quiz
 router.post('/viewquiz', function(req, res, next) {
 
   var details_dict = {};
   var coursecode = "CZ4047";
-  var quizno = "Quiz1";
+  var quizno = "Quiz5";
   var details = firebase.database().ref('/'+ coursecode + "/quizzes/" +quizno);
   var title;
+  var score = 0;
 
   details.on('value',
   function(snapshot) {
@@ -117,7 +156,7 @@ router.post('/viewquiz', function(req, res, next) {
   
   delete details_dict.Title;
   console.log(details_dict);
-  res.render('attemptquiz', { quiz: details_dict, title: title});
+  res.render('attemptquiz', { quiz: details_dict, title: title, coursecode: coursecode, quizno: quizno});
 });
 
 //thread methods
