@@ -10,16 +10,16 @@ block content
             h3 Q#{index}. #{ques.ques}
             br
             input(type='radio', name='q' + index, value='1')
-            | &nbsp #{ques.opt1}
+            | &nbsp 1) #{ques.opt1}
             br
             input(type='radio', name='q' + index, value='2')
-            | &nbsp #{ques.opt2}
+            | &nbsp 2) #{ques.opt2}
             br
             input(type='radio', name='q' + index, value='3')
-            | &nbsp #{ques.opt3}
+            | &nbsp 3) #{ques.opt3}
             br
             input(type='radio', name='q' + index, value='4')
-            | &nbsp #{ques.opt4}
+            | &nbsp 4) #{ques.opt4}
             - index = index + 1
             br
         input(type="text" name="testing" value=index-1 hidden) 

@@ -23,18 +23,20 @@ body {
 }
 
 #main_row > .score {
-  width: 5%;
+  width: 10px;
   margin-left: 1%;
   align-self: center;
 }
 
 #main_row > .vote {
-  width: 10%;
+  width: 50px;
+  margin-left: 2%;
   align-self: center;
 }
 
 #main_row > .content {
-  width: 84%;
+  width: 80%;
+  margin-left: 50px;
   text-align: left;
   word-wrap: break-word;
 }
@@ -45,7 +47,7 @@ body {
 }
 
 #down_form {
-  margin-top: 10%;
+  margin-top: 50%;
 }
 
 #quote, #report {
@@ -56,6 +58,10 @@ body {
 #quote:hover, #report:hover, #up:hover, #down:hover {
   opacity: 0;
   transition: .5s ease;
+}
+
+#extra_row {
+  width: 100%;
 }
 
 #thread_buttons {

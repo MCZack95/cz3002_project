@@ -6,31 +6,39 @@ block content
 
   .container-fluid#threads
     each post in data
-      .row
       -var index =post.id
-        .col-lg-2
+      .row#main_row
+        .score(align="center")
+          b#score 5
+        .vote(align="center")
+          form#up_form(method = 'POST' action = '/votepost')
+            input(type="hidden" name="threadid" value=threadid)            
+            button(type="submit" name="votebutton" value=index+";3")
+              img.float-left#report(src='/images/thumbs_up.png' alt="VoteButton")
+          form#down_form(method = 'POST' action = '/votepost')
+            input(type="hidden" name="threadid" value=threadid)
+            button(type="submit" name="votebutton" value=index+";4")
+              img.float-left#report(src='/images/thumbs_down.png' alt="DownvoteButton")      
+        .content
           h3 #{post.username}
           h5 #{post.content}
-        .row#main_row
-          .score(align="center")
-            b#score 5
-          .vote(align="center")
-            form(method = 'POST' action = '/replypost' )
-              input(type="hidden" name="threadid" value=threadid)
-              button(type="submit" name="returnarrow" value=index+";1")
-                img.float-left#quote(src='/images/return_arrow.png' alt="ReplyButton")
-            form(method = 'POST' action = '/reportpost')
-              input(type="hidden" name="threadid" value=threadid)
-              button(type="submit" name="reportarrow" value=index+";2")
-                img.float-left#report(src='/images/exclamation_mark.png' alt="ReportButton")
-            form#up_form(method = 'POST' action = '/votepost')
-              input(type="hidden" name="threadid" value=threadid)            
-              button(type="submit" name="votebutton" value=index+";3")
-                img.float-left#report(src='/images/thumbs_up.png' alt="VoteButton")
-            form#down_form(method = 'POST' action = '/votepost')
-              input(type="hidden" name="threadid" value=threadid)
-              button(type="submit" name="votebutton" value=index+";4")
-                img.float-left#report(src='/images/thumbs_down.png' alt="DownvoteButton")      
+      .row#extra_row
+        .quote
+          form.float-left(method = 'POST' action = '/replypost' )
+            input(type="hidden" name="threadid" value=threadid)
+            button(type="submit" name="returnarrow" value=index+";1")
+              img.float-left#quote(src='/images/return_arrow.png' alt="ReplyButton")
+          h5.float-left Quote
+        .report
+          form.float-left(method = 'POST' action = '/reportpost')
+            input(type="hidden" name="threadid" value=threadid)
+            button(type="submit" name="reportarrow" value=index+";2")
+              img.float-left#report(src='/images/exclamation_mark.png' alt="ReportButton")
+          h5.float-left Report
+        .edit
+          h5 Edit Post
+        .delete
+          h5 Delete Post
 
   br
   .container-fluid#thread_buttons
