@@ -1,5 +1,5 @@
 body {
-    background-image: url('/images/background.png');
+    background-image: url('/images/plain-background.png');
     text-align: center;
 }
 
@@ -85,44 +85,4 @@ a#logo {
 
 .second-toolbar {
     border: 0 !important;
-}
-
-@font-face {
-    font-family: 'PN Alt Bold';
-    src: url('/fonts/proxima_ssv/Proxima Nova Alt Bold.otf') format('opentype');
-}
-
-@font-face {
-    font-family: 'PN Alt Light';
-    src: url('/fonts/proxima_ssv/Proxima Nova Alt Light.otf') format('opentype');
-}
-
-@font-face {
-    font-family: 'PN Alt Thin';
-    src: url('/fonts/proxima_ssv/Proxima Nova Alt Thin.otf') format('opentype');
-}
-
-@font-face {
-    font-family: 'PN Black';
-    src: url('/fonts/proxima_ssv/Proxima Nova Black.otf') format('opentype');
-}
-
-@font-face {
-    font-family: 'PN Bold';
-    src: url('/fonts/proxima_ssv/Proxima Nova Bold.otf') format('opentype');
-}
-
-@font-face {
-    font-family: 'PN Extrabold';
-    src: url('/fonts/proxima_ssv/Proxima Nova Extrabold.otf') format('opentype');
-}
-
-@font-face {
-    font-family: 'PN Thin';
-    src: url('/fonts/proxima_ssv/Proxima Nova Thin.otf') format('opentype');
-}
-
-@font-face {
-    font-family: 'PN Regular';
-    src: url('/fonts/proxima_ssv/ProximaNova-Regular.otf') format('opentype');
 }
