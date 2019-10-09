@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-
 var main_page = require('./main_page');
 var firebase = require('firebase');
 

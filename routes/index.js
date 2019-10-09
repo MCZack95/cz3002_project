@@ -24,43 +24,13 @@ router.get('/main', function(req, res, next) {
   finalthread_dict = {}
   tmpthread_dict = {}
 
-  var details = firebase.database().ref('/users');
-  details.on('value',
-  function(snapshot) {
-    details_dict = snapshot.val()
-    // console.log(snapshot.val());
-  });
-
-  var threaddetails1 = firebase.database().ref('CZ3002/threads');
-  var threaddetails2 = firebase.database().ref('CZ3003/threads');
-  var threaddetails3 = firebase.database().ref('CZ4047/threads');
-
-  //Get threads in each course code
-  threaddetails1.on('value',
-  function(snapshot) {
-    thread_dict1 = snapshot.val()
-    console.log("CZ3002 Threads : " + JSON.stringify(snapshot.val()));
-  })
-
-  threaddetails2.on('value',
-  function(snapshot) {
-    thread_dict2 = snapshot.val()
-    console.log("CZ3003 Threads : " + JSON.stringify(snapshot.val()));
-  })
-
-  threaddetails3.on('value',
-  function(snapshot) {
-    thread_dict3 = snapshot.val()
-    console.log("CZ4047 Threads : " + JSON.stringify(snapshot.val()));
-  })
-
+  thread_dict1=db.getAllThreadsinOneCourse("CZ4047");
+  thread_dict2=db.getAllThreadsinOneCourse("CZ3002");
+  thread_dict3=db.getAllThreadsinOneCourse("CZ3003");
   tmpthread_dict = Object.assign({}, thread_dict1, thread_dict2);
   finalthread_dict = Object.assign({}, thread_dict3,tmpthread_dict);
   console.log("Final Threads : " + JSON.stringify(finalthread_dict));
 
-  setTimeout(function() { 
-    console.log('details_dict: ' + JSON.stringify(details_dict));
-  }, 1500);
 
   res.render('main_page', { title: 'Main Page', username: username, data: finalthread_dict });
 });
@@ -131,13 +101,13 @@ router.post('/main', function(req, res, next) {
   
 });
 
-//post to create Thread
+//post to create Thread can't shift cause button on main page so routing is index.js
 router.post('/createthread', function(req, res, next) {
   console.log('Creating a Thread');
   res.render('createthread');
 });
 
-//post to create Quiz
+//post to create Quiz can't shift cause button on main page so routing is index.js
 router.post('/createquiz', function(req, res, next) {
   console.log('Creating a Quiz');
   res.render('createquiz');
@@ -183,23 +153,17 @@ router.post('/quizscore', function(req, res, next) {
 
 //post to view quiz
 router.post('/viewquiz', function(req, res, next) {
-
-  var details_dict = {};
-  var coursecode = "CZ4047";
-  var quizno = "Quiz5";
-  var details = firebase.database().ref('/'+ coursecode + "/quizzes/" +quizno);
-  var title;
-  var score = 0;
-
-  details.on('value',
-  function(snapshot) {
-    details_dict = snapshot.val();
-    console.log(snapshot.val());
-    title = details_dict.Title;
-  })
+  details_dict = {}
+  //Need to add in dynamic coursecode and quiz number
+  coursecode = "CZ4047"
+  quizno = "Quiz3"
+  details_dict = db.viewQuiz(coursecode,quizno);
   
+  title = details_dict.Title;
   delete details_dict.Title;
-  console.log(details_dict);
+  console.log("New : "+ details_dict);
+  
+
   res.render('attemptquiz', { quiz: details_dict, title: title, coursecode: coursecode, quizno: quizno});
 });
 
@@ -274,11 +238,6 @@ router.post('/makepost', function(req, res, next) {
 
 
 })
-
-// Use this url to test
-router.get('/thread', function(req, res, next) {
-  res.render('thread', { title: 'Developer Thread', data: thread.get_thread_replies(0), thread_size: thread.get_thread_size(0) });
-});
 
 
 // Post and Get Method for displaying of Posts on particular thread

@@ -109,7 +109,7 @@ module.exports.createThread = (coursecode) =>
 {
   details_dict = {}
 
-  var details = firebase.database().ref('/'+req.body.coursecode+"/threads");
+  var details = firebase.database().ref('/'+coursecode+"/threads");
   //console.log(req.body.coursecode);
   details.on('value',
   function(snapshot) {
@@ -118,7 +118,7 @@ module.exports.createThread = (coursecode) =>
   }
   )
   var noOfThreads = Object.keys(details_dict).length
-  
+
   console.log("Number of Threads : " + noOfThreads);
 
   var newThread =
@@ -142,4 +142,43 @@ module.exports.createThread = (coursecode) =>
 
   console.log('hi'+req.body.coursecode);
 
+}
+
+module.exports.viewQuiz = (coursecode,quizno) => 
+{
+  details_dict = {}
+  var details = firebase.database().ref('/'+ coursecode + "/quizzes/" +quizno);
+
+  details.on('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    console.log(snapshot.val());
+  })
+
+  if (Object.keys(details_dict).length < 0)
+    {
+        console.log("DB View Quiz Error");
+    }
+  return details_dict;
+}
+
+module.exports.getAllThreadsinOneCourse = (coursecode) => 
+{
+  details_dict = {}
+  var details = firebase.database().ref('/users/'+coursecode);
+  details.on('value',
+  function(snapshot) {
+    details_dict = snapshot.val()
+    //console.log(snapshot.val());
+  });
+
+  setTimeout(function() { 
+    console.log('details_dict: ' + JSON.stringify(details_dict));
+  }, 1500);
+  
+  if (Object.keys(details_dict).length < 0)
+    {
+        console.log("DB get All Threads from course Error");
+    }
+  return details_dict;
 }
