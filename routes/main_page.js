@@ -16,16 +16,21 @@ function get_data(){
 
 // Get Unique Course ID
 function UniqueCourse(t_id){
-  reply_list = [];
-  var details = firebase.database().ref('/users');
-  for (var id in details) {
-    if (id == t_id) {
-        //console.log(id);
-    };
-  }
-  console.log("Over Here");
-  //console.log(details);
-  return reply_list;
+  firebase.database().ref('/users').on('value',
+  function(snapshot) {
+    details = snapshot.val()
+    //console.log(snapshot.val());
+    console.log(t_id);
+
+    for (var key in details) {
+      if (details.hasOwnProperty(key)) {
+        //console.log(key + " , " + details[key].username + "\n");
+        if (details[key].username == t_id)
+          return details[key].courses.split(',');
+      }
+    }
+  });
+  return [];
 }
 
 // Filter Course

@@ -120,7 +120,7 @@ router.post('/main', function(req, res, next) {
   });
 
   const courseArray = main_page.UniqueCourse(req.body.username);
-  //res.render("")
+  console.log(courseArray);
 
   res.redirect('/');
   
