@@ -16,35 +16,41 @@ body {
   background-color: beige;
 }
 
-.row {
+#main_row {
   width: 100%;
+  padding: 1% 1% 1% 1%;
+  max-height: 500px;
 }
 
-.row > .username {
-  width: 20%;
+#main_row > .score {
+  width: 5%;
+  margin-left: 1%;
+  align-self: center;
+}
+
+#main_row > .vote {
+  width: 10%;
+  align-self: center;
+}
+
+#main_row > .content {
+  width: 84%;
   text-align: left;
+  word-wrap: break-word;
 }
 
-.row > .content {
-  width: 60%;
-  text-align: left;
+#up, #down {
+  width: 20px;
+  height: 20px;
 }
 
-.row > .buttons {
-  width: 20%;
+#down_form {
+  margin-top: 10%;
 }
 
-.row > .buttons > .container {
-  width: 100%;
-}
-
-#quote_form, #report_form, #up_form, #down_form {
-  width: 25%;
-}
-
-#quote, #report, #up, #down {
-  width: 100%;
-  height: 50px;
+#quote, #report {
+  width: 20px;
+  height: 20px;
 }
 
 #quote:hover, #report:hover, #up:hover, #down:hover {

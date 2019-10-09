@@ -6,25 +6,21 @@ block content
 
   .container-fluid#threads
     each post in data
-      .row
-        .username
-          h3 #{post.username}
+      .row#main_row
+        .score(align="center")
+          b#score 5
+        .vote(align="center")
+          form#up_form(method = 'POST' action = '/votepost')
+            button(type="submit" name="votebutton" value="3")
+              img#up(src='/images/thumbs_up.png' alt="VoteButton")
+          form#down_form(method = 'POST' action = '/votepost')
+            button(type="submit" name="votebutton" value="4")
+              img#down(src='/images/thumbs_down.png' alt="DownvoteButton") 
         .content
+          h3 #{post.username}
           h5 #{post.content}
-        .buttons
-          .container(align='center')
-            form.float-left#quote_form(method = 'POST' action = '/replypost')
-              button(type="submit" name="returnarrow" value="1")
-                img#quote(src='/images/return_arrow.png' alt="ReplyButton")
-            form.float-left#report_form(method = 'POST' action = '/reportpost')
-              button(type="submit" name="reportarrow" value="2")
-                img#report(src='/images/exclamation_mark.png' alt="ReportButton")
-            form.float-left#up_form(method = 'POST' action = '/votepost')
-              button(type="submit" name="votebutton" value="3")
-                img#up(src='/images/thumbs_up.png' alt="VoteButton")
-            form.float-left#down_form(method = 'POST' action = '/votepost')
-              button(type="submit" name="votebutton" value="4")
-                img#down(src='/images/thumbs_down.png' alt="DownvoteButton")      
+      .row#extra_row
+
 
   br
   .container-fluid#thread_buttons

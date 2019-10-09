@@ -97,8 +97,8 @@ var replies = [
   {
     't_id': 0,
     'r_id': 0,
-    'user': 'Developer',
-    'content': 'Development Phase',
+    'username': 'Developer',
+    'content': 'Development Phase SOMETHING LONG!!!!   ojjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjlolpawodawjpdoawjpdojawpdoajpdwojWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW',
     'reply_pos': 1
   },
   {
