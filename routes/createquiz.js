@@ -23,9 +23,34 @@ router.post('/newquiz', function(req, res, next) {
   }
   )
   var noOfQuizzes = Object.keys(details_dict).length;
+  var newQuizindex =  noOfQuizzes +1;
 
   console.log("Number of Quizzes : " + noOfQuizzes);
+  console.log("TEST11111: " + req.body["ans5"]);
 
+  for(var x=1;x<=req.body.noques;x++){
+
+    var newQuiz =
+      {
+        answer : req.body["ans" + x],
+        explanation : req.body["exp" + x],
+        ques : req.body["question" + x],
+        opt1 : req.body["opt1" + x],
+        opt2 : req.body["opt2" + x],
+        opt3 : req.body["opt3" + x],
+        opt4 : req.body["opt4" + x],
+        
+      }
+    console.log("New Quiz ID : " + newQuizindex);
+    details.child("Quiz"+(newQuizindex)).child("Question" + x).set(newQuiz);
+
+  }
+
+  var details = firebase.database().ref('/'+req.body.coursecode+"/quizzes/Quiz"+ newQuizindex);
+  details.child("Title").set(req.body.title);
+ 
+
+  /*
   var newQuiz =
   {
     answer : req.body.correctans,
@@ -44,7 +69,7 @@ router.post('/newquiz', function(req, res, next) {
   // question1 for testing
 
   var details = firebase.database().ref('/'+req.body.coursecode+"/quizzes/Quiz"+ newQuizindex);
-  details.child("Title").set(req.body.title);
+ details.child("Title").set(req.body.title);*/
 
   //stay on page
   res.redirect('.');

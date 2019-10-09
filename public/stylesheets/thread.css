@@ -16,26 +16,41 @@ body {
   background-color: beige;
 }
 
-.row > :first-child.col-lg-2 {
-  padding: 20px 20px 20px 20px;
-  border-right: 5px solid black;
+#main_row {
+  width: 100%;
+  padding: 1% 1% 1% 1%;
+  max-height: 500px;
 }
 
-#threads
-.col-lg-8 {
-  padding-top: 20px;
-  background-color: inherit;
+#main_row > .score {
+  width: 5%;
+  margin-left: 1%;
+  align-self: center;
 }
 
-.row > :last-child.col-lg-2 {
-  background-color: darkslategrey;
+#main_row > .vote {
+  width: 10%;
+  align-self: center;
 }
 
-#quote, #report, #up, #down {
-  height: 50px;
-  width: 50px;
-  margin-top: 15px;
-  margin-left: 5px;
+#main_row > .content {
+  width: 84%;
+  text-align: left;
+  word-wrap: break-word;
+}
+
+#up, #down {
+  width: 20px;
+  height: 20px;
+}
+
+#down_form {
+  margin-top: 10%;
+}
+
+#quote, #report {
+  width: 20px;
+  height: 20px;
 }
 
 #quote:hover, #report:hover, #up:hover, #down:hover {
@@ -45,8 +60,4 @@ body {
 
 #thread_buttons {
   width: 100%;
-}
-
-#thread_buttons > span {
-  margin-left: 50px;
 }
