@@ -216,7 +216,7 @@ router.post('/viewquiz', function(req, res, next) {
 
 //up vote and down vote
 router.post('/votepost', function(req, res, next) {
-
+  console.log(req.body.threadid);
   var coursecode = "CZ"+req.body.threadid.split("CZ")[1]
   var threadid = req.body.threadid.split("CZ")[0];
   var postid = req.body.votebutton.split(";")[0];

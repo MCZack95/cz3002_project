@@ -9,46 +9,47 @@ block content
       -var index =post.id
       .row#container_row
         .row#main_row
-          .score(align="center")
+          .score
             b#score #{post.noOfVotes}
-          .vote(align="center")
+          .vote
             form#up_form(method = 'POST' action = '/votepost')
               input(type="hidden" name="threadid" value=threadid)            
-              button(type="submit" name="votebutton" value=index+";3")
-                img.float-left#up(src='/images/thumbs_up.png' alt="VoteButton")
+              input#up_button(type="image" src='/images/thumbs_up.png' alt="VoteButton" name="votebutton" value=index+";3")
+              //img.float-left#up(src='/images/thumbs_up.png' alt="VoteButton")
             form#down_form(method = 'POST' action = '/votepost')
               input(type="hidden" name="threadid" value=threadid)
-              button(type="submit" name="votebutton" value=index+";4")
-                img.float-left#down(src='/images/thumbs_down.png' alt="DownvoteButton")      
+              input#down_button(type="image" src='/images/thumbs_down.png' alt="DownvoteButton" name="votebutton" value=index+";4")
+              //img#down(src='/images/thumbs_down.png' alt="DownvoteButton")      
           .content
             .row#username_row
               h3 #{post.username}
             .row#content_row
               h5 #{post.content}
+          .filler
         .row#extra_row
           .quote
             form.float-left(method = 'POST' action = '/replypost' )
               input(type="hidden" name="threadid" value=threadid)
-              button(type="submit" name="returnarrow" value=index+";1")
-                img.float-left#quote(src='/images/return_arrow.png' alt="ReplyButton")
+              input#quote_button(type="image" src='/images/quote.png' alt="ReplyButton" name="returnarrow" value=index+";1")
+              //img.float-left#quote(src='/images/quote.png' alt="ReplyButton")
             h5.float-left Quote
           .report
             form.float-left(method = 'POST' action = '/reportpost')
               input(type="hidden" name="threadid" value=threadid)
-              button(type="submit" name="reportarrow" value=index+";2")
-                img.float-left#report(src='/images/exclamation_mark.png' alt="ReportButton")
+              input#report_button(type="image" src='/images/report.png' alt="ReportButton" name="reportarrow" value=index+";2")
+              //img.float-left#report(src='/images/report.png' alt="ReportButton")
             h5.float-left Report
           .edit
             form.float-left(method = 'POST' action = '/editpost')
               input(type="hidden" name="threadid" value=threadid)
-              button(type="submit" name="editarrow" value=index+";2")
-                img.float-left#edit(src='/images/edit.png' alt="EditButton")
+              input#edit_button(type="image" src='/images/edit.png' alt="EditButton" name="editarrow" value=index+";2")
+              //img.float-left#edit(src='/images/edit.png' alt="EditButton")
             h5.float-left Edit Post
           .delete
             form.float-left(method = 'POST' action = '/deletepost')
               input(type="hidden" name="threadid" value=threadid)
-              button(type="submit" name="deletearrow" value=index+";2")
-                img.float-left#delete(src='/images/delete-bin.png' alt="DeleteButton")
+              input#delete_button(type="image" src='/images/delete-bin.png' alt="DeleteButton" name="deletearrow" value=index+";2")
+              //img.float-left#delete(src='/images/delete-bin.png' alt="DeleteButton")
             h5.float-left Delete Post
 
   br
@@ -72,5 +73,6 @@ block content
   
   script.
 
+    
 
   link(rel='stylesheet', href='/stylesheets/thread.css')
