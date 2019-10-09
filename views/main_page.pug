@@ -3,7 +3,7 @@ extends layout
 block content
   p(styles = {"text-transform": "uppercase"}) 
   strong Welcome #{username}
-
+  
   form(method = 'POST' action = '/createquiz')
     button.btn.btn-primary(type='submit') New Quiz
   
@@ -21,6 +21,9 @@ block content
 
   form(method = 'POST' action = '/viewquiz')
     button.btn.btn-primary(type='submit') View Quiz
+
+  form(method = 'POST' action = '/email')
+    button.btn.btn-primary(type='submit') Email
 
   nav.navbar.navbar-dark.navbar-expand-sm
     .navbar-header
@@ -60,9 +63,6 @@ block content
   br
   br
   br
-
-  form(method = 'GET' action = '/')
-      button.btn.btn-primary(type='submit') Log Out
 
   script.
 

@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
 /* Use this route to make testing /main easier */
 router.get('/main', function(req, res, next) {  
   console.log('Getting Main Page');
-
+  console.log('username: ' + username);
   details_dict = {}
   thread_dict1 = {}
   thread_dict2 = {}
@@ -31,7 +31,6 @@ router.get('/main', function(req, res, next) {
   tmpthread_dict = Object.assign({}, thread_dict1, thread_dict2);
   finalthread_dict = Object.assign({}, thread_dict3,tmpthread_dict);
   console.log("Final Threads : " + JSON.stringify(finalthread_dict));
-
 
   if (username != null) {
     res.render('main_page', { title: 'Main Page', username: username, data: finalthread_dict });
@@ -118,6 +117,37 @@ router.post('/createquiz', function(req, res, next) {
   res.render('createquiz');
 });
 
+//email for notifications
+router.post('/email', function(req, res, next) {
+  var nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'liyiase3002@gmail.com',
+    pass: 'Liyi@ase123'
+  }
+});
+
+var mailOptions = {
+  from: 'liyiase3002@gmail.com',
+  to: 'cr7roxdswk@gmail.com',
+  subject: 'Sending Email using Node.js',
+  text: 'That was easy!'
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
+
+  res.redirect('.');
+});
+
+
 //post to view quiz score
 router.post('/quizscore', function(req, res, next) {
   console.log(req.body.testing);
@@ -185,7 +215,6 @@ router.post('/viewquiz', function(req, res, next) {
 });
 
 //up vote and down vote
-
 router.post('/votepost', function(req, res, next) {
 
   var coursecode = "CZ"+req.body.threadid.split("CZ")[1]
@@ -197,6 +226,7 @@ router.post('/votepost', function(req, res, next) {
   //need to know how to refresh the page with new data
   res.render('createquiz');
 });
+
 //edit a particular post
 
 router.post('/editpost', function(req, res, next) {
