@@ -39,7 +39,7 @@ a {
   transition-timing-function: ease-in-out;
   width: 50px;
   height: 50px;
-  background-color: #062DA2;
+  background-color: #0B1A51;
   position: fixed;
   top: 20px;
   left: 20px;
@@ -114,7 +114,6 @@ a {
   transition: transform 0.4s;
   padding-top: 100px;
   z-index: 9;
-  /* opacity: .85; */
 }
 
 .menu.open {
@@ -122,13 +121,8 @@ a {
 }
 
 .menu.open ul {
-  width: 250px;
+  /* width: 250px; */
   margin-top: 50px;
-}
-
-.menu.open ul:hover li {
-  /* color: rgba(255, 255, 255, 0.5); */
-  color: black;
 }
 
 .menu.open ul li {
@@ -143,10 +137,33 @@ a {
   text-transform: uppercase;
 }
 
+ul {
+  padding-inline-start: 0px !important;
+}
+
 .menu.open ul li:hover {
   cursor: pointer;
   color: white;
   background-color: #015CE0;
+}
+
+.menu.open .logoutbutt {
+  transition-duration: 0.25s;
+  display: block;
+  padding: 5px 40px;
+  color: #0B1A51;
+  letter-spacing: 0.02em;
+  text-align: left;
+  font-family: 'PN Extrabold', sans-serif;
+  font-size: 15px;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+.menu.open .logoutbutt:hover {
+  cursor: pointer;
+  color: white;
+  background-color: red;
 }
 
 .logoutbutt {

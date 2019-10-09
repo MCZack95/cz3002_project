@@ -114,6 +114,9 @@ router.post('/main', function(req, res, next) {
 
   var verified = false;
 
+  const courseArray = main_page.UniqueCourse(req.body.username);
+  console.log(courseArray);
+
   Object.keys(details_dict).forEach(function(key) {
     if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {
       username = req.body.username;
@@ -121,9 +124,6 @@ router.post('/main', function(req, res, next) {
       res.render('main_page', { title: 'Main Page', username: req.body.username, data: finalthread_dict });
     }
   });
-
-  const courseArray = main_page.UniqueCourse(req.body.username);
-  console.log(courseArray);
 
   if (!verified) {
     res.redirect('/');
