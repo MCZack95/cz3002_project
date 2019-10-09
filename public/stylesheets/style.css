@@ -124,6 +124,7 @@ a {
   transition: transform 0.4s;
   padding-top: 100px;
   z-index: 9;
+  border-right: 2px solid yellow;
 }
 
 .menu.open {
