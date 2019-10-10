@@ -19,27 +19,23 @@ function get_data(){
 function UniqueCourse(t_id){
   var courseArray = []
   return Promise.resolve(
-    firebase.database().ref('/users').once('value',
+    firebase.database().ref('/users').once('value',function(snapshot) {})
+    ).then(function(snapshot){
 
-    function(snapshot) {
-      details = snapshot.val()
-      //console.log(snapshot.val());
+    details = snapshot.val();
+    //console.log(snapshot.val());
 
-     for (var key in details) {
-        if (details.hasOwnProperty(key)) {
-          //console.log(key + " , " + details[key].username + "\n");
-          if (details[key].username == t_id){
-            console.log("Details of Array " + details[key].courses.split(','));
-            courseArray = details[key].courses.split(',');
-            return courseArray
-          }
+    for (var key in details) {
+      if (details.hasOwnProperty(key)) {
+        //console.log(key + " , " + details[key].username + "\n");
+        if (details[key].username == t_id){
+          //console.log("Details of Array " + details[key].courses.split(','));
+          courseArray = details[key].courses.split(',');
         }
       }
+    }
+    return courseArray;
     })
-  ).then(function(value){
-    return value;
-  })
-  
 }
 
 // Filter Course
