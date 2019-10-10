@@ -43,9 +43,8 @@ block content
           button.dropdown-item(id='cc0' value='Default' onclick="changeFilter(this)") Reset Filter
           each coursename in coursecode
             button.dropdown-item(id=`${coursename}` value=`${coursename}` onclick="changeFilter(this);toCourseDropdown()") #{coursename}
-
             //button.dropdown-item(id='cc2' value='code2' onclick="changeFilter(this)") Course Code 2
-            //button.dropdown-item(id='cc3' value='code3' onclick="changeFilter(this)") Course Code 3
+
   br
   table.table
     thead.headhead
@@ -84,8 +83,7 @@ block content
   script.
 
     function toCourseDropdown(){
-      
-
+      console.log("")
     }
 
 

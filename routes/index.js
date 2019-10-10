@@ -33,7 +33,10 @@ router.get('/main', function(req, res, next) {
   console.log("Final Threads : " + JSON.stringify(finalthread_dict));
 
   if (username != null) {
-    res.render('main_page', { title: 'Main Page', username: username, data: finalthread_dict });
+    Promise.resolve(main_page.UniqueCourse(username)).then(function(value){
+      //console.log(value);  value = ['CZ3003','CZ4002']
+      res.render('main_page',{coursecode: value, title: 'Main Page', username: username, data: finalthread_dict })
+    });
   } else {
     res.render('error404');
   }
