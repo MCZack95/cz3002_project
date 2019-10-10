@@ -80,15 +80,20 @@ textarea {
 
 .anscont {
     background: white;
-    background: linear-gradient(to right, #57F2FF 50%, white 50%);
+    /* background: linear-gradient(to right, #57F2FF 50%, white 50%);
     background-size: 200% 100%;
     background-position:right bottom;
-    transition:all 1.5s ease-in;
+    transition:all 1.5s ease-in; */
+    background-position:right bottom;
 }
 
 .anscont:hover {
     background-color: #57F2FF;
+    /* background-position:left bottom; */
+    background: linear-gradient(to right, #57F2FF 50%, white 50%);
+    background-size: 200% 100%;
     background-position:left bottom;
+    transition:all 1.5s ease-in;
 }
 
 input:focus,
@@ -102,3 +107,7 @@ button:focus {
     text-align: right;
     margin: 15px 0 15px 0;
 }
+
+/* input:focus {
+    background-color: #57F2FF;
+} */

@@ -25,27 +25,30 @@ block content
   form(method = 'POST' action = '/email')
     button.btn.btn-primary(type='submit') Email
 
+  br
+
   nav.navbar.navbar-dark.navbar-expand-sm
     .navbar-header
-      img#forum_logo(src="/images/discussion_icon.png" alt="NTU Learning Platform")
+      img#forum_logo(src="/images/discuss.png" alt="NTU Learning Platform")
       span
       h5.navbar-brand Discussion Forum
-    .navbar-text
-      h5#filter Search By: Default
 
     ul.navbar-nav
+      form#content(method='GET' action='/main')
+        input#search-input.input(type='text', name='input')
+        button#search-btn.search(type='reset')
       form(method = 'POST' action = '/createthread')
-        button.btn.btn-primary(type='submit') New Thread
+        button.btn.btn-light(type='submit') New Thread
       // Dropdown
       li.nav-item.dropdown
-        button.btn.btn-primary.dropdown-toggle.coursesbutt(data-toggle="dropdown") Courses
+        button.btn.btn-light.dropdown-toggle.coursesbutt(data-toggle="dropdown") Courses
         .dropdown-menu
           button.dropdown-item(id='cc0' value='Default' onclick="changeFilter(this)") Reset Filter
           each coursename in coursecode
             button.dropdown-item(id=`${coursename}` value=`${coursename}` onclick="changeFilter(this);toCourseDropdown()") #{coursename}
             //button.dropdown-item(id='cc2' value='code2' onclick="changeFilter(this)") Course Code 2
-
   br
+
   table.table
     thead.headhead
       tr
@@ -81,6 +84,17 @@ block content
   br
 
   script.
+
+    const input = document.getElementById("search-input");
+    const searchBtn = document.getElementById("search-btn");
+
+    const expand = () => {
+      searchBtn.classList.toggle("close");
+      input.classList.toggle("square");
+    };
+
+    searchBtn.addEventListener("click", expand);
+
 
     function toCourseDropdown(){
       console.log("")
