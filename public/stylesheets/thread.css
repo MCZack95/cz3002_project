@@ -3,46 +3,74 @@ body {
 }
 
 .thread-title {
-  background-color: #5599AA;
-  padding: 20px 20px 20px 20px;
+  width: 98.4%;
+  border-radius: 30px;
+  background-color: #062DA2;
 }
 
 .thread-title > h1 {
+  padding: 1% 1% 1% 1%;
   color: white;
 }
 
-#threads > div {
-  margin-top: 20px;
-  background-color: beige;
+#threads {
+  width: 100%;
 }
 
 #container_row {
   width: 100%;
-  padding: 1% 1% 1% 1%;
+  margin-top: 20px;
+  border-radius: 15px;
+  background-color: #57F2FF;
+}
+
+#container_row:hover {
+  box-shadow: 10px 10px #0B1A51;
+  transform: scale(1.01);
+  transition: .2s ease-in;
 }
 
 #main_row {
   width: 100%;
-  padding: 1% 1% 1% 1%;
-  margin-left: 1%;
 }
 
 #main_row > .score {
-  width: 10px;
+  width: 1%;
+  margin-left: 4%;
   align-self: center;
 }
 
+#main_row > .score > b {
+  font-size: 30px;
+}
+
 #main_row > .vote {
-  width: 50px;
-  margin-left: 2%;
+  width: 4%;
+  margin-left: 4%;
   align-self: center;
+}
+
+#main_row > .vote > #up_button {
+  margin-top: 1%;
 }
 
 #main_row > .content {
   width: 80%;
-  margin-left: 5%;
-  padding-left: 2%;
-  text-align: left;
+  margin-left: 2%;
+}
+
+#main_row > .filler {
+  width: 5%;
+}
+
+#username_row {
+  border-bottom: 1px solid black;
+  border-bottom-style: dotted;
+}
+
+#username_row > h3 {
+  padding-top: 2%;
+  padding-bottom: 2%;
 }
 
 #content_row {
@@ -50,11 +78,13 @@ body {
 }
 
 #content_row > h5 {
-  word-break: break-all;
+  padding-top: 2%;
+  padding-bottom: 1%;
+  word-wrap: break-word;
   overflow-y: auto;
 }
 
-#up, #down {
+#up_button, #down_button {
   width: 30px;
   height: 30px;
 }
@@ -63,14 +93,15 @@ body {
   margin-top: 50%;
 }
 
-#quote:hover, #report:hover, #up:hover, #down:hover {
-  opacity: 0;
+#up_button:hover, #down_button:hover {
+  transform: scale(1.5);
   transition: .5s ease;
 }
 
 #extra_row {
   width: 100%;
   margin-left: 1%;
+  margin-top: 1%;
 }
 
 #extra_row > .report, .edit, .delete {
@@ -79,11 +110,6 @@ body {
 
 .quote > h5, .report > h5, .edit > h5, .delete > h5 {
   margin-left: 5px;
-}
-
-#quote, #report, #edit, #delete {
-  width: 20px;
-  height: 20px;
 }
 
 .quote {
@@ -100,6 +126,16 @@ body {
 
 .delete {
   width: 140px;
+}
+
+#quote_button, #report_button, #edit_button, #delete_button {
+  width: 20px;
+  height: 20px;
+}
+
+#quote_button:hover, #report_button:hover, #edit_button:hover, #delete_button:hover {
+  transform: scale(1.5);
+  transition: .5s ease;
 }
 
 #thread_buttons {

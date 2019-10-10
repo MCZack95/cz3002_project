@@ -1,0 +1,104 @@
+body {
+    background-image: url('/images/plain-background.png');
+}
+
+.quizcont {
+    background-color: white;
+    padding: 20px;
+    width: 100%;
+    -webkit-box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+}
+
+#titlecourse {
+    display: grid;
+    grid-template-columns: 70% 20% 10%;
+    padding: 20px;
+    /* -webkit-box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);  */
+    border-left: 5px solid #0B1A51;
+    /* border-top: .2px solid gray;
+    border-right: .2px solid gray;
+    border-bottom: .2px solid gray; */
+}
+
+.anscont {
+    padding: 20px;
+    border-left: 5px solid #57F2FF;
+    /* border-top: .2px solid gray;
+    border-right: .2px solid gray;
+    border-bottom: .2px solid gray; */
+    margin-top: 20px;
+}
+
+#quiztitle > input {
+    width: 90%;
+}
+
+#quizcourse > input {
+    width: 31%;
+}
+
+#quiztitle, #quizcourse, #quizqn {
+    font-family: 'PN Black';
+    font-size: 15px;
+}
+
+.question {
+    font-family: 'PN Black';
+    font-size: 15px;
+}
+
+.optcont, .corans, .exp {
+    font-family: 'PN Regular';
+    font-size: 15px;
+}
+
+select, input {
+    border: none;
+    border-bottom: 1px grey solid;
+    font-family: 'PN Regular';
+    font-size: 15px;
+}
+
+input {
+    padding: 0 5px 0 5px;
+    width: 100%;
+}
+
+textarea {
+    width: 100%;
+    resize: none;
+    height: 80px;
+    border: 1px grey solid;
+    font-family: 'PN Regular';
+    font-size: 15px;
+    padding: 0 5px 0 5px;
+}
+
+.anscont {
+    background: white;
+    background: linear-gradient(to right, #57F2FF 50%, white 50%);
+    background-size: 200% 100%;
+    background-position:right bottom;
+    transition:all 1.5s ease-in;
+}
+
+.anscont:hover {
+    background-color: #57F2FF;
+    background-position:left bottom;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: 2px solid #0B1A51;
+}
+
+.buttcont {
+    text-align: right;
+    margin: 15px 0 15px 0;
+}
