@@ -55,24 +55,25 @@ block content
   br
   .container-fluid#thread_buttons
     .row
-      .col-lg-1
-        button.btn.btn-primary(type='submit' align='left') Add Reply
-      .col-lg-1
-        button.btn.btn-primary(type='submit' align='left') Watch this Thread
-      .col-lg-10
+      .reply
+        button.btn.btn-primary#reply-button(type='submit') 
+          img.float-left(src="/images/add.png" alt="ReplyButton")
+          h5.float-left Add Reply
+      .watch
+        button.btn.btn-primary#watch-button(type='submit') 
+          img.float-left(src="/images/watch.png" alt="WatchButton")
+          h5.float-left Watch
+      .filler
     .row
       .col-lg-12
         br
         br
         br
     .row
-      .col-lg-6
+      .return
         form(method='GET' action='/main')
           button.btn.btn-primary(type='submit') Return to Main Page
-      .col-lg-6
-  
-  script.
 
-    
+  script.
 
   link(rel='stylesheet', href='/stylesheets/thread.css')

@@ -22,6 +22,7 @@ body {
   margin-top: 20px;
   border-radius: 15px;
   background-color: #57F2FF;
+  background-image: repeating-linear-gradient(135deg, #2BDDF9, #57F2FF 10%, #2BDDF9 20%);
 }
 
 #container_row:hover {
@@ -140,4 +141,30 @@ body {
 
 #thread_buttons {
   width: 100%;
+}
+
+#thread_buttons > .row {
+  width: 100%;
+}
+
+.row > .reply {
+  width: 150px;
+}
+
+.row > .watch {
+  width: 200px;
+}
+
+#reply-button, #watch-button {
+  border-radius: 0px 30px 30px 0px;
+}
+
+#reply-button > img, #watch-button > img {
+  width: 30px;
+  height: 30px;
+}
+
+#reply-button > h5, #watch-button > h5 {
+  padding-top: 2%;
+  margin-left: 5px;
 }

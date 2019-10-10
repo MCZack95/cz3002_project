@@ -15,8 +15,9 @@ module.exports.getAllPosts = (coursecode,threadid) => {
       {
           console.log("DB Query Error");
       }
-      return details_dict;
     });
+
+    return details_dict;
   }
 
 module.exports.votePost = (coursecode,threadid,postid,isVote) => {
@@ -179,8 +180,7 @@ module.exports.getAllThreadsinOneCourse = (coursecode) =>
     {
         console.log("DB get All Threads from course Error");
     }
-
-    return details_dict;
   });
 
+  return details_dict;
 }

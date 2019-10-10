@@ -40,7 +40,6 @@ router.get('/main', function(req, res, next) {
 });
 
 router.post('/main', function(req, res, next) {
-  console.log('CLICK CLICK CLICK');
   console.log('Logging in via POST');
   details_dict = {}
   thread_dict1 = {}
@@ -91,7 +90,7 @@ router.post('/main', function(req, res, next) {
 
  Promise.resolve(main_page.UniqueCourse(req.body.username)).then(function(value){
   console.log(value);
- })
+ });
 
   Object.keys(details_dict).forEach(function(key) {
     if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {
