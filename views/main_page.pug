@@ -3,7 +3,7 @@ extends layout
 block content
   p(styles = {"text-transform": "uppercase"}) 
   strong Welcome #{username}
-
+  
   form(method = 'POST' action = '/createquiz')
     button.btn.btn-primary(type='submit') New Quiz
   
@@ -21,6 +21,9 @@ block content
 
   form(method = 'POST' action = '/viewquiz')
     button.btn.btn-primary(type='submit') View Quiz
+
+  form(method = 'POST' action = '/email')
+    button.btn.btn-primary(type='submit') Email
 
   nav.navbar.navbar-dark.navbar-expand-sm
     .navbar-header
@@ -43,26 +46,38 @@ block content
           button.dropdown-item(id='cc3' value='code3' onclick="changeFilter(this)") Course Code 3
   br
   table.table
-    thead.thead-dark
+    thead.headhead
       tr
-        th Title
-        th Course Code
-        th Number of Replies
+        th#title Title
+        th#latestpost Latest Post
+        th#replies Replies
+        th#views Views
         //th Rating
-    tbody#table-records
-      each thread in data
-        //- tr(data-href='//localhost:3000/main/' + `${thread.t_id}`)
-        tr(data-href=`${thread["id"]}` id=`${thread["id"]}`)
-          td #{thread["Title"]}
-          td #{thread["coursecode"]}
-          td #{thread["noOfReplies"]}
-          //td #{thread["rating"]}
-  br
-  br
-  br
+      tbody
+        each thread in data
+          tr(data-href=`${thread["id"]}` id=`${thread["id"]}`)
+            td
+              - var course = `${thread['coursecode']}`
+              case course
+                when 'CZ3002'
+                  .coursetag(style='background-color: orange') #{thread["coursecode"]}
+                when 'CZ3003'
+                  .coursetag(style='background-color: green') #{thread["coursecode"]}
+                when 'CZ4047'
+                  .coursetag(style='background-color: black') #{thread["coursecode"]}
+                default
+                  .coursetag #{thread["coursecode"]}
+              span#titles #{thread["title"]}
+              #username username
+            td 
+              p#datetime 25 Dec 2019 00:00:00 AM
+              p#replier by darien 
+            td#tdreplies #{thread["noOfReplies"]}
+            td#tdviews 0
 
-  form(method = 'GET' action = '/')
-      button.btn.btn-primary(type='submit') Log Out
+  br
+  br
+  br
 
   script.
 
@@ -72,8 +87,12 @@ block content
         row.addEventListener('click', () => {
           //- window.location.href = row.dataset.href;
           //var threadTitle = document.getElementByNames(row.courseCode);
-          var threadTitle = document.getElementById(row.id).getElementsByTagName('td')[0].innerText;
-          var courseCode = document.getElementById(row.id).getElementsByTagName('td')[1].innerText;
+          //- var threadTitle = document.getElementById(row.id).getElementsByTagName('td')[0].innerText;
+          console.log(row);
+          var threadTitle = document.getElementById(row.id).getElementsByTagName('span')[0].innerText;
+          console.log(threadTitle);
+          var courseCode = document.getElementById(row.id).getElementsByTagName('div')[0].innerText;
+          console.log(courseCode);
           console.log("Thread : " + threadTitle + " / Course Code : " + courseCode);
           toThreadViaPost('/main/' + row.id, {'id': row.id, 'title': threadTitle, 'coursecode' : courseCode});
         });

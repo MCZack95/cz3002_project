@@ -3,35 +3,29 @@ extends layout
 block content
 
     form.cont(method='POST' action='/createquiz/newquiz')
-        .minicont_title Title
-        br
-        textarea#content(type='text' name='title' placeholder='Enter title here.' contenteditable='true' required)
-        br
-        .minicont_title Course Code
-        br
-        textarea#content(type='text' name='coursecode' placeholder='Enter course code here.' contenteditable='true' required)
-        br
-        h5 No of questions: 
-        select(id="options" name="noques" onchange="testfunc();")
-            option(value="0") 0
-            option(value="5") 5
-            option(value="10") 10
-            option(value="15") 15
-            option(value="20") 20
-        br
+        .quizcont 
+            #titlecourse
+                #quiztitle Title
+                    br
+                    input(type='text' name='title' placeholder='Title' contenteditable='true' required)
+                #quizcourse Course Code
+                    br
+                    input(type='text' name='coursecode' placeholder='Course Code' contenteditable='true' required)
+                #quizqn No. of Questions
+                    br
+                    select(id="options" name="noques" onchange="testfunc();")
+                        option(value="0") 0
+                        option(value="5") 5
+                        option(value="10") 10
+                        option(value="15") 15
+                        option(value="20") 20
+            div(id="div1")
 
-        div(id="div1")
-        
-        
         .buttcont
             button.btn.btn-primary(type='submit' style='margin-right: 10px;') Save Quiz
             button.btn.btn-light(onclick='goBack()') Cancel
 
-    link(rel='stylesheet', href='/stylesheets/createthread.css')
-    //link(href='https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css', rel='stylesheet', type='text/css')
-    //script(type='text/javascript', src='https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js')
-    //script.
-      //  new FroalaEditor('textarea');
+    link(rel='stylesheet', href='/stylesheets/createquiz.css')
 
     script.
         function goBack() {
@@ -39,17 +33,26 @@ block content
         }
         function testfunc(){
             
-            var div = document.getElementById("div1");
-            while (div.hasChildNodes()) {
-                div.removeChild(div.lastChild);
+            var divoverall = document.getElementById("div1");
+            while (divoverall.hasChildNodes()) {
+                divoverall.removeChild(divoverall.lastChild);
             }
             console.log(document.getElementById("options").value);
             var count = document.getElementById("options").value;
             var i;
             for (i = 1; i <= count; i++) {
-                var quesno = document.createTextNode("Question " + i);
-                var input1 = document.createElement('input');
+                
+                var div = document.createElement('div');
+                divoverall.appendChild(div);
+                div.classList.add('anscont');
+
+                var quesno = document.createElement('div');
+                quesno.innerHTML += '⯈ Question ' + i;
+                quesno.classList.add('question');
+
+                var input1 = document.createElement('textarea');
                 input1.name = "question" + i;
+
                 var opt1 = document.createElement('input');
                 opt1.name = "opt1" + i;
                 var opt2 = document.createElement('input');
@@ -61,6 +64,10 @@ block content
                 var exp  = document.createElement('input');
                 exp.name = "exp" + i;
             
+                var optcont = document.createElement('div');
+                optcont.appendChild(opt1); optcont.appendChild(opt2); optcont.appendChild(opt3); optcont.appendChild(opt4);
+                optcont.classList.add('optcont');
+
                 var ans = document.createElement('select');
                 ans.name = "ans" + i;
                 var ans1 = document.createElement('option');
@@ -75,31 +82,58 @@ block content
                 var ans4 = document.createElement('option');
                 ans4.value = "4";
                 ans4.text = "4";
+
                 ans.appendChild(ans1); ans.appendChild(ans2); ans.appendChild(ans3); ans.appendChild(ans4); 
 
-                div.appendChild(document.createElement("br"));
                 div.appendChild(quesno);
                 div.appendChild(input1);
+
+                optcont.appendChild(document.createElement("br"));
+                optcont.appendChild(document.createTextNode("Option 1"));
+                optcont.appendChild(document.createElement("br"));
+                optcont.appendChild(opt1);
+
+
+                optcont.appendChild(document.createElement("br"));
+                optcont.appendChild(document.createElement("br"));
+                optcont.appendChild(document.createTextNode("Option 2"));
+                optcont.appendChild(document.createElement("br"));
+                optcont.appendChild(opt2);
+
+                optcont.appendChild(document.createElement("br"));
+                optcont.appendChild(document.createElement("br"));
+                optcont.appendChild(document.createTextNode("Option 3"));
+                optcont.appendChild(document.createElement("br"));
+                optcont.appendChild(opt3);
+
+                optcont.appendChild(document.createElement("br"));
+                optcont.appendChild(document.createElement("br"));
+                optcont.appendChild(document.createTextNode("Option 4"));
+                optcont.appendChild(document.createElement("br"));
+                optcont.appendChild(opt4);
+
+                div.appendChild(optcont);
+
+
+
                 div.appendChild(document.createElement("br"));
-                div.appendChild(document.createTextNode("Option 1"));
-                div.appendChild(opt1);
-                div.appendChild(document.createElement("br"));
-                div.appendChild(document.createTextNode("Option 2"));
-                div.appendChild(opt2);
-                div.appendChild(document.createElement("br"));
-                div.appendChild(document.createTextNode("Option 3"));
-                div.appendChild(opt3);
-                div.appendChild(document.createElement("br"));
-                div.appendChild(document.createTextNode("Option 4"));
-                div.appendChild(opt4);
-                div.appendChild(document.createElement("br"));
-                div.appendChild(document.createTextNode("Correct answer:"));
+
+                var corans = document.createElement('div');
+                corans.appendChild(document.createTextNode("Correct Answer:"));
+                corans.classList.add('corans');
+                div.appendChild(corans);
                 div.appendChild(ans);
+
                 div.appendChild(document.createElement("br"));
-                div.appendChild(document.createTextNode("Explanation: "));
+                div.appendChild(document.createElement("br"));
+
+                var expla = document.createElement('div');
+                expla.appendChild(document.createTextNode("Explanation: "));
+                expla.classList.add('exp');
+                div.appendChild(expla);
+
                 div.appendChild(exp);
                 div.appendChild(document.createElement("br"));
-                
+
             }
-        
         }
