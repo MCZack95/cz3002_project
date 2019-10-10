@@ -16,8 +16,8 @@ router.get('/', function(req, res, next) {
 
 /* Use this route to make testing /main easier */
 router.get('/main', function(req, res, next) {  
-  console.log('Getting Main Page');
-  console.log('username: ' + username);
+  //console.log('Getting Main Page');
+  //console.log('username: ' + username);
   details_dict = {}
   thread_dict1 = {}
   thread_dict2 = {}
@@ -30,7 +30,7 @@ router.get('/main', function(req, res, next) {
   thread_dict3=db.getAllThreadsinOneCourse("CZ3003");
   tmpthread_dict = Object.assign({}, thread_dict1, thread_dict2);
   finalthread_dict = Object.assign({}, thread_dict3,tmpthread_dict);
-  console.log("Final Threads : " + JSON.stringify(finalthread_dict));
+  //console.log("Final Threads : " + JSON.stringify(finalthread_dict));
 
   if (username != null) {
     Promise.resolve(main_page.UniqueCourse(username)).then(function(value){
@@ -238,7 +238,7 @@ router.post('/viewquiz', function(req, res, next) {
 
 //up vote and down vote
 router.post('/votepost', function(req, res, next) {
-  console.log(req.body.threadid);
+  console.log(req.body);
   var coursecode = "CZ"+req.body.threadid.split("CZ")[1]
   var threadid = req.body.threadid.split("CZ")[0];
   var postid = req.body.votebutton.split(";")[0];

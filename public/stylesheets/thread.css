@@ -51,7 +51,7 @@ body {
   align-self: center;
 }
 
-#main_row > .vote > #up_button {
+#main_row > .vote > #up_form {
   margin-top: 1%;
 }
 
@@ -85,9 +85,14 @@ body {
   overflow-y: auto;
 }
 
-#up_button, #down_button {
+#up, #down {
   width: 30px;
   height: 30px;
+}
+
+#up_button, #down_button {
+  background: transparent;
+  border: transparent;
 }
 
 #down_form {
@@ -129,13 +134,23 @@ body {
   width: 140px;
 }
 
-#quote_button, #report_button, #edit_button, #delete_button {
+#quote, #report, #edit, #delete {
   width: 20px;
   height: 20px;
 }
 
-#quote_button:hover, #report_button:hover, #edit_button:hover, #delete_button:hover {
-  transform: scale(1.5);
+#quote_button, #report_button, #edit_button, #delete_button {
+  background: transparent;
+  border: transparent;
+}
+
+.quote, .report, .edit, .delete {
+  border-radius: 10px;
+}
+
+.quote:hover, .report:hover, .edit:hover, .delete:hover {
+  box-shadow: 5px 5px #0B1A51;
+  transform: translate(0px, -10px);
   transition: .5s ease;
 }
 
