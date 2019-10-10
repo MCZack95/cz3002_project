@@ -7,17 +7,16 @@ module.exports.getAllPosts = (coursecode,threadid) => {
     details_dict = {};
 
     var details = firebase.database().ref('/'+coursecode+'/threads/'+coursecode +'Thread'+threadid.split("CZ")[0]);
-    details.orderByKey().startAt("Post").endAt("Post"+"\uf8ff").on('value',
+    details.orderByKey().startAt("Post").endAt("Post"+"\uf8ff").once('value',
     function(snapshot) {
       details_dict = snapshot.val()
       console.log("Thread ID : "+ threadid + " /n "+ JSON.stringify(snapshot.val()));
+      if (Object.keys(details_dict).length < 0)
+      {
+          console.log("DB Query Error");
+      }
+      return details_dict;
     });
-
-    if (Object.keys(details_dict).length < 0)
-    {
-        console.log("DB Query Error");
-    }
-    return details_dict;
   }
 
 module.exports.votePost = (coursecode,threadid,postid,isVote) => {
@@ -101,6 +100,10 @@ module.exports.makePost = (coursecode,threadid,newpost) => {
     newpost["id"] = id;
     details.child("Post" + newpostno).set(newpost);
     console.log("New Post successfully created at : " + coursecode + " Thread : " + threadid + "Post : " +id)
+    var details = firebase.database().ref('/'+coursecode+"/threads/"+coursecode+"Thread"+threadid);
+    var replies = details_dict["noOfReplies"] + 1;
+    console.log("Number of Replies in Thread incremented to : " +replies );
+    details.child("noOfReplies").set(replies);
   });
 }
 
@@ -150,37 +153,34 @@ module.exports.viewQuiz = (coursecode,quizno) =>
   details_dict = {}
   var details = firebase.database().ref('/'+ coursecode + "/quizzes/" +quizno);
 
-  details.on('value',
+  details.once('value',
   function(snapshot) {
     details_dict = snapshot.val();
     console.log(snapshot.val());
-  })
-
-  if (Object.keys(details_dict).length < 0)
+    if (Object.keys(details_dict).length < 0)
     {
         console.log("DB View Quiz Error");
     }
-  return details_dict;
+    return details_dict;
+  })
+
+
 }
 
 module.exports.getAllThreadsinOneCourse = (coursecode) => 
 {
   details_dict = {}
   var details = firebase.database().ref('/'+coursecode+'/threads');
-  details.on('value',
+  details.once('value',
   function(snapshot) {
     details_dict = snapshot.val()
     //console.log(snapshot.val());
-  });
-
-  setTimeout(function() { 
-    console.log('details_dict: ' + JSON.stringify(details_dict));
-  }, 1500);
-  
-  if (Object.keys(details_dict).length < 0)
+    if (Object.keys(details_dict).length < 0)
     {
         console.log("DB get All Threads from course Error");
     }
 
-  return details_dict;
+    return details_dict;
+  });
+
 }
