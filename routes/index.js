@@ -89,14 +89,15 @@ router.post('/main', function(req, res, next) {
 
   var verified = false;
 
-  const courseArray = main_page.UniqueCourse(req.body.username);
-  console.log(courseArray);
+ Promise.resolve(main_page.UniqueCourse(req.body.username)).then(function(value){
+  console.log(value);
+ })
 
   Object.keys(details_dict).forEach(function(key) {
     if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {
       username = req.body.username;
       verified = true;
-      res.render('main_page', { title: 'Main Page', username: req.body.username, data: finalthread_dict });
+      res.render('main_page', { title: 'Main Page', username: req.body.username, data: finalthread_dict })
     }
   });
 
