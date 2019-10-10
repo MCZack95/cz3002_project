@@ -40,9 +40,10 @@ block content
       li.nav-item.dropdown
         button.btn.btn-primary.dropdown-toggle.coursesbutt(data-toggle="dropdown") Courses
         .dropdown-menu
-          select(id = "c1")
-            button.dropdown-item(id='cc0' value='Default' onclick="changeFilter(this)") Reset Filter
-            button.dropdown-item(id='cc1' value='code1' onclick="changeFilter(this)") Course Code 1
+          button.dropdown-item(id='cc0' value='Default' onclick="changeFilter(this)") Reset Filter
+          each coursename in coursecode
+            button.dropdown-item(id=`${coursename}` value=`${coursename}` onclick="changeFilter(this);toCourseDropdown()") #{coursename}
+
             //button.dropdown-item(id='cc2' value='code2' onclick="changeFilter(this)") Course Code 2
             //button.dropdown-item(id='cc3' value='code3' onclick="changeFilter(this)") Course Code 3
   br
@@ -82,7 +83,7 @@ block content
 
   script.
 
-    function toCourseDropdown(courseList){
+    function toCourseDropdown(){
       
 
     }
