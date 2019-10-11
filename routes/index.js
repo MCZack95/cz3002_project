@@ -8,6 +8,14 @@ firebase.initializeApp(require('../firebaseconfig.json'));
 
 var username = null;
 
+function isLoggedIn(req, res, next) {
+  if(username == null) {
+    res.render("error404");
+  } else {
+    return next();
+  };
+};
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   username = null;
@@ -15,7 +23,7 @@ router.get('/', function(req, res, next) {
 });
 
 /* Use this route to make testing /main easier */
-router.get('/main', function(req, res, next) {  
+router.get('/main', isLoggedIn, function(req, res, next) {  
   //console.log('Getting Main Page');
   //console.log('username: ' + username);
   details_dict = {}
@@ -32,14 +40,10 @@ router.get('/main', function(req, res, next) {
   finalthread_dict = Object.assign({}, thread_dict3,tmpthread_dict);
   //console.log("Final Threads : " + JSON.stringify(finalthread_dict));
 
-  if (username != null) {
-    Promise.resolve(main_page.UniqueCourse(username)).then(function(value){
-      //console.log(value);  value = ['CZ3003','CZ4002']
-      res.render('main_page',{coursecode: value, title: 'Main Page', username: username, data: finalthread_dict })
-    });
-  } else {
-    res.render('error404');
-  }
+  Promise.resolve(main_page.UniqueCourse(username)).then(function(value){
+    //console.log(value);  value = ['CZ3003','CZ4002']
+    res.render('main_page',{coursecode: value, title: 'Main Page', username: username, data: finalthread_dict })
+  });
 });
 
 router.post('/main', function(req, res, next) {
@@ -126,19 +130,19 @@ router.post('/main', function(req, res, next) {
 });
 
 //post to create Thread can't shift cause button on main page so routing is index.js
-router.post('/createthread', function(req, res, next) {
+router.post('/createthread', isLoggedIn, function(req, res, next) {
   console.log('Creating a Thread');
   res.render('createthread');
 });
 
 //post to create Quiz can't shift cause button on main page so routing is index.js
-router.post('/createquiz', function(req, res, next) {
+router.post('/createquiz', isLoggedIn, function(req, res, next) {
   console.log('Creating a Quiz');
   res.render('createquiz');
 });
 
 //email for notifications
-router.post('/email', function(req, res, next) {
+router.post('/email', isLoggedIn, function(req, res, next) {
   var nodemailer = require('nodemailer');
 
   var transporter = nodemailer.createTransport({
@@ -168,7 +172,7 @@ router.post('/email', function(req, res, next) {
 });
 
 //post to view quiz score
-router.post('/quizscore', function(req, res, next) {
+router.post('/quizscore', isLoggedIn, function(req, res, next) {
   console.log(req.body.testing);
   var cc = req.body.coursecode;
   var quizno = req.body.quizno;
@@ -215,7 +219,7 @@ router.post('/quizscore', function(req, res, next) {
 });
 
 //post to view quiz
-router.post('/viewquiz', function(req, res, next) {
+router.post('/viewquiz', isLoggedIn, function(req, res, next) {
   details_dict = {}
   //Need to add in dynamic coursecode and quiz number
   coursecode = "CZ4047"
@@ -230,7 +234,7 @@ router.post('/viewquiz', function(req, res, next) {
 });
 
 //up vote and down vote
-router.post('/votepost', function(req, res, next) {
+router.post('/votepost', isLoggedIn, function(req, res, next) {
   console.log(req.body);
   var coursecode = "CZ"+req.body.threadid.split("CZ")[1]
   var threadid = req.body.threadid.split("CZ")[0];
@@ -243,7 +247,7 @@ router.post('/votepost', function(req, res, next) {
 });
 
 //edit a particular post
-router.post('/editpost', function(req, res, next) {
+router.post('/editpost', isLoggedIn, function(req, res, next) {
   
   console.log('Editing Post');
 
@@ -259,7 +263,7 @@ router.post('/editpost', function(req, res, next) {
 });
 
 //delete a post
-router.post('/deletepost', function(req, res, next) {
+router.post('/deletepost', isLoggedIn, function(req, res, next) {
   // Can add in logic to check if post belongs to user before deleting and sending res back to front end
   console.log('Deleting Post');
   var coursecode = "CZ4047";
@@ -272,7 +276,7 @@ router.post('/deletepost', function(req, res, next) {
 });
 
 //create a post
-router.post('/makepost', function(req, res, next) {
+router.post('/makepost', isLoggedIn, function(req, res, next) {
   console.log('Create post test');
   var coursecode = "CZ4047";
   var threadno = "Thread1";
@@ -295,7 +299,7 @@ router.post('/makepost', function(req, res, next) {
 });
 
 // Post and Get Method for displaying of Posts on particular thread
-router.post('/main/:thread_id', function(req, res, next){
+router.post('/main/:thread_id', isLoggedIn, function(req, res, next){
   
   details_dict = {};
   details_dict = db.getAllPosts(req.body.coursecode,req.body.id);
@@ -303,26 +307,21 @@ router.post('/main/:thread_id', function(req, res, next){
   res.render('thread', { title: req.body.title, data: details_dict, threadid: req.body.id });
 });
 
-router.get('/main/:thread_id', function(req, res, next){
+router.get('/main/:thread_id', isLoggedIn, function(req, res, next){
   
   details_dict = {};
   details_dict = db.getAllPosts(req.body.coursecode,req.body.id);
   
   res.render('thread', { title: req.body.title, data: details_dict, threadid: req.body.id });
 });
-
 
 router.get('/thread', function(req, res, next){
   res.render('thread', { title: 'Developer', data: thread.get_thread_replies(0), threadid: thread.get_thread_size(0)});
 });
 
 // view quiz
-router.get('/quiz', function(req, res, next){ 
-  if (username != null) {
-    res.render('quiz');
-  } else {
-    res.render('error404');
-  }
+router.get('/quiz', isLoggedIn, function(req, res, next){
+  res.render('quiz');
 });
 
 module.exports = router;
