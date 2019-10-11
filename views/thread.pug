@@ -28,25 +28,25 @@ block content
           .filler
         .row#extra_row
           .quote
-            form.float-left(method = 'POST' action = '/replypost' )
+            form.float-left(method = 'POST' action = '#' )
               input(type="hidden" name="threadid" value=threadid)
               button#quote_button(type="submit" name="returnarrow" value=index+";1")
                 img#quote(src='/images/quote.png' alt="ReplyButton")
             h5.float-left Quote
           .report
-            form.float-left(method = 'POST' action = '/reportpost')
+            form.float-left(method = 'POST' action = '#')
               input(type="hidden" name="threadid" value=threadid)
               button#report_button(type="submit" name="reportarrow" value=index+";2")
                 img#report(src='/images/report.png' alt="ReportButton")
             h5.float-left Report
           .edit
-            form.float-left(method = 'POST' action = '/editpost')
+            form.float-left(method = 'POST' action = '#')
               input(type="hidden" name="threadid" value=threadid)
               button#edit_button(type="submit" name="editarrow" value=index+";2")
                 img#edit(src='/images/edit.png' alt="EditButton")
             h5.float-left Edit Post
           .delete
-            form.float-left(method = 'POST' action = '/deletepost')
+            form.float-left(method = 'POST' action = '#')
               input(type="hidden" name="threadid" value=threadid)
               button#delete_button(type="submit" name="deletearrow" value=index+";2")
                 img#delete(src='/images/delete-bin.png' alt="DeleteButton")
@@ -55,27 +55,58 @@ block content
   br
   .container-fluid#thread_buttons
     .row
-      .reply
-        button.btn.btn-primary#reply-button(type='submit') 
-          img.float-left(src="/images/add.png" alt="ReplyButton")
+      .add
+        button.btn.btn-primary#add-button(type='submit') 
+          img.float-left(src="/images/add.png" alt="AddButton")
+          img.float-left(src="/images/minus.png" alt="MinusButton")
           h5.float-left Add Reply
       .watch
         button.btn.btn-primary#watch-button(type='submit') 
           img.float-left(src="/images/watch.png" alt="WatchButton")
           h5.float-left Watch
       .filler
-    .row
-      .col-lg-12
-        br
-        br
-        br
-    .row
       .return
         form(method='GET' action='/main')
-          button.btn.btn-primary#return-button(type='submit')
+          button.btn.btn-light#return-button(type='submit')
             img.float-left(src="/images/return_arrow.png" alt="ReturnButton")
             h5.float-left Return
+    .row
+      .reply
+        form#reply-form(method='POST' action='#')
+          br
+          input(type='text' name='title' placeholder='Title')
+          br
+          br
+          input(type='textarea' name='content' placeholder='Content')
+          br
+          br
+          button.btn.btn-primary#confirm-button(type='submit') Confirm
 
   script.
+
+    $(document).ready(function() {
+      $("#reply-form").hide();
+
+      $("#add-button").click(function() {
+        $("#add-button > img:first-child").toggleClass("transparent");
+        $("#add-button > img:nth-child(2)").toggleClass("opaque");
+
+        if($("#add-button > h5").text() == "Add Reply") {
+          $("#add-button > h5").text("Cancel");
+        } else {
+          $("#add-button > h5").text("Add Reply");
+        }
+
+        $("#reply-form").toggle();
+      });
+
+      $(".quote").click(function() {
+        $("#add-button > img:first-child").addClass("transparent");
+        $("#add-button > img:nth-child(2)").addClass("opaque");
+        $("#add-button > h5").text("Cancel");
+        
+        $("#reply-form").show();
+      });
+    });
 
   link(rel='stylesheet', href='/stylesheets/thread.css')

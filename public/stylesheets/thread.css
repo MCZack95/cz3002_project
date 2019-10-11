@@ -174,25 +174,60 @@ body {
   width: 100%;
 }
 
-.row > .reply {
-  width: 150px;
-}
-
 .row > .watch {
-  width: 200px;
+  margin-left: 2%;
 }
 
-#reply-button, #watch-button {
+.row > .return {
+  margin-left: 2%;
+}
+
+#add-button, #watch-button {
   border-radius: 0px 30px 30px 0px;
 }
 
-#reply-button > img, #watch-button > img, #return-button > img {
+#add-button > img, #watch-button > img, #return-button > img {
   width: 30px;
   height: 30px;
 }
 
-#reply-button > h5, #watch-button > h5, #return-button > h5 {
+#add-button > h5, #watch-button > h5, #return-button > h5 {
   padding-top: 4%;
   margin-left: 5px;
   font-family: 'PN Extrabold';
+}
+
+#add-button > h5 {
+  margin-left: 30px;
+}
+
+.reply {
+  width: 100%;
+}
+
+#add-button {
+  position: relative;
+}
+
+#add-button > img {
+  position: absolute;
+  left: 0;
+  margin-left: 5px;
+  transition: opacity .5s ease-in-out;
+}
+
+#add-button > img:first-child {
+  opacity: 1;
+}
+
+#add-button > img:nth-child(2) {
+  opacity: 0;
+}
+
+#add-button > img.transparent {
+  opacity: 0;
+}
+
+#add-button > img.opaque {
+  opacity: 1;
 }
