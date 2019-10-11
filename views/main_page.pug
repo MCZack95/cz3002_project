@@ -72,12 +72,13 @@ block content
                 default
                   .coursetag #{thread["coursecode"]}
               span#titles #{thread["title"]}
-              #username username
+              #username #{thread["threadowner"]}
             td 
-              p#datetime 25 Dec 2019 00:00:00 AM
-              p#replier by darien 
+              // 25/19/2019 00:00:00AM
+              p#datetime #{thread["dateMod"]}
+              p#replier #{thread["lasteditedby"]}
             td#tdreplies #{thread["noOfReplies"]}
-            td#tdviews 0
+            td#tdviews #{thread["viewcount"]}
 
   br
   br
