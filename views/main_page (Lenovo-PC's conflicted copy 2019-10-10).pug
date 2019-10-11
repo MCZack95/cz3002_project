@@ -1,0 +1,108 @@
+extends layout
+
+block content
+  p(styles = {"text-transform": "uppercase"}) 
+  strong Welcome #{username}
+
+  form(method = 'POST' action = '/createquiz')
+    button.btn.btn-primary(type='submit') New Quiz
+  
+  form(method = 'POST' action = '/votepost')
+    button.btn.btn-primary(type='submit') Upvote/Downvote Post
+
+  form(method = 'POST' action = '/editpost')
+    button.btn.btn-primary(type='submit') Edit Post
+
+  form(method = 'POST' action = '/deletepost')
+    button.btn.btn-primary(type='submit') Delete Post
+
+  form(method = 'POST' action = '/makepost')
+    button.btn.btn-primary(type='submit') Make Post
+
+  form(method = 'POST' action = '/viewquiz')
+    button.btn.btn-primary(type='submit') View Quiz
+
+  nav.navbar.navbar-dark.navbar-expand-sm
+    .navbar-header
+      img#forum_logo(src="/images/discussion_icon.png" alt="NTU Learning Platform")
+      span
+      h5.navbar-brand Discussion Forum
+    .navbar-text
+      h5#filter Search By: Default
+
+    ul.navbar-nav
+      form(method = 'POST' action = '/createthread')
+        button.btn.btn-primary(type='submit') New Thread
+      // Dropdown
+      li.nav-item.dropdown
+        button.btn.btn-primary.dropdown-toggle.coursesbutt(data-toggle="dropdown") Courses
+        .dropdown-menu
+          button.dropdown-item(id='cc0' value='Default' onclick="changeFilter(this)") Reset Filter
+          button.dropdown-item(id='cc1' value='code1' onclick="changeFilter(this)") Course Code 1
+          button.dropdown-item(id='cc2' value='code2' onclick="changeFilter(this)") Course Code 2
+          button.dropdown-item(id='cc3' value='code3' onclick="changeFilter(this)") Course Code 3
+  br
+  table.table
+    thead.thead-dark
+      tr
+        th Title
+        th Course Code
+        th Number of Replies
+        //th Rating
+    tbody#table-records
+      each thread in data
+        //- tr(data-href='//localhost:3000/main/' + `${thread.t_id}`)
+        tr(data-href=`${thread["id"]}` id=`${thread["id"]}`)
+          td #{thread["Title"]}
+          td #{thread["coursecode"]}
+          td #{thread["noOfReplies"]}
+          //td #{thread["rating"]}
+  br
+  br
+  br
+
+  form(method = 'GET' action = '/')
+      button.btn.btn-primary(type='submit') Log Out
+
+  script.
+
+    document.addEventListener('DOMContentLoaded', () => {
+      var rows = document.querySelectorAll('tr[data-href]');
+      rows.forEach(row => {
+        row.addEventListener('click', () => {
+          //- window.location.href = row.dataset.href;
+          //var threadTitle = document.getElementByNames(row.courseCode);
+          var threadTitle = document.getElementById(row.id).getElementsByTagName('td')[0].innerText;
+          var courseCode = document.getElementById(row.id).getElementsByTagName('td')[1].innerText;
+          console.log("Thread : " + threadTitle + " / Course Code : " + courseCode);
+          toThreadViaPost('/main/' + row.id, {'id': row.id, 'title': threadTitle, 'coursecode' : courseCode});
+        });
+      });
+    });
+
+    function toThreadViaPost(path, params, method='post') {
+
+      const form = document.createElement('form');
+      form.method = method;
+      form.action = path;
+
+      for (const key in params) {
+        if (params.hasOwnProperty(key)) {
+          const hiddenField = document.createElement('input');
+          hiddenField.type = 'hidden';
+          hiddenField.name = key;
+          hiddenField.value = params[key];
+
+          form.appendChild(hiddenField);
+        }
+      }
+
+      document.body.appendChild(form);
+      form.submit();
+    }
+
+    function changeFilter(code){
+      document.getElementById('filter').innerHTML = 'Search By: ' + code.value;
+    }
+    
+  link(rel='stylesheet', href='/stylesheets/main_page.css')

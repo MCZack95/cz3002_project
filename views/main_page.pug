@@ -45,7 +45,7 @@ block content
         .dropdown-menu
           button.dropdown-item(id='cc0' value='Default' onclick="changeFilter(this)") Reset Filter
           each coursename in coursecode
-            button.dropdown-item(id=`${coursename}` value=`${coursename}` onclick="changeFilter(this);toCourseDropdown()") #{coursename}
+            button.dropdown-item(id=`${coursename}` value=`${coursename}` onclick="changeFilter(this)") #{coursename}
             //button.dropdown-item(id='cc2' value='code2' onclick="changeFilter(this)") Course Code 2
   br
 
@@ -99,7 +99,6 @@ block content
     function toCourseDropdown(){
       console.log("")
     }
-
 
     document.addEventListener('DOMContentLoaded', () => {
       var rows = document.querySelectorAll('tr[data-href]');
