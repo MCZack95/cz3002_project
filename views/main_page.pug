@@ -85,6 +85,11 @@ block content
 
   script.
 
+    $('.dropdown-item').click((e)=>{
+      alert(e.target.value);
+      //console.log(e.target.value)
+    })
+
     const input = document.getElementById("search-input");
     const searchBtn = document.getElementById("search-btn");
 
@@ -140,7 +145,13 @@ block content
     }
 
     function changeFilter(code){
-      document.getElementById('filter').innerHTML = 'Search By: ' + code.value;
+      if (code.value == "Default"){ 
+        document.getElementById('search-input').value = "";
+      }
+      else{
+        document.getElementById('search-input').value = code.value;
+      }
+      //document.getElementById('search-input').innerHTML = code.value;
     }
     
   link(rel='stylesheet', href='/stylesheets/main_page.css')
