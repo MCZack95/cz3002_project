@@ -145,13 +145,15 @@ block content
     }
 
     function changeFilter(code){
+      document.getElementById('search-input').value = "";
+      /*
       if (code.value == "Default"){ 
         document.getElementById('search-input').value = "";
       }
       else{
         document.getElementById('search-input').value = code.value;
       }
-      //document.getElementById('search-input').innerHTML = code.value;
+      */
     }
     
   link(rel='stylesheet', href='/stylesheets/main_page.css')
