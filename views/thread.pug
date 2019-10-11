@@ -72,7 +72,9 @@ block content
     .row
       .return
         form(method='GET' action='/main')
-          button.btn.btn-primary(type='submit') Return to Main Page
+          button.btn.btn-primary#return-button(type='submit')
+            img.float-left(src="/images/return_arrow.png" alt="ReturnButton")
+            h5.float-left Return
 
   script.
 

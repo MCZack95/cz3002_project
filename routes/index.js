@@ -108,8 +108,6 @@ router.post('/main', function(req, res, next) {
 
     var verified = false;
 
-    
-
     Object.keys(details_dict).forEach(function(key) {
       if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {
         username = req.body.username;
@@ -143,32 +141,31 @@ router.post('/createquiz', function(req, res, next) {
 router.post('/email', function(req, res, next) {
   var nodemailer = require('nodemailer');
 
-var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'liyiase3002@gmail.com',
-    pass: 'Liyi@ase123'
-  }
-});
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'liyiase3002@gmail.com',
+      pass: 'Liyi@ase123'
+    }
+  });
 
-var mailOptions = {
-  from: 'liyiase3002@gmail.com',
-  to: 'cr7roxdswk@gmail.com',
-  subject: 'Sending Email using Node.js',
-  text: 'That was easy!'
-};
+  var mailOptions = {
+    from: 'liyiase3002@gmail.com',
+    to: 'cr7roxdswk@gmail.com',
+    subject: 'Sending Email using Node.js',
+    text: 'That was easy!'
+  };
 
-transporter.sendMail(mailOptions, function(error, info){
-  if (error) {
-    console.log(error);
-  } else {
-    console.log('Email sent: ' + info.response);
-  }
-});
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
 
   res.redirect('.');
 });
-
 
 //post to view quiz score
 router.post('/quizscore', function(req, res, next) {
@@ -214,10 +211,7 @@ router.post('/quizscore', function(req, res, next) {
     console.log("AAA " + answer);
 
     res.render('quizscore', {answers: answer, answerkey: answerkey, details: details_dict, title: title, score: score, quesnos: req.body.testing});
-
-  })
-
-
+  });
 });
 
 //post to view quiz
@@ -232,7 +226,6 @@ router.post('/viewquiz', function(req, res, next) {
   delete details_dict.Title;
   console.log("New : "+ details_dict);
   
-
   res.render('attemptquiz', { quiz: details_dict, title: title, coursecode: coursecode, quizno: quizno});
 });
 
@@ -250,7 +243,6 @@ router.post('/votepost', function(req, res, next) {
 });
 
 //edit a particular post
-
 router.post('/editpost', function(req, res, next) {
   
   console.log('Editing Post');
@@ -264,10 +256,9 @@ router.post('/editpost', function(req, res, next) {
 
   //need to know how to refresh the page with new data
   res.render('createquiz');
-
 });
-//delete a post
 
+//delete a post
 router.post('/deletepost', function(req, res, next) {
   // Can add in logic to check if post belongs to user before deleting and sending res back to front end
   console.log('Deleting Post');
@@ -278,17 +269,14 @@ router.post('/deletepost', function(req, res, next) {
 
   //need to know how to refresh the page wih new data
   res.render('createquiz');
-
 });
 
 //create a post
-
 router.post('/makepost', function(req, res, next) {
   console.log('Create post test');
   var coursecode = "CZ4047";
   var threadno = "Thread1";
 
-  
   /** Need to pass in dynamic form data from pug
   var newPost =
     {
@@ -304,10 +292,7 @@ router.post('/makepost', function(req, res, next) {
   db.makePost(coursecode,threadno,newPost);
   //need to know how to refresh the page with new data
   res.render('createquiz');
-
-
-})
-
+});
 
 // Post and Get Method for displaying of Posts on particular thread
 router.post('/main/:thread_id', function(req, res, next){

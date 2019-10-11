@@ -5,7 +5,7 @@ var firebase = require('firebase');
 
 router.get('/', function(req, res, next) {
     res.render('createthread');
-})
+});
 
 router.post('/newthread', function(req, res, next) {
 
