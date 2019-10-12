@@ -74,12 +74,12 @@ block content
       .reply
         form#reply-form(method='POST' action='#')
           br
-          input#reply-title(type='text' name='title' placeholder='Title')
-          br
-          br
-          input#reply-content(type='textarea' name='content' placeholder='Content')
-          br
-          br
+          .form-group#reply-title
+            label Title
+            input.form-control(type='text' name='title')
+          .form-group#reply-content
+            label Content
+            textarea.form-control(type='textarea' name='content')
           button.btn.btn-primary#confirm-button(type='submit') Confirm
 
   script.
@@ -93,12 +93,18 @@ block content
 
         if($("#add-button > h5").text() == "Add Reply") {
           $("#add-button > h5").text("Cancel");
-          $("#reply-title").removeAttr("disabled");
-          $("#reply-content").removeAttr("disabled");
+          $("#reply-title > input").removeAttr("disabled");
+          $("#reply-content > textarea").removeAttr("disabled");
+          $("#reply-content > textarea").removeAttr("disabled");
+          $("#confirm-button").removeAttr("disabled");
         } else {
+          $(".reply > form").attr("height", "0");
           $("#add-button > h5").text("Add Reply");
-          $("#reply-title").attr("disabled", "true");
-          $("#reply-content").attr("disabled", "true");
+          $("#reply-title > input").text("");
+          $("#reply-content > textarea").text("");
+          $("#reply-title > input").attr("disabled", "true");
+          $("#reply-content > textarea").attr("disabled", "true");
+          $("#confirm-button").attr("disabled", "true");
         }
       });
 
@@ -108,8 +114,12 @@ block content
         $("#add-button > h5").text("Cancel");
         
         $(".reply > form").addClass("opaque");
-        $("#reply-title").removeAttr("disabled");
-        $("#reply-content").removeAttr("disabled");
+        $("#reply-title > input").removeAttr("disabled");
+        $("#reply-content > textarea").removeAttr("disabled");
+        $("#confirm-button").removeAttr("disabled");
+
+        $("#reply-content > textarea").text($($($($($($(this).parent().get(0)).parent().get(0)).children().get(0)).children().get(2)).children().get(0)).text() + " - " + $($($($($($(this).parent().get(0)).parent().get(0)).children().get(0)).children().get(2)).children().get(1)).text());
+        console.log($($($($($($(this).parent().get(0)).parent().get(0)).children().get(0)).children().get(2)).children().get(0)).text());
       });
     });
 

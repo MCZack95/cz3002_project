@@ -230,6 +230,7 @@ body {
 
 .reply {
   width: 100%;
+  height: 100%;
 }
 
 .reply > form {
@@ -246,7 +247,20 @@ body {
   width: 100%;
 }
 
+#reply-title > label {
+  font-family: 'PN Alt Bold';
+  color: white;
+}
+
 #reply-content {
   width: 100%;
+}
+
+#reply-content > label {
+  font-family: 'PN Alt Bold';
+  color: white;
+}
+
+#reply-content > textarea {
   height: 200px;
 }
