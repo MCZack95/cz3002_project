@@ -10,6 +10,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/newquiz', function(req, res, next) {
 
+  
   console.log(req.body.title);
 
   details_dict = {}

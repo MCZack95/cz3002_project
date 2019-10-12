@@ -33,7 +33,7 @@ router.get('/main', function(req, res, next) {
   console.log("Final Threads : " + JSON.stringify(finalthread_dict));
 
   if (username != null) {
-    res.render('main_page', { title: 'Main Page', username: username, data: finalthread_dict });
+    res.render('main_page', { title: 'Main Page', username: username, data: finalthread_dict});
   } else {
     res.render('error404');
   }
@@ -116,6 +116,65 @@ router.post('/createquiz', function(req, res, next) {
   console.log('Creating a Quiz');
   res.render('createquiz');
 });
+
+//calendar test
+router.post('/calendar', function(req, res, next) {
+  var events = {"11/10/2019": ["test","damn","gg"]}; 
+
+  var details_dict = {};
+  var details = firebase.database().ref('/consultations/dates');
+ 
+
+  details.once('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    console.log("\n");
+    //console.log(snapshot.val());
+  
+    //var testdic = {"dates" : ["12/9/19","18/9/19"], "12/9/19": "event1", "18/9/19": "event2"};
+    //var dic2 = {"date1": {"date":"12/10/2019", "con1": {"timefrom" : "08:00", "timeto" : "09:00", "course" : "CZ4047", "prof" : "Li Yi", "booked": 0}}};
+    var str = JSON.stringify(details_dict).replace(/"/g, "'");
+    var str2 = str.replace(/-/g, "/");
+    res.render('calendar', {dict: str});
+    
+    
+  })
+
+  
+});
+
+
+//calendar test
+router.post('/setconsult', function(req, res, next) {
+  console.log('SET!');
+  //assume 1 a day
+  var details = firebase.database().ref('/consultations/dates');
+
+  details.once('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    var newindex = Object.keys(details_dict).length + 1;
+
+    var newConsult = 
+    {
+      prof: "Li Yi",
+      timefrom: req.body.timefrom,
+      timeto: req.body.timeto,
+      course: "CZ4047",
+      booked: 0,
+      
+    }
+    //req.body.datetoday,
+    var details = firebase.database().ref('/consultations/dates/date' + newindex + "/con1");
+    details.set(newConsult);
+    var details = firebase.database().ref('/consultations/dates/date' + newindex);
+    details.child("date").set(req.body.datetoday);
+
+  })
+
+  res.render('createquiz');
+});
+
 
 //email for notifications
 router.post('/email', function(req, res, next) {
@@ -224,6 +283,7 @@ router.post('/votepost', function(req, res, next) {
   db.votePost(coursecode,threadid,postid,IsVote);
   
   //need to know how to refresh the page with new data
+  //res.redirect(req.get('referer'));
   res.render('createquiz');
 });
 
