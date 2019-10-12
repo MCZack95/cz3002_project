@@ -40,18 +40,10 @@ router.get('/main', isLoggedIn, function(req, res, next) {
   finalthread_dict = Object.assign({}, thread_dict3,tmpthread_dict);
   //console.log("Final Threads : " + JSON.stringify(finalthread_dict));
 
-<<<<<<< HEAD
-  if (username != null) {
-    res.render('main_page', { title: 'Main Page', username: username, data: finalthread_dict});
-  } else {
-    res.render('error404');
-  }
-=======
   Promise.resolve(main_page.UniqueCourse(username)).then(function(value){
     //console.log(value);  value = ['CZ3003','CZ4002']
     res.render('main_page',{coursecode: value, title: 'Main Page', username: username, data: finalthread_dict })
   });
->>>>>>> 4f8b56354557b742f2499beaf0e5c5ffdfbdfa65
 });
 
 router.post('/main', function(req, res, next) {
