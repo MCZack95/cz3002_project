@@ -1,0 +1,34 @@
+link(rel='stylesheet', href='/stylesheets/index.css')
+link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous")
+
+.container
+  img#ewhiteboard(src="/images/ewhiteboard.png")
+
+  form(method='POST' action='/main')
+    input#username(type='text' name='username' placeholder='username' required)
+    br
+    .passwordcontainer
+      input#password(type='password' name='password' placeholder='password' required)
+      button#showpassword(type='button' onclick='showPassword()' maxlength='12') SHOW
+    a#forgotpassword(href='https://www.mayoclinic.org/diseases-conditions/amnesia/symptoms-causes/syc-20353360') Forgot your password?
+    br
+    button.btn#loginbutt(type='submit') 
+      span Log In
+
+script.
+
+  function showPassword() {
+    var password = document.getElementById("password");
+    var showPasswordButton = document.getElementById("showpassword");
+    if (password.type === "password") {
+      password.type = "text";
+      showPasswordButton.innerHTML = "HIDE";
+    } else {
+      password.type = "password";
+      showPasswordButton.innerHTML = "SHOW";
+    }
+  }
+
+
+//- oninvalid="this.setCustomValidity('Please Enter valid email')"
+//-  oninput="setCustomValidity('')"

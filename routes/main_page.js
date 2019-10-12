@@ -6,7 +6,8 @@ module.exports.get_all_forum_data = () => {
 }
 
 module.exports.UniqueCourse = (t_id) => {
-  return UniqueCourse(t_id);
+  //return Promise.resolve(UniqueCourse(t_id)).then(function(value){return value;})
+  return UniqueCourse(t_id)
 }
 
 // LOCAL METHODS
@@ -16,21 +17,25 @@ function get_data(){
 
 // Get Unique Course ID
 function UniqueCourse(t_id){
-  firebase.database().ref('/users').on('value',
-  function(snapshot) {
-    details = snapshot.val()
+  var courseArray = []
+  return Promise.resolve(
+    firebase.database().ref('/users').once('value',function(snapshot) {})
+    ).then(function(snapshot){
+
+    details = snapshot.val();
     //console.log(snapshot.val());
-    console.log(t_id);
 
     for (var key in details) {
       if (details.hasOwnProperty(key)) {
         //console.log(key + " , " + details[key].username + "\n");
-        if (details[key].username == t_id)
-          return details[key].courses.split(',');
+        if (details[key].username == t_id){
+          //console.log("Details of Array " + details[key].courses.split(','));
+          courseArray = details[key].courses.split(',');
+        }
       }
     }
-  });
-  return [];
+    return courseArray;
+    })
 }
 
 // Filter Course

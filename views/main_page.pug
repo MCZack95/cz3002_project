@@ -25,49 +25,109 @@ block content
   form(method = 'POST' action = '/email')
     button.btn.btn-primary(type='submit') Email
 
+<<<<<<< HEAD
   form(method = 'POST' action = '/calendar')
     button.btn.btn-primary(type='submit') Calendar
+=======
+  br
+>>>>>>> 4f8b56354557b742f2499beaf0e5c5ffdfbdfa65
 
   nav.navbar.navbar-dark.navbar-expand-sm
     .navbar-header
-      img#forum_logo(src="/images/discussion_icon.png" alt="NTU Learning Platform")
+      img#forum_logo(src="/images/discuss.png" alt="NTU Learning Platform")
       span
       h5.navbar-brand Discussion Forum
-    .navbar-text
-      h5#filter Search By: Default
 
     ul.navbar-nav
+      form#content(method='GET' action='/main')
+        input#search-input.input(type='text', name='input')
+        button#search-btn.search(type='reset')
       form(method = 'POST' action = '/createthread')
-        button.btn.btn-primary(type='submit') New Thread
+        button.btn.btn-light(type='submit') New Thread
       // Dropdown
       li.nav-item.dropdown
-        button.btn.btn-primary.dropdown-toggle.coursesbutt(data-toggle="dropdown") Courses
+        button.btn.btn-light.dropdown-toggle.coursesbutt(data-toggle="dropdown") Courses
         .dropdown-menu
           button.dropdown-item(id='cc0' value='Default' onclick="changeFilter(this)") Reset Filter
-          button.dropdown-item(id='cc1' value='code1' onclick="changeFilter(this)") Course Code 1
-          button.dropdown-item(id='cc2' value='code2' onclick="changeFilter(this)") Course Code 2
-          button.dropdown-item(id='cc3' value='code3' onclick="changeFilter(this)") Course Code 3
+          each coursename in coursecode
+            button.dropdown-item(id=`${coursename}` value=`${coursename}` onclick="changeFilter(this)") #{coursename}
+            //button.dropdown-item(id='cc2' value='code2' onclick="changeFilter(this)") Course Code 2
   br
+
   table.table
-    thead.thead-dark
+    thead.headhead
       tr
-        th Title
-        th Course Code
-        th Number of Replies
+        th#title Title
+        th#latestpost Latest Post
+        th#replies Replies
+        th#views Views
         //th Rating
-    tbody#table-records
-      each thread in data
-        //- tr(data-href='//localhost:3000/main/' + `${thread.t_id}`)
-        tr(data-href=`${thread["id"]}` id=`${thread["id"]}`)
-          td #{thread["title"]}
-          td #{thread["coursecode"]}
-          td #{thread["noOfReplies"]}
-          //td #{thread["rating"]}
+      tbody
+        each thread in data
+          tr(data-href=`${thread["id"]}` id=`${thread["id"]}`)
+            td
+              - var course = `${thread['coursecode']}`
+              case course
+                when 'CZ3002'
+                  .coursetag(style='background-color: orange') #{thread["coursecode"]}
+                when 'CZ3003'
+                  .coursetag(style='background-color: green') #{thread["coursecode"]}
+                when 'CZ4047'
+                  .coursetag(style='background-color: black') #{thread["coursecode"]}
+                default
+                  .coursetag #{thread["coursecode"]}
+              span#titles #{thread["title"]}
+              #username #{thread["threadowner"]}
+            td 
+              // 25/19/2019 00:00:00AM
+              p#datetime #{thread["dateMod"]}
+              p#replier #{thread["lasteditedby"]}
+            td#tdreplies #{thread["noOfReplies"]}
+            td#tdviews #{thread["viewcount"]}
+
   br
   br
   br
 
   script.
+
+    $('.dropdown-item').click((e)=>{
+      alert(e.target.value);
+      
+      const url = "/main";
+      fetch(url, {
+        method : "POST",
+        body : JSON.stringify({
+          'username' : username,
+          'course' : e.target.value,
+        })
+        // -- or --
+        // body : JSON.stringify({
+        // user : document.getElementById('user').value,
+        // ...
+        // })
+      }).then(
+        response => response.text() // .json(), etc.
+        // same as function(response) {return response.text();}
+      ).then(
+      html => console.log(html)
+      );
+    })
+
+    const input = document.getElementById("search-input");
+    const searchBtn = document.getElementById("search-btn");
+
+    const expand = () => {
+      searchBtn.classList.toggle("close");
+      input.classList.toggle("square");
+    };
+
+    searchBtn.addEventListener("click", expand);
+
+
+    function toCourseDropdown(){
+      console.log("")
+    }
 
     document.addEventListener('DOMContentLoaded', () => {
       var rows = document.querySelectorAll('tr[data-href]');
@@ -75,8 +135,12 @@ block content
         row.addEventListener('click', () => {
           //- window.location.href = row.dataset.href;
           //var threadTitle = document.getElementByNames(row.courseCode);
-          var threadTitle = document.getElementById(row.id).getElementsByTagName('td')[0].innerText;
-          var courseCode = document.getElementById(row.id).getElementsByTagName('td')[1].innerText;
+          //- var threadTitle = document.getElementById(row.id).getElementsByTagName('td')[0].innerText;
+          console.log(row);
+          var threadTitle = document.getElementById(row.id).getElementsByTagName('span')[0].innerText;
+          console.log(threadTitle);
+          var courseCode = document.getElementById(row.id).getElementsByTagName('div')[0].innerText;
+          console.log(courseCode);
           console.log("Thread : " + threadTitle + " / Course Code : " + courseCode);
           toThreadViaPost('/main/' + row.id, {'id': row.id, 'title': threadTitle, 'coursecode' : courseCode});
         });
@@ -105,7 +169,7 @@ block content
     }
 
     function changeFilter(code){
-      document.getElementById('filter').innerHTML = 'Search By: ' + code.value;
+      document.getElementById('search-input').value = "";
     }
     
   link(rel='stylesheet', href='/stylesheets/main_page.css')

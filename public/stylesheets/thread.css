@@ -1,48 +1,84 @@
+@import 'fonts.css';
+
 body {
   background-image: url('/images/plain-background.png')
 }
 
 .thread-title {
-  background-color: #5599AA;
-  padding: 20px 20px 20px 20px;
+  width: 98.4%;
+  border-radius: 30px;
+  background-color: #333333;
+  -webkit-box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
 }
 
 .thread-title > h1 {
+  padding: 1% 1% 1% 1%;
   color: white;
+  font-family: 'PN Bold';
 }
 
-#threads > div {
-  margin-top: 20px;
-  background-color: beige;
+#threads {
+  width: 100%;
 }
 
 #container_row {
   width: 100%;
-  padding: 1% 1% 1% 1%;
+  margin-top: 20px;
+  border-radius: 15px;
+  background-color: #57F2FF;
+  background-image: repeating-linear-gradient(135deg, #2BDDF9, #57F2FF 10%, #2BDDF9 20%);
+}
+
+#container_row:hover {
+  box-shadow: 10px 10px #0B1A51;
+  transform: scale(1.01);
+  transition: .2s ease-in;
 }
 
 #main_row {
   width: 100%;
-  padding: 1% 1% 1% 1%;
-  margin-left: 1%;
 }
 
 #main_row > .score {
-  width: 10px;
+  width: 1%;
+  margin-left: 4%;
   align-self: center;
 }
 
+#main_row > .score > b {
+  font-size: 30px;
+}
+
 #main_row > .vote {
-  width: 50px;
-  margin-left: 2%;
+  width: 4%;
+  margin-left: 4%;
   align-self: center;
+}
+
+#main_row > .vote > #up_form {
+  margin-top: 1%;
 }
 
 #main_row > .content {
   width: 80%;
-  margin-left: 5%;
-  padding-left: 2%;
-  text-align: left;
+  margin-left: 2%;
+}
+
+#main_row > .filler {
+  width: 5%;
+}
+
+#username_row {
+  border-bottom: 1px solid black;
+  border-bottom-style: dotted;
+}
+
+#username_row > h3 {
+  padding-top: 2%;
+  padding-bottom: 2%;
+  font-family: 'PN Alt Bold';
 }
 
 #content_row {
@@ -50,8 +86,11 @@ body {
 }
 
 #content_row > h5 {
-  word-break: break-all;
+  padding-top: 2%;
+  padding-bottom: 1%;
+  word-wrap: break-word;
   overflow-y: auto;
+  font-family: 'PN Thin';
 }
 
 #up, #down {
@@ -59,18 +98,25 @@ body {
   height: 30px;
 }
 
+#up_button, #down_button {
+  background: transparent;
+  border: transparent;
+}
+
 #down_form {
   margin-top: 50%;
 }
 
-#quote:hover, #report:hover, #up:hover, #down:hover {
-  opacity: 0;
+#up_button:hover, #down_button:hover {
+  cursor: pointer;
+  transform: scale(1.5);
   transition: .5s ease;
 }
 
 #extra_row {
   width: 100%;
   margin-left: 1%;
+  margin-top: 1%;
 }
 
 #extra_row > .report, .edit, .delete {
@@ -79,11 +125,8 @@ body {
 
 .quote > h5, .report > h5, .edit > h5, .delete > h5 {
   margin-left: 5px;
-}
-
-#quote, #report, #edit, #delete {
-  width: 20px;
-  height: 20px;
+  margin-top: 2px;
+  font-family: 'PN Alt Light';
 }
 
 .quote {
@@ -102,6 +145,89 @@ body {
   width: 140px;
 }
 
+#quote, #report, #edit, #delete {
+  width: 20px;
+  height: 20px;
+}
+
+#quote_button, #report_button, #edit_button, #delete_button {
+  background: transparent;
+  border: transparent;
+}
+
+.quote, .report, .edit, .delete {
+  border-radius: 10px;
+}
+
+.quote:hover, .report:hover, .edit:hover, .delete:hover {
+  cursor: pointer;
+  box-shadow: 5px 5px #0B1A51;
+  transform: translate(0px, -10px);
+  transition: .5s ease;
+}
+
 #thread_buttons {
   width: 100%;
+}
+
+#thread_buttons > .row {
+  width: 100%;
+}
+
+.row > .watch {
+  margin-left: 2%;
+}
+
+.row > .return {
+  margin-left: 2%;
+}
+
+#add-button, #watch-button {
+  border-radius: 0px 30px 30px 0px;
+}
+
+#add-button > img, #watch-button > img, #return-button > img {
+  width: 30px;
+  height: 30px;
+}
+
+#add-button > h5, #watch-button > h5, #return-button > h5 {
+  padding-top: 4%;
+  margin-left: 5px;
+  font-family: 'PN Extrabold';
+}
+
+#add-button > h5 {
+  margin-left: 30px;
+}
+
+.reply {
+  width: 100%;
+}
+
+#add-button {
+  position: relative;
+}
+
+#add-button > img {
+  position: absolute;
+  left: 0;
+  margin-left: 5px;
+  transition: opacity .5s ease-in-out;
+}
+
+#add-button > img:first-child {
+  opacity: 1;
+}
+
+#add-button > img:nth-child(2) {
+  opacity: 0;
+}
+
+#add-button > img.transparent {
+  opacity: 0;
+}
+
+#add-button > img.opaque {
+  opacity: 1;
 }

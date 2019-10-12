@@ -9,68 +9,104 @@ block content
       -var index =post.id
       .row#container_row
         .row#main_row
-          .score(align="center")
+          .score
             b#score #{post.noOfVotes}
-          .vote(align="center")
+          .vote
             form#up_form(method = 'POST' action = '/votepost')
               input(type="hidden" name="threadid" value=threadid)            
-              button(type="submit" name="votebutton" value=index+";3")
-                img.float-left#up(src='/images/thumbs_up.png' alt="VoteButton")
+              button#up_button(type="submit" name="votebutton" value=index+";3")
+                img#up(src='/images/thumbs_up.png' alt="VoteButton")
             form#down_form(method = 'POST' action = '/votepost')
               input(type="hidden" name="threadid" value=threadid)
-              button(type="submit" name="votebutton" value=index+";4")
-                img.float-left#down(src='/images/thumbs_down.png' alt="DownvoteButton")      
+              button#down_button(type="submit" name="votebutton" value=index+";4")
+                img#down(src='/images/thumbs_down.png' alt="DownvoteButton")      
           .content
             .row#username_row
               h3 #{post.username}
             .row#content_row
               h5 #{post.content}
+          .filler
         .row#extra_row
           .quote
-            form.float-left(method = 'POST' action = '/replypost' )
+            form.float-left(method = 'POST' action = '#' )
               input(type="hidden" name="threadid" value=threadid)
-              button(type="submit" name="returnarrow" value=index+";1")
-                img.float-left#quote(src='/images/return_arrow.png' alt="ReplyButton")
+              button#quote_button(type="submit" name="returnarrow" value=index+";1")
+                img#quote(src='/images/quote.png' alt="ReplyButton")
             h5.float-left Quote
           .report
-            form.float-left(method = 'POST' action = '/reportpost')
+            form.float-left(method = 'POST' action = '#')
               input(type="hidden" name="threadid" value=threadid)
-              button(type="submit" name="reportarrow" value=index+";2")
-                img.float-left#report(src='/images/exclamation_mark.png' alt="ReportButton")
+              button#report_button(type="submit" name="reportarrow" value=index+";2")
+                img#report(src='/images/report.png' alt="ReportButton")
             h5.float-left Report
           .edit
-            form.float-left(method = 'POST' action = '/editpost')
+            form.float-left(method = 'POST' action = '#')
               input(type="hidden" name="threadid" value=threadid)
-              button(type="submit" name="editarrow" value=index+";2")
-                img.float-left#edit(src='/images/edit.png' alt="EditButton")
+              button#edit_button(type="submit" name="editarrow" value=index+";2")
+                img#edit(src='/images/edit.png' alt="EditButton")
             h5.float-left Edit Post
           .delete
-            form.float-left(method = 'POST' action = '/deletepost')
+            form.float-left(method = 'POST' action = '#')
               input(type="hidden" name="threadid" value=threadid)
-              button(type="submit" name="deletearrow" value=index+";2")
-                img.float-left#delete(src='/images/delete-bin.png' alt="DeleteButton")
+              button#delete_button(type="submit" name="deletearrow" value=index+";2")
+                img#delete(src='/images/delete-bin.png' alt="DeleteButton")
             h5.float-left Delete Post
 
   br
   .container-fluid#thread_buttons
     .row
-      .col-lg-1
-        button.btn.btn-primary(type='submit' align='left') Add Reply
-      .col-lg-1
-        button.btn.btn-primary(type='submit' align='left') Watch this Thread
-      .col-lg-10
-    .row
-      .col-lg-12
-        br
-        br
-        br
-    .row
-      .col-lg-6
+      .add
+        button.btn.btn-primary#add-button(type='submit') 
+          img.float-left(src="/images/add.png" alt="AddButton")
+          img.float-left(src="/images/minus.png" alt="MinusButton")
+          h5.float-left Add Reply
+      .watch
+        button.btn.btn-primary#watch-button(type='submit') 
+          img.float-left(src="/images/watch.png" alt="WatchButton")
+          h5.float-left Watch
+      .filler
+      .return
         form(method='GET' action='/main')
-          button.btn.btn-primary(type='submit') Return to Main Page
-      .col-lg-6
-  
+          button.btn.btn-light#return-button(type='submit')
+            img.float-left(src="/images/return_arrow.png" alt="ReturnButton")
+            h5.float-left Return
+    .row
+      .reply
+        form#reply-form(method='POST' action='#')
+          br
+          input(type='text' name='title' placeholder='Title')
+          br
+          br
+          input(type='textarea' name='content' placeholder='Content')
+          br
+          br
+          button.btn.btn-primary#confirm-button(type='submit') Confirm
+
   script.
 
+    $(document).ready(function() {
+      $("#reply-form").hide();
+
+      $("#add-button").click(function() {
+        $("#add-button > img:first-child").toggleClass("transparent");
+        $("#add-button > img:nth-child(2)").toggleClass("opaque");
+
+        if($("#add-button > h5").text() == "Add Reply") {
+          $("#add-button > h5").text("Cancel");
+        } else {
+          $("#add-button > h5").text("Add Reply");
+        }
+
+        $("#reply-form").toggle();
+      });
+
+      $(".quote").click(function() {
+        $("#add-button > img:first-child").addClass("transparent");
+        $("#add-button > img:nth-child(2)").addClass("opaque");
+        $("#add-button > h5").text("Cancel");
+        
+        $("#reply-form").show();
+      });
+    });
 
   link(rel='stylesheet', href='/stylesheets/thread.css')
