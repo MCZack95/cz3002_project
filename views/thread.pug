@@ -93,8 +93,12 @@ block content
 
         if($("#add-button > h5").text() == "Add Reply") {
           $("#add-button > h5").text("Cancel");
+          $("#reply-title").removeAttr("disabled");
+          $("#reply-content").removeAttr("disabled");
         } else {
           $("#add-button > h5").text("Add Reply");
+          $("#reply-title").attr("disabled", "true");
+          $("#reply-content").attr("disabled", "true");
         }
       });
 
@@ -104,6 +108,8 @@ block content
         $("#add-button > h5").text("Cancel");
         
         $(".reply > form").addClass("opaque");
+        $("#reply-title").removeAttr("disabled");
+        $("#reply-content").removeAttr("disabled");
       });
     });
 
