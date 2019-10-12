@@ -88,7 +88,25 @@ block content
 
     $('.dropdown-item').click((e)=>{
       alert(e.target.value);
-      //console.log(e.target.value)
+      
+      const url = "/main";
+      fetch(url, {
+        method : "POST",
+        body : JSON.stringify({
+          'username' : username,
+          'course' : e.target.value,
+        })
+        // -- or --
+        // body : JSON.stringify({
+        // user : document.getElementById('user').value,
+        // ...
+        // })
+      }).then(
+        response => response.text() // .json(), etc.
+        // same as function(response) {return response.text();}
+      ).then(
+      html => console.log(html)
+      );
     })
 
     const input = document.getElementById("search-input");
@@ -147,14 +165,6 @@ block content
 
     function changeFilter(code){
       document.getElementById('search-input').value = "";
-      /*
-      if (code.value == "Default"){ 
-        document.getElementById('search-input').value = "";
-      }
-      else{
-        document.getElementById('search-input').value = code.value;
-      }
-      */
     }
     
   link(rel='stylesheet', href='/stylesheets/main_page.css')
