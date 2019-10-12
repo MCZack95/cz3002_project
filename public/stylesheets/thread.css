@@ -201,10 +201,6 @@ body {
   margin-left: 30px;
 }
 
-.reply {
-  width: 100%;
-}
-
 #add-button {
   position: relative;
 }
@@ -213,7 +209,7 @@ body {
   position: absolute;
   left: 0;
   margin-left: 5px;
-  transition: opacity .5s ease-in-out;
+  transition: opacity .2s ease-in-out;
 }
 
 #add-button > img:first-child {
@@ -230,4 +226,27 @@ body {
 
 #add-button > img.opaque {
   opacity: 1;
+}
+
+.reply {
+  width: 100%;
+}
+
+.reply > form {
+  opacity: 0;
+  transition: opacity .2s ease-in-out;
+}
+
+.reply > form.opaque {
+  opacity: 1;
+  transition: opacity .2s ease-in-out;
+}
+
+#reply-title {
+  width: 100%;
+}
+
+#reply-content {
+  width: 100%;
+  height: 200px;
 }

@@ -74,10 +74,10 @@ block content
       .reply
         form#reply-form(method='POST' action='#')
           br
-          input(type='text' name='title' placeholder='Title')
+          input#reply-title(type='text' name='title' placeholder='Title')
           br
           br
-          input(type='textarea' name='content' placeholder='Content')
+          input#reply-content(type='textarea' name='content' placeholder='Content')
           br
           br
           button.btn.btn-primary#confirm-button(type='submit') Confirm
@@ -85,19 +85,17 @@ block content
   script.
 
     $(document).ready(function() {
-      $("#reply-form").hide();
 
       $("#add-button").click(function() {
         $("#add-button > img:first-child").toggleClass("transparent");
         $("#add-button > img:nth-child(2)").toggleClass("opaque");
+        $(".reply > form").toggleClass("opaque");
 
         if($("#add-button > h5").text() == "Add Reply") {
           $("#add-button > h5").text("Cancel");
         } else {
           $("#add-button > h5").text("Add Reply");
         }
-
-        $("#reply-form").toggle();
       });
 
       $(".quote").click(function() {
@@ -105,7 +103,7 @@ block content
         $("#add-button > img:nth-child(2)").addClass("opaque");
         $("#add-button > h5").text("Cancel");
         
-        $("#reply-form").show();
+        $(".reply > form").addClass("opaque");
       });
     });
 
