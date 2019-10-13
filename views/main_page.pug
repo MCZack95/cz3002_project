@@ -78,7 +78,9 @@ block content
               #username #{thread["threadowner"]}
             td 
               // 25/19/2019 00:00:00AM
-              p#datetime #{thread["dateMod"]}
+              - var convertDateTime = function(dt) { return moment(Number(dt)).format('DD MMM YYYY hh:mm A '); }
+              - var datetime = convertDateTime(`${thread["dateMod"]}`)
+              p#datetime= datetime
               p#replier #{thread["lasteditedby"]}
             td#tdreplies #{thread["noOfReplies"]}
             td#tdviews #{thread["viewcount"]}
@@ -86,7 +88,9 @@ block content
   br
   br
   br
-
+  
+  script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js" type="text/javascript")
+  
   script.
 
     $('.dropdown-item').click((e)=>{
