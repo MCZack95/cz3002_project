@@ -62,7 +62,8 @@ block content
           h5.float-left Add Reply
       .watch
         button.btn.btn-primary#watch-button(type='submit') 
-          img.float-left(src="/images/watch.png" alt="WatchButton")
+          img.float-left(src="/images/eye_close.png" alt="UnWatchButton")
+          img.float-left(src="/images/eye_open.png" alt="WatchButton")
           h5.float-left Watch
       .filler
       .return
@@ -74,38 +75,73 @@ block content
       .reply
         form#reply-form(method='POST' action='#')
           br
-          input(type='text' name='title' placeholder='Title')
-          br
-          br
-          input(type='textarea' name='content' placeholder='Content')
-          br
-          br
+          .form-group#reply-content
+            label Reply
+            textarea.form-control(name='content' placeholder="Write something here...")
           button.btn.btn-primary#confirm-button(type='submit') Confirm
 
   script.
 
     $(document).ready(function() {
-      $("#reply-form").hide();
 
       $("#add-button").click(function() {
+        $("#add-button").toggleClass("btn-light");
         $("#add-button > img:first-child").toggleClass("transparent");
         $("#add-button > img:nth-child(2)").toggleClass("opaque");
+        $(".reply > form").toggleClass("opaque");
 
         if($("#add-button > h5").text() == "Add Reply") {
           $("#add-button > h5").text("Cancel");
+          $("#reply-content > textarea").removeAttr("disabled");
+          $("#confirm-button").removeAttr("disabled");
         } else {
           $("#add-button > h5").text("Add Reply");
-        }
 
-        $("#reply-form").toggle();
+          if($("#reply_quote").length){
+            $("#reply_quote").remove();
+          }
+
+          $("#reply-content > textarea").val("");
+          $("#reply-content > textarea").attr("disabled", "true");
+          $("#confirm-button").attr("disabled", "true");
+        }
       });
 
       $(".quote").click(function() {
+        $("#add-button").addClass("btn-light");
         $("#add-button > img:first-child").addClass("transparent");
         $("#add-button > img:nth-child(2)").addClass("opaque");
         $("#add-button > h5").text("Cancel");
+
+        if(!$("#reply_quote").length){
+          var quote_text = $($($($($($(this).parent().get(0)).parent().get(0)).children().get(0)).children().get(2)).children().get(0)).text() + " - " + $($($($($($(this).parent().get(0)).parent().get(0)).children().get(0)).children().get(2)).children().get(1)).text();
+          $("#reply-content > label").before("<div id='reply_quote' class='form-group'><label>Quoting</label><img id='close_quote' src='/images/cancel.png'><textarea id='quote_text' class='form-control' type='text' name='quote' disabled>" + quote_text + "</textarea><br/></div>");
+          
+          $("#close_quote").click(function() {
+            $("#reply_quote").remove();
+          });
+        } else {
+          var quote_text = $($($($($($(this).parent().get(0)).parent().get(0)).children().get(0)).children().get(2)).children().get(0)).text() + " - " + $($($($($($(this).parent().get(0)).parent().get(0)).children().get(0)).children().get(2)).children().get(1)).text();
+          $("#quote_text").val(quote_text);
+        }
         
-        $("#reply-form").show();
+        $(".reply > form").addClass("opaque");
+        $("#reply-content > textarea").removeAttr("disabled");
+        $("#confirm-button").removeAttr("disabled");
+      });
+
+      
+
+      $("#watch-button").click(function() {
+        $("#watch-button").toggleClass("btn-light");
+        $("#watch-button > img:first-child").toggleClass("transparent");
+        $("#watch-button > img:nth-child(2)").toggleClass("opaque");
+
+        if($("#watch-button > h5").text() == "Watch") {
+          $("#watch-button > h5").text("Stop");
+        } else {
+          $("#watch-button > h5").text("Watch");
+        }
       });
     });
 
