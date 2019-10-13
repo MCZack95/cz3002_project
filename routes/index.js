@@ -8,14 +8,6 @@ firebase.initializeApp(require('../firebaseconfig.json'));
 
 var username = null;
 
-function isLoggedIn(req, res, next) {
-  if(username == null) {
-    res.render("error404");
-  } else {
-    return next();
-  };
-};
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   username = null;
@@ -23,9 +15,9 @@ router.get('/', function(req, res, next) {
 });
 
 /* Use this route to make testing /main easier */
-router.get('/main', isLoggedIn, function(req, res, next) {  
-  //console.log('Getting Main Page');
-  //console.log('username: ' + username);
+router.get('/main', function(req, res, next) {  
+  console.log('Getting Main Page');
+  console.log('username: ' + username);
   details_dict = {}
   thread_dict1 = {}
   thread_dict2 = {}
@@ -38,105 +30,89 @@ router.get('/main', isLoggedIn, function(req, res, next) {
   thread_dict3=db.getAllThreadsinOneCourse("CZ3003");
   tmpthread_dict = Object.assign({}, thread_dict1, thread_dict2);
   finalthread_dict = Object.assign({}, thread_dict3,tmpthread_dict);
-  //console.log("Final Threads : " + JSON.stringify(finalthread_dict));
+  console.log("Final Threads : " + JSON.stringify(finalthread_dict));
 
-  Promise.resolve(main_page.UniqueCourse(username)).then(function(value){
-    //console.log(value);  value = ['CZ3003','CZ4002']
-    res.render('main_page',{coursecode: value, title: 'Main Page', username: username, data: finalthread_dict })
-  });
+  if (username != null) {
+    res.render('main_page', { title: 'Main Page', username: username, data: finalthread_dict});
+  } else {
+    res.render('error404');
+  }
 });
 
 router.post('/main', function(req, res, next) {
   console.log('Logging in via POST');
-  details_dict = {};
-  thread_dict1 = {};
-  thread_dict2 = {};
-  thread_dict3 = {};
-  finalthread_dict = {};
-  tmpthread_dict = {};
-  
-  var details_promise = new Promise(function(resolve, reject){
-    var details = firebase.database().ref('/users');
-    details.on('value',
-    function(snapshot) {
-      details_dict = snapshot.val();
-      // console.log(snapshot.val());
-      resolve(details_dict);
-    });
-  });
+  details_dict = {}
+  thread_dict1 = {}
+  thread_dict2 = {}
+  thread_dict3 = {}
+  finalthread_dict = {}
+  tmpthread_dict = {}
 
-  //Get threads in each course code
-  var thread1_promise = new Promise(function(resolve, reject){
-    var threaddetails1 = firebase.database().ref('CZ3002/threads');
-    threaddetails1.on('value',
-    function(snapshot) {
-      thread_dict1 = snapshot.val();
-      //console.log("CZ3002 Threads : " + JSON.stringify(snapshot.val()));
-      resolve(thread_dict1);
-    });
-  });
+  var details = firebase.database().ref('/users');
+  details.on('value',
+  function(snapshot) {
+    details_dict = snapshot.val()
+    // console.log(snapshot.val());
+  }); 
 
-  var thread2_promise = new Promise(function(resolve, reject){
-    var threaddetails2 = firebase.database().ref('CZ3003/threads');
-    threaddetails2.on('value',
-    function(snapshot) {
-      thread_dict2 = snapshot.val();
-      //console.log("CZ3003 Threads : " + JSON.stringify(snapshot.val()));
-      resolve(thread_dict2);
-    });
-  });
+  var threaddetails1 = firebase.database().ref('CZ3002/threads');
+  var threaddetails2 = firebase.database().ref('CZ3003/threads');
+  var threaddetails3 = firebase.database().ref('CZ4047/threads');
 
-  var thread3_promise = new Promise(function(resolve, reject){
-    var threaddetails3 = firebase.database().ref('CZ4047/threads');
-    threaddetails3.on('value',
-    function(snapshot) {
-      thread_dict3 = snapshot.val();
-      //console.log("CZ4047 Threads : " + JSON.stringify(snapshot.val()));
-      resolve(thread_dict3);
-    });
-  });
+//Get threads in each course code
+  threaddetails1.on('value',
+  function(snapshot) {
+    thread_dict1 = snapshot.val()
+    console.log("CZ3002 Threads : " + JSON.stringify(snapshot.val()));
+  })
 
-  Promise.all([details_promise, thread1_promise, thread2_promise, thread3_promise]).then(function(values){
-    details_dict = values[0];
-    thread_dict1 = values[1];
-    thread_dict2 = values[2];
-    thread_dict3 = values[3];
+  threaddetails2.on('value',
+  function(snapshot) {
+    thread_dict2 = snapshot.val()
+    console.log("CZ3003 Threads : " + JSON.stringify(snapshot.val()));
+  })
 
-    tmpthread_dict = Object.assign({}, thread_dict1, thread_dict2);
-    finalthread_dict = Object.assign({}, thread_dict3, tmpthread_dict);
-    //console.log("Final Threads : " + JSON.stringify(finalthread_dict));
+  threaddetails3.on('value',
+  function(snapshot) {
+    thread_dict3 = snapshot.val()
+    console.log("CZ4047 Threads : " + JSON.stringify(snapshot.val()));
+  })
 
-    setTimeout(function() { 
-      //console.log('details_dict: ' + JSON.stringify(details_dict));
-    }, 1500);
+  tmpthread_dict = Object.assign({}, thread_dict1, thread_dict2);
+  finalthread_dict = Object.assign({}, thread_dict3,tmpthread_dict);
+  console.log("Final Threads : " + JSON.stringify(finalthread_dict));
 
-    var verified = false;
+  setTimeout(function() { 
+    console.log('details_dict: ' + JSON.stringify(details_dict));
+  }, 1500);
 
-    Object.keys(details_dict).forEach(function(key) {
-      if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {
-        username = req.body.username;
-        verified = true;
-        Promise.resolve(main_page.UniqueCourse(req.body.username)).then(function(value){
-          //console.log(value);  value = ['CZ3003','CZ4002']
-          res.render('main_page',{coursecode: value, title: 'Main Page', username: req.body.username, data: finalthread_dict })
-        });
-      }
-    });
-  
-    if (!verified) {
-      res.redirect('/');
+  var verified = false;
+
+  const courseArray = main_page.UniqueCourse(req.body.username);
+  console.log(courseArray);
+
+  Object.keys(details_dict).forEach(function(key) {
+    if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {
+      username = req.body.username;
+      verified = true;
+      res.render('main_page', { title: 'Main Page', username: req.body.username, data: finalthread_dict });
     }
   });
+
+  if (!verified) {
+    res.redirect('/');
+  }
+  
 });
 
 //post to create Thread can't shift cause button on main page so routing is index.js
-router.post('/createthread', isLoggedIn, function(req, res, next) {
+router.post('/createthread', function(req, res, next) {
   console.log('Creating a Thread');
   res.render('createthread');
 });
 
 //post to create Quiz can't shift cause button on main page so routing is index.js
-router.post('/createquiz', isLoggedIn, function(req, res, next) {
+router.post('/createquiz', function(req, res, next) {
   console.log('Creating a Quiz');
   res.render('createquiz');
 });
@@ -153,20 +129,39 @@ router.post('/calendar', function(req, res, next) {
   function(snapshot) {
     details_dict = snapshot.val();
     console.log("\n");
-    //console.log(snapshot.val());
-  
+    console.log(snapshot.val());
+ 
     //var testdic = {"dates" : ["12/9/19","18/9/19"], "12/9/19": "event1", "18/9/19": "event2"};
     //var dic2 = {"date1": {"date":"12/10/2019", "con1": {"timefrom" : "08:00", "timeto" : "09:00", "course" : "CZ4047", "prof" : "Li Yi", "booked": 0}}};
-    var str = JSON.stringify(details_dict).replace(/"/g, "'");
-    var str2 = str.replace(/-/g, "/");
-    res.render('calendar', {dict: str});
+    //var str = JSON.stringify(details_dict).replace(/"/g, "'");
+    //var str2 = str.replace(/-/g, "/");
+    console.log("ASGS: " + JSON.stringify(details_dict));
+    res.render('calendar', {dict: JSON.stringify(details_dict), testarr: ["lol","what"]});
     
     
   })
 
   
 });
+router.post('/bookcon', function(req, res, next) {
 
+  //assume 1 a day
+  var details = firebase.database().ref('/consultations/dates/' + req.body.dateno);
+  details.once('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    console.log("BOOKCON\n");
+    console.log(snapshot.val());
+    var details = firebase.database().ref('/consultations/dates/' + req.body.dateno + '/con1');
+    details.child("booked").set("1");
+
+  
+    res.render('createquiz');
+    
+    
+  })
+
+});
 
 //calendar test
 router.post('/setconsult', function(req, res, next) {
@@ -201,37 +196,38 @@ router.post('/setconsult', function(req, res, next) {
 
 
 //email for notifications
-router.post('/email', isLoggedIn, function(req, res, next) {
+router.post('/email', function(req, res, next) {
   var nodemailer = require('nodemailer');
 
-  var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'liyiase3002@gmail.com',
-      pass: 'Liyi@ase123'
-    }
-  });
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'liyiase3002@gmail.com',
+    pass: 'Liyi@ase123'
+  }
+});
 
-  var mailOptions = {
-    from: 'liyiase3002@gmail.com',
-    to: 'cr7roxdswk@gmail.com',
-    subject: 'Sending Email using Node.js',
-    text: 'That was easy!'
-  };
+var mailOptions = {
+  from: 'liyiase3002@gmail.com',
+  to: 'cr7roxdswk@gmail.com',
+  subject: 'Sending Email using Node.js',
+  text: 'That was easy!'
+};
 
-  transporter.sendMail(mailOptions, function(error, info){
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
-  });
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
 
   res.redirect('.');
 });
 
+
 //post to view quiz score
-router.post('/quizscore', isLoggedIn, function(req, res, next) {
+router.post('/quizscore', function(req, res, next) {
   console.log(req.body.testing);
   var cc = req.body.coursecode;
   var quizno = req.body.quizno;
@@ -274,11 +270,14 @@ router.post('/quizscore', isLoggedIn, function(req, res, next) {
     console.log("AAA " + answer);
 
     res.render('quizscore', {answers: answer, answerkey: answerkey, details: details_dict, title: title, score: score, quesnos: req.body.testing});
-  });
+
+  })
+
+
 });
 
 //post to view quiz
-router.post('/viewquiz', isLoggedIn, function(req, res, next) {
+router.post('/viewquiz', function(req, res, next) {
   details_dict = {}
   //Need to add in dynamic coursecode and quiz number
   coursecode = "CZ4047"
@@ -289,12 +288,13 @@ router.post('/viewquiz', isLoggedIn, function(req, res, next) {
   delete details_dict.Title;
   console.log("New : "+ details_dict);
   
+
   res.render('attemptquiz', { quiz: details_dict, title: title, coursecode: coursecode, quizno: quizno});
 });
 
 //up vote and down vote
-router.post('/votepost', isLoggedIn, function(req, res, next) {
-  console.log(req.body);
+router.post('/votepost', function(req, res, next) {
+
   var coursecode = "CZ"+req.body.threadid.split("CZ")[1]
   var threadid = req.body.threadid.split("CZ")[0];
   var postid = req.body.votebutton.split(";")[0];
@@ -307,7 +307,8 @@ router.post('/votepost', isLoggedIn, function(req, res, next) {
 });
 
 //edit a particular post
-router.post('/editpost', isLoggedIn, function(req, res, next) {
+
+router.post('/editpost', function(req, res, next) {
   
   console.log('Editing Post');
 
@@ -320,10 +321,11 @@ router.post('/editpost', isLoggedIn, function(req, res, next) {
 
   //need to know how to refresh the page with new data
   res.render('createquiz');
-});
 
+});
 //delete a post
-router.post('/deletepost', isLoggedIn, function(req, res, next) {
+
+router.post('/deletepost', function(req, res, next) {
   // Can add in logic to check if post belongs to user before deleting and sending res back to front end
   console.log('Deleting Post');
   var coursecode = "CZ4047";
@@ -333,14 +335,17 @@ router.post('/deletepost', isLoggedIn, function(req, res, next) {
 
   //need to know how to refresh the page wih new data
   res.render('createquiz');
+
 });
 
 //create a post
-router.post('/makepost', isLoggedIn, function(req, res, next) {
+
+router.post('/makepost', function(req, res, next) {
   console.log('Create post test');
   var coursecode = "CZ4047";
   var threadno = "Thread1";
 
+  
   /** Need to pass in dynamic form data from pug
   var newPost =
     {
@@ -356,10 +361,13 @@ router.post('/makepost', isLoggedIn, function(req, res, next) {
   db.makePost(coursecode,threadno,newPost);
   //need to know how to refresh the page with new data
   res.render('createquiz');
-});
+
+
+})
+
 
 // Post and Get Method for displaying of Posts on particular thread
-router.post('/main/:thread_id', isLoggedIn, function(req, res, next){
+router.post('/main/:thread_id', function(req, res, next){
   
   details_dict = {};
   details_dict = db.getAllPosts(req.body.coursecode,req.body.id);
@@ -367,21 +375,26 @@ router.post('/main/:thread_id', isLoggedIn, function(req, res, next){
   res.render('thread', { title: req.body.title, data: details_dict, threadid: req.body.id });
 });
 
-router.get('/main/:thread_id', isLoggedIn, function(req, res, next){
+router.get('/main/:thread_id', function(req, res, next){
   
   details_dict = {};
   details_dict = db.getAllPosts(req.body.coursecode,req.body.id);
   
   res.render('thread', { title: req.body.title, data: details_dict, threadid: req.body.id });
 });
+
 
 router.get('/thread', function(req, res, next){
   res.render('thread', { title: 'Developer', data: thread.get_thread_replies(0), threadid: thread.get_thread_size(0)});
 });
 
 // view quiz
-router.get('/quiz', isLoggedIn, function(req, res, next){
-  res.render('quiz');
+router.get('/quiz', function(req, res, next){ 
+  if (username != null) {
+    res.render('quiz');
+  } else {
+    res.render('error404');
+  }
 });
 
 module.exports = router;
