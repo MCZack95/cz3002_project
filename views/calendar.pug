@@ -15,6 +15,7 @@ head
       ul.current-day-events-list
     .add-event-day
     form.cont(method='POST' action='/setconsult')
+    
       input(id="date" type="text" name="datetoday" value="1" hidden) 
       h6 From:
       select(id="options" name="timefrom")
@@ -48,6 +49,14 @@ head
       ul.calendar-days
 
 script.  
+
+    function bookcon(ele){
+
+        //alert(ele.parentElement.id);
+        var lol = document.getElementById("lol");
+        lol.value = ele.parentElement.parentElement.id;
+        console.log(lol.value);
+    }
     document.addEventListener('readystatechange', event => {
     if (event.target.readyState === "complete") {
         //alert("Now external resources are loaded too, like css,src etc... ");
@@ -85,15 +94,21 @@ script.
             //console.log(JSON.parse(localStorage.getItem(localStorageName)));
             //this.eventList = {"11/10/2019": ["test","damn","gg"]};
           
-            var temp = JSON.parse(#{dict});
-            console.log(JSON.parse(localStorage.getItem(localStorageName)));
-            this.eventList = {"18/10/2019" : ["event1"]};
-            var dict = {};
-            var x = temp['date1']['date'];
-            console.log(x);
-        
             
-           
+            console.log(JSON.parse(localStorage.getItem(localStorageName)));
+            var events = {};
+            var newdict = "#{dict}";
+            var newdict2 = newdict.replace(/&quot;/g, '"');
+            var newdict3 = newdict2.replace(/-/g, "/");
+
+            var dict = JSON.parse(newdict3);
+            console.log(dict);
+            for(var x in dict){
+                
+                events[dict[x]["date"]] = [x];
+            }
+
+           this.eventList = events;
 
             //JSON.parse(localStorage.getItem(localStorageName)) || {};
 
@@ -121,10 +136,15 @@ script.
 
         drawEvents() {
             let calendar = this.getCalendar();
-            let eventList = this.eventList[calendar.active.formatted] || ['There is not any events'];
+            let eventList = this.eventList[calendar.active.formatted] || ['No slots on this day'];
             let eventTemplate = "";
+            //add logic to exclude empty
             eventList.forEach(item => {
-                eventTemplate += `<li>${item}</li>`;
+                eventTemplate += `<li id=${item}>${item}&nbsp&nbsp
+                <form method="POST" action="/bookcon">
+                <input id="lol" type="text" name="dateno" value="date" hidden></input>
+                <input type="submit" value="Book" onclick="bookcon(this);"></input></li>
+                </form>`;
             });
 
             this.elements.eventList.innerHTML = eventTemplate;
