@@ -13,11 +13,13 @@ block content
             b#score #{post.noOfVotes}
           .vote
             form#up_form(method = 'POST' action = '/votepost')
-              input(type="hidden" name="threadid" value=threadid)            
+              input(type="hidden" name="threadid" value=threadid)  
+              input(type="hidden" name="coursecode" value=coursecode)          
               button#up_button(type="submit" name="votebutton" value=index+";3")
                 img#up(src='/images/thumbs_up.png' alt="VoteButton")
             form#down_form(method = 'POST' action = '/votepost')
               input(type="hidden" name="threadid" value=threadid)
+              input(type="hidden" name="coursecode" value=coursecode)
               button#down_button(type="submit" name="votebutton" value=index+";4")
                 img#down(src='/images/thumbs_down.png' alt="DownvoteButton")      
           .content
@@ -30,25 +32,29 @@ block content
           .quote
             form.float-left(method = 'POST' action = '#' )
               input(type="hidden" name="threadid" value=threadid)
+              input(type="hidden" name="coursecode" value=coursecode)
               button#quote_button(type="submit" name="returnarrow" value=index+";1")
                 img#quote(src='/images/quote.png' alt="ReplyButton")
             h5.float-left Quote
           .report
             form.float-left(method = 'POST' action = '#')
               input(type="hidden" name="threadid" value=threadid)
+              input(type="hidden" name="coursecode" value=coursecode)
               button#report_button(type="submit" name="reportarrow" value=index+";2")
                 img#report(src='/images/report.png' alt="ReportButton")
             h5.float-left Report
           .edit
             form.float-left(method = 'POST' action = '#')
               input(type="hidden" name="threadid" value=threadid)
-              button#edit_button(type="submit" name="editarrow" value=index+";2")
+              input(type="hidden" name="coursecode" value=coursecode)
+              button#edit_button(type="submit" name="editarrow" value=index+";4")
                 img#edit(src='/images/edit.png' alt="EditButton")
             h5.float-left Edit Post
           .delete
-            form.float-left(method = 'POST' action = '#')
+            form.float-left(method = 'POST' action = '/deletepost')
               input(type="hidden" name="threadid" value=threadid)
-              button#delete_button(type="submit" name="deletearrow" value=index+";2")
+              input(type="hidden" name="coursecode" value=coursecode)
+              button#delete_button(type="submit" name="deletearrow" value=index+";5")
                 img#delete(src='/images/delete-bin.png' alt="DeleteButton")
             h5.float-left Delete Post
 
@@ -72,9 +78,11 @@ block content
             h5.float-left Return
     .row
       .reply
-        form#reply-form(method='POST' action='#')
+        form#reply-form(method='POST' action='/makepost')
+          input(type="hidden" name="threadid" value=threadid)
+          input(type="hidden" name="coursecode" value=coursecode)
           br
-          .form-group#reply-title
+          //.form-group#reply-title
             label Title
             input.form-control(type='text' name='title')
           .form-group#reply-content

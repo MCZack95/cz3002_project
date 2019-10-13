@@ -7,9 +7,12 @@ var firebase = require('firebase');
 firebase.initializeApp(require('../firebaseconfig.json'));
 
 var username = null;
+var threadid = null;
+var coursecode = null;
 
 function isLoggedIn(req, res, next) {
   if(username == null) {
+    console.log("User not logged in!")
     res.render("error404");
   } else {
     return next();
@@ -294,6 +297,7 @@ router.post('/viewquiz', isLoggedIn, function(req, res, next) {
 
 //up vote and down vote
 router.post('/votepost', isLoggedIn, function(req, res, next) {
+  threadid = req.body.threadid;
   console.log(req.body);
   var coursecode = "CZ"+req.body.threadid.split("CZ")[1]
   var threadid = req.body.threadid.split("CZ")[0];
@@ -301,9 +305,9 @@ router.post('/votepost', isLoggedIn, function(req, res, next) {
   var IsVote = req.body.votebutton.split(";")[1];
   db.votePost(coursecode,threadid,postid,IsVote);
   
-  //need to know how to refresh the page with new data
-  //res.redirect(req.get('referer'));
-  res.render('createquiz');
+  res.redirect(req.get('referer'));
+  //res.render('createquiz');
+  //res.redirect('back');
 });
 
 //edit a particular post
@@ -316,63 +320,79 @@ router.post('/editpost', isLoggedIn, function(req, res, next) {
   var threadid = "Thread1";
   var postid = "Post1";
   var content = "New content here."
-  db.editPost(coursecode,threadid,postid,content);
+  db.editPost(coursecode,threadid,postid,content,username);
 
-  //need to know how to refresh the page with new data
-  res.render('createquiz');
+  res.redirect(req.get('referer'));
 });
 
 //delete a post
 router.post('/deletepost', isLoggedIn, function(req, res, next) {
   // Can add in logic to check if post belongs to user before deleting and sending res back to front end
   console.log('Deleting Post');
-  var coursecode = "CZ4047";
-  var threadid = "Thread1";
-  var postid = "Post2";
+  var coursecode = req.body.coursecode;
+  var threadid = req.body.threadid;
+  var postid = req.body.deletearrow.split(";")[0];
+
+  console.log(coursecode + ";" + threadid + ";" + postid);
   db.deletePost(coursecode,threadid,postid);
 
-  //need to know how to refresh the page wih new data
-  res.render('createquiz');
+  res.redirect(req.get('referer'));
 });
 
 //create a post
 router.post('/makepost', isLoggedIn, function(req, res, next) {
-  console.log('Create post test');
-  var coursecode = "CZ4047";
-  var threadno = "Thread1";
+  console.log('Making New Post :' + req.body.coursecode + " ; " + req.body.threadid + username);
+  var coursecode = req.body.coursecode;
+  var threadid = req.body.threadid; 
 
-  /** Need to pass in dynamic form data from pug
   var newPost =
     {
       id : " ",
-      username : req.body.username,
+      username : username,
       content : req.body.content,
       dateTime : Date.now(),
       noOfVotes : 0,
-      replyTo : "",
+      replyTo : " ",
     }
-  **/
 
-  db.makePost(coursecode,threadno,newPost);
-  //need to know how to refresh the page with new data
-  res.render('createquiz');
+  db.makePost(coursecode,threadid,newPost,username);
+  
+  res.redirect(req.get('referer'));
 });
 
 // Post and Get Method for displaying of Posts on particular thread
 router.post('/main/:thread_id', isLoggedIn, function(req, res, next){
-  
+  console.log("Posting to particular thread");
+  this.threadid = req.body.id;
+  this.coursecode = req.body.coursecode;
   details_dict = {};
   details_dict = db.getAllPosts(req.body.coursecode,req.body.id);
+  db.increaseViewCount(req.body.coursecode,req.body.id);
+ 
 
-  res.render('thread', { title: req.body.title, data: details_dict, threadid: req.body.id });
+  res.render('thread', { title: req.body.title, data: details_dict, threadid: req.body.id , coursecode: req.body.coursecode});
 });
 
 router.get('/main/:thread_id', isLoggedIn, function(req, res, next){
-  
+  console.log("Getting particular thread");
+  if (req.body.id == null){
+    threadid= this.threadid;
+  }
+  else{
+    threadid = req.body.id;
+  }
+  if (req.body.coursecode == null){
+    coursecode = this.coursecode;
+  }
+  else{
+    coursecode = req.body.coursecode;
+  }
+
+  console.log("Test456 : " + threadid);
   details_dict = {};
-  details_dict = db.getAllPosts(req.body.coursecode,req.body.id);
+  details_dict = db.getAllPosts(coursecode,threadid);
   
-  res.render('thread', { title: req.body.title, data: details_dict, threadid: req.body.id });
+  res.render('thread', { title: req.body.title, data: details_dict, threadid: threadid , coursecode: coursecode});
 });
 
 router.get('/thread', function(req, res, next){

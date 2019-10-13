@@ -4,8 +4,8 @@ var firebase = require('firebase');
 
 
 module.exports.getAllPosts = (coursecode,threadid) => {
+    console.log("Test111 : " + coursecode + threadid );
     details_dict = {};
-
     var details = firebase.database().ref('/'+coursecode+'/threads/'+coursecode +'Thread'+threadid.split("CZ")[0]);
     details.orderByKey().startAt("Post").endAt("Post"+"\uf8ff").once('value',
     function(snapshot) {
@@ -59,9 +59,10 @@ module.exports.votePost = (coursecode,threadid,postid,isVote) => {
     return true;
   }
 
-module.exports.editPost = (coursecode,threadid,postid,content) => {
+module.exports.editPost = (coursecode,threadid,postid,content,username) => {
   details_dict = {};
-  var details = firebase.database().ref('/'+ coursecode + "/threads/" + coursecode+"Thread"+threadid + "/Post" + postid);
+  var newthreadid = threadid.split("CZ")[0];
+  var details = firebase.database().ref('/'+ coursecode + "/threads/" + coursecode+"Thread"+newthreadid + "/Post" + postid);
   //console.log(req.body.coursecode);
   details.on('value',
   function(snapshot) {
@@ -71,26 +72,32 @@ module.exports.editPost = (coursecode,threadid,postid,content) => {
     details.child("content").set(content);
     details.child("dateTime").set(Date.now());
   })
+
+  //update thread details
+  this.updateThreadDetails(coursecode,threadid,username);
 }
 
 module.exports.deletePost = (coursecode,threadid,postid) => 
 {
   details_dict = {};
-  var details = firebase.database().ref('/'+ coursecode + "/threads/" + coursecode+"Thread"+threadno + "/Post" + postno);
+  newthreadid = threadid.split("CZ")[0];
+  var details = firebase.database().ref('/'+ coursecode + "/threads/" + coursecode+"Thread"+newthreadid + "/Post" + postid);
   details.once('value',
   function(snapshot) {
     details_dict = snapshot.val();
     console.log(snapshot.val());
     details.remove();
-    console.log("")
   }
   )
 }
 
-module.exports.makePost = (coursecode,threadid,newpost) => {
+module.exports.makePost = (coursecode,threadid,newpost,username) => {
+  console.log("Making Post");
   details_dict = {};
-  var details = firebase.database().ref('/'+coursecode+"/threads/"+coursecode+"Thread"+threadid);
+  var newthreadid = threadid.split("CZ")[0];
+  var details = firebase.database().ref('/'+coursecode+"/threads/"+coursecode+"Thread"+newthreadid);
  
+  // creating post
   details.orderByKey().startAt("Post").endAt("Post"+"\uf8ff").once('value',
   function(snapshot) {
     details_dict = snapshot.val()
@@ -100,12 +107,18 @@ module.exports.makePost = (coursecode,threadid,newpost) => {
     var id = noOfPosts + 1;
     newpost["id"] = id;
     details.child("Post" + newpostno).set(newpost);
-    console.log("New Post successfully created at : " + coursecode + " Thread : " + threadid + "Post : " +id)
-    var details = firebase.database().ref('/'+coursecode+"/threads/"+coursecode+"Thread"+threadid);
-    var replies = details_dict["noOfReplies"] + 1;
-    console.log("Number of Replies in Thread incremented to : " +replies );
-    details.child("noOfReplies").set(replies);
+    console.log("New Post successfully created at : " + coursecode + " Thread : " + newthreadid + "Post : " +id)
+    //var details = firebase.database().ref('/'+coursecode+"/threads/"+coursecode+"Thread"+newthreadid);
+    //var replies = details_dict["noOfReplies"] + 1;
+    //console.log("Number of Replies in Thread incremented to : " +replies );
+    //details.child("noOfReplies").set(replies);
   });
+
+  //updating number of replies
+  this.increaseRepliesCount(coursecode,threadid);
+
+  //updating thread details
+  this.updateThreadDetails(coursecode,threadid,username);
 }
 
 /**may be redundant
@@ -181,6 +194,54 @@ module.exports.getAllThreadsinOneCourse = (coursecode) =>
         console.log("DB get All Threads from course Error");
     }
   });
-
   return details_dict;
+}
+
+
+module.exports.increaseViewCount = (coursecode,threadid) => 
+{
+  details_dict = {}
+  threadid = threadid.split("CZ")[0];
+  var details = firebase.database().ref('/'+coursecode+'/threads/'+coursecode+'Thread'+threadid);
+  details.once('value',
+  function(snapshot) {
+    details_dict = snapshot.val()
+    var views = details_dict["viewcount"];
+    console.log("Course Code : " + coursecode + "Thread ID : " + threadid + "View : " + views)
+    views += 1;
+    details.child("viewcount").set(views);
+  });
+}
+
+// like last modified by which user and which time for display on main page
+module.exports.updateThreadDetails = (coursecode,threadid,username) => 
+{
+  console.log("Updating thread details");
+  details_dict = {}
+  threadid = threadid.split("CZ")[0];
+  var details = firebase.database().ref('/'+coursecode+'/threads/'+coursecode+'Thread'+threadid);
+  details.once('value',
+  function(snapshot) {
+    details_dict = snapshot.val()
+    console.log("uesrname " + username + Date.now());
+    details.child("lasteditedby").set(username);
+    details.child("dateMod").set(Date.now());
+  });
+}
+
+
+module.exports.increaseRepliesCount = (coursecode,threadid) => 
+{
+  console.log("Increasing replies count");
+  details_dict = {}
+  threadid = threadid.split("CZ")[0];
+  var details = firebase.database().ref('/'+coursecode+'/threads/'+coursecode+'Thread'+threadid);
+  details.once('value',
+  function(snapshot) {
+    details_dict = snapshot.val()
+    var replies = details_dict["noOfReplies"];
+    console.log("Course Code : " + coursecode + "Thread ID : " + threadid + "Replies : " + replies)
+    replies += 1;
+    details.child("noOfReplies").set(replies);
+  });
 }
