@@ -47,9 +47,9 @@ block content
         button.btn.btn-light.dropdown-toggle.coursesbutt(data-toggle="dropdown") Courses
         .dropdown-menu
           button.dropdown-item(id='cc0' value='Default' onclick="changeFilter(this)") Reset Filter
-          //each coursename in coursecode
+          each coursename in coursecode
             button.dropdown-item(id=`${coursename}` value=`${coursename}` onclick="changeFilter(this)") #{coursename}
-            button.dropdown-item(id='cc2' value='code2' onclick="changeFilter(this)") Course Code 2
+            //button.dropdown-item(id='cc2' value='code2' onclick="changeFilter(this)") Course Code 2
   br
 
   table.table
@@ -96,6 +96,7 @@ block content
     $('.dropdown-item').click((e)=>{
       alert(e.target.value);
       
+      /*
       const url = "/main";
       fetch(url, {
         method : "POST",
@@ -114,6 +115,8 @@ block content
       ).then(
       html => console.log(html)
       );
+      */
+
     })
 
     const input = document.getElementById("search-input");

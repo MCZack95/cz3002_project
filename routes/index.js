@@ -44,7 +44,9 @@ router.get('/main', function(req, res, next) {
   console.log("Final Threads : " + JSON.stringify(finalthread_dict));
 
   if (username != null) {
-    res.render('main_page', { title: 'Main Page', username: username, data: finalthread_dict});
+    Promise.resolve(main_page.UniqueCourse(username)).then(function(value){
+      res.render('main_page', { coursecode: value, title: 'Main Page', username: username, data: finalthread_dict});
+    })
   } else {
     res.render('error404');
   }
@@ -106,7 +108,9 @@ router.post('/main', function(req, res, next) {
     if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {
       username = req.body.username;
       verified = true;
-      res.render('main_page', { title: 'Main Page', username: req.body.username, data: finalthread_dict });
+      Promise.resolve(main_page.UniqueCourse(username)).then(function(value){
+        res.render('main_page', { coursecode: value, title: 'Main Page', username: req.body.username, data: finalthread_dict });
+      })
     }
   });
 
