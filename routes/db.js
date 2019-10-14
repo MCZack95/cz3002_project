@@ -4,7 +4,7 @@ var firebase = require('firebase');
 
 
 module.exports.getAllPosts = (coursecode,threadid) => {
-    console.log("Test111 : " + coursecode + threadid );
+    console.log("Getting All Posts : " + coursecode + threadid );
     details_dict = {};
     var details = firebase.database().ref('/'+coursecode+'/threads/'+coursecode +'Thread'+threadid.split("CZ")[0]);
     details.orderByKey().startAt("Post").endAt("Post"+"\uf8ff").once('value',
@@ -64,7 +64,7 @@ module.exports.editPost = (coursecode,threadid,postid,content,username) => {
   var newthreadid = threadid.split("CZ")[0];
   var details = firebase.database().ref('/'+ coursecode + "/threads/" + coursecode+"Thread"+newthreadid + "/Post" + postid);
   //console.log(req.body.coursecode);
-  details.on('value',
+  details.once('value',
   function(snapshot) {
     details_dict = snapshot.val();
     console.log(snapshot.val());
@@ -223,7 +223,7 @@ module.exports.updateThreadDetails = (coursecode,threadid,username) =>
   details.once('value',
   function(snapshot) {
     details_dict = snapshot.val()
-    console.log("uesrname " + username + Date.now());
+    console.log("username " + username + Date.now());
     details.child("lasteditedby").set(username);
     details.child("dateMod").set(Date.now());
   });

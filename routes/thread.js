@@ -23,18 +23,21 @@ router.post('/newthread', function(req, res, next) {
     var noOfThreads = Object.keys(details_dict).length
 
   console.log("Number of Threads : " + noOfThreads);
+
+  var newThreadindex =  noOfThreads +1;
+  console.log("New Thread ID : " + newThreadindex);
+
   var newThreadPost =
   {
-    id : 1,
-    username : "Username",
+    id : "1",
+    username : req.body.username,
     content : req.body.content,
     dateTime : Date.now(),
     noOfLikes : 0,
     noOfVotes : 0,
     replyTo : " ",
   }
-  var newThreadindex =  noOfThreads +1;
-  console.log("New Thread ID : " + newThreadindex);
+
   var details = firebase.database().ref('/'+req.body.coursecode+"/threads");
   details.child(req.body.coursecode+"Thread"+(newThreadindex)).child("Post1").set(newThreadPost);
   // Post 1 cause create thread always is first post
@@ -45,6 +48,9 @@ router.post('/newthread', function(req, res, next) {
   details.child("dateMod").set(Date.now());
   details.child("id").set(newThreadindex+req.body.coursecode);
   details.child("noOfReplies").set("0");
+  details.child("lasteditedby").set(req.body.username);
+  details.child("threadowner").set(req.body.username);
+  details.child("viewcount").set(0);
   
   }
   )

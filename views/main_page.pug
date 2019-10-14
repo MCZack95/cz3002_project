@@ -41,6 +41,7 @@ block content
         input#search-input.input(type='text', name='input')
         button#search-btn.search(type='reset')
       form(method = 'POST' action = '/createthread')
+        input(type="hidden" name="username" value=username)
         button.btn.btn-light(type='submit') New Thread
       // Dropdown
       li.nav-item.dropdown

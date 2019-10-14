@@ -44,7 +44,7 @@ block content
                 img#report(src='/images/report.png' alt="ReportButton")
             h5.float-left Report
           .edit
-            form.float-left(method = 'POST' action = '#')
+            form.float-left(method = 'POST' action = '/editpost')
               input(type="hidden" name="threadid" value=threadid)
               input(type="hidden" name="coursecode" value=coursecode)
               button#edit_button(type="submit" name="editarrow" value=index+";4")

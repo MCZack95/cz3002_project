@@ -26,7 +26,7 @@ router.get('/', function(req, res, next) {
 });
 
 /* Use this route to make testing /main easier */
-router.get('/main', function(req, res, next) {  
+router.get('/main',function(req, res, next) {  
   console.log('Getting Main Page');
   console.log('username: ' + username);
   details_dict = {}
@@ -328,10 +328,11 @@ router.post('/editpost', function(req, res, next) {
   console.log('Editing Post');
 
   //need to add dynamic inputs from pug form
-  var coursecode = "CZ4047";
-  var threadid = "Thread1";
-  var postid = "Post1";
-  var content = "New content here."
+  var coursecode = req.body.coursecode;
+  var threadid = req.body.threadid;
+  var postid = req.body.editarrow.split(";")[0];
+  //var content = req.body.content;
+  var content = "testing the edit function"
   db.editPost(coursecode,threadid,postid,content,username);
 
   res.redirect(req.get('referer'));
@@ -376,10 +377,10 @@ router.post('/makepost', isLoggedIn, function(req, res, next) {
 // Post and Get Method for displaying of Posts on particular thread
 router.post('/main/:thread_id', isLoggedIn, function(req, res, next){
   console.log("Posting to particular thread");
-  this.threadid = req.body.id;
-  this.coursecode = req.body.coursecode;
+  threadid = req.body.id;
+  coursecode = req.body.coursecode;
   details_dict = {};
-  details_dict = db.getAllPosts(req.body.coursecode,req.body.id);
+  details_dict = db.getAllPosts(coursecode,threadid);
   db.increaseViewCount(req.body.coursecode,req.body.id);
  
 
@@ -389,23 +390,23 @@ router.post('/main/:thread_id', isLoggedIn, function(req, res, next){
 router.get('/main/:thread_id', isLoggedIn, function(req, res, next){
   console.log("Getting particular thread");
   if (req.body.id == null){
-    threadid= this.threadid;
+    newthreadid= threadid;
   }
   else{
-    threadid = req.body.id;
+    newthreadid = req.body.id;
   }
   if (req.body.coursecode == null){
-    coursecode = this.coursecode;
+    newcoursecode = coursecode;
   }
   else{
-    coursecode = req.body.coursecode;
+    newcoursecode = req.body.coursecode;
   }
 
   console.log("Test456 : " + threadid);
   details_dict = {};
-  details_dict = db.getAllPosts(coursecode,threadid);
+  details_dict = db.getAllPosts(newcoursecode,newthreadid);
   
-  res.render('thread', { title: req.body.title, data: details_dict, threadid: threadid , coursecode: coursecode});
+  res.render('thread', { title: req.body.title, data: details_dict, threadid: newthreadid , coursecode: newcoursecode});
 });
 
 
