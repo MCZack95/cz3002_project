@@ -41,7 +41,7 @@ router.get('/main', isLoggedIn, function(req, res, next) {
   thread_dict3=db.getAllThreadsinOneCourse("CZ3003");
   tmpthread_dict = Object.assign({}, thread_dict1, thread_dict2);
   finalthread_dict = Object.assign({}, thread_dict3,tmpthread_dict);
-  console.log("Final Threads : " + JSON.stringify(finalthread_dict));
+  //console.log("Final Threads : " + JSON.stringify(finalthread_dict));
 
   Promise.resolve(main_page.UniqueCourse(username)).then(function(value){
     res.render('main_page', { coursecode: value, title: 'Main Page', username: username, data: finalthread_dict});
@@ -396,9 +396,16 @@ router.post('/main/:thread_id', isLoggedIn, function(req, res, next){
   details_dict = {};
   details_dict = db.getAllPosts(coursecode,threadid);
   db.increaseViewCount(req.body.coursecode,req.body.id);
- 
 
-  res.render('thread', { title: req.body.title, data: details_dict, threadid: req.body.id , coursecode: req.body.coursecode});
+  // Pass only Post into data parameter
+  dataArray = [];
+  Object.keys(details_dict).forEach(function(key){
+    if(key.includes("Post")){
+      dataArray.push(details_dict[key]);
+    }
+  });
+  
+  res.render('thread', { title: req.body.title, data: dataArray, threadid: req.body.id , coursecode: req.body.coursecode});
 });
 
 router.get('/main/:thread_id', isLoggedIn, function(req, res, next){
@@ -419,8 +426,16 @@ router.get('/main/:thread_id', isLoggedIn, function(req, res, next){
   console.log("Test456 : " + threadid);
   details_dict = {};
   details_dict = db.getAllPosts(newcoursecode,newthreadid);
+
+  // Pass only Post into data parameter
+  dataArray = [];
+  Object.keys(details_dict).forEach(function(key){
+    if(key.includes("Post")){
+      dataArray.push(details_dict[key]);
+    }
+  });
   
-  res.render('thread', { title: req.body.title, data: details_dict, threadid: newthreadid , coursecode: newcoursecode});
+  res.render('thread', { title: req.body.title, data: dataArray, threadid: newthreadid , coursecode: newcoursecode});
 });
 
 
