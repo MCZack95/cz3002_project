@@ -14,7 +14,7 @@ block content
                 #quizqn No. of Questions
                     br
                     select(id="options" name="noques" onchange="testfunc();")
-                        option(value="0") 0
+                        option(value="0") -
                         option(value="5") 5
                         option(value="10") 10
                         option(value="15") 15
@@ -22,17 +22,19 @@ block content
             div(id="div1")
 
         .buttcont
-            button.btn.btn-primary(type='submit' style='margin-right: 10px;') Save Quiz
+            button.btn.btn-primary(type='submit' style='margin-right: 10px;' onclick='alertforQuiz()') Save Quiz
             button.btn.btn-light(onclick='goBack()') Cancel
 
     link(rel='stylesheet', href='/stylesheets/createquiz.css')
 
     script.
+        function alertforQuiz(){
+            alert("Quiz has been successfully created!");
+        }
         function goBack() {
             window.history.back();
         }
         function testfunc(){
-            
             var divoverall = document.getElementById("div1");
             while (divoverall.hasChildNodes()) {
                 divoverall.removeChild(divoverall.lastChild);

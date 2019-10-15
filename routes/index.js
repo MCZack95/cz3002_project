@@ -317,8 +317,6 @@ router.post('/votepost', isLoggedIn, function(req, res, next) {
   db.votePost(coursecode,threadid,postid,IsVote);
   
   res.redirect(req.get('referer'));
-  //res.render('createquiz');
-  //res.redirect('back');
 });
 
 //edit a particular post

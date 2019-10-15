@@ -175,9 +175,9 @@ module.exports.viewQuiz = (coursecode,quizno) =>
     {
         console.log("DB View Quiz Error");
     }
-    return details_dict;
+    
   })
-
+  return details_dict;
 
 }
 
