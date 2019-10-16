@@ -9,6 +9,11 @@ body > p {
   color: white;
 }
 
+h5 {
+  color: white;
+}
+
+
 .navbar.navbar-dark.navbar-expand-sm {
   border: 3px solid #000;
   color: white;
@@ -44,7 +49,7 @@ body > p {
 }
 
 .dropdown-menu {
-  background-color: turquoise;
+  background-color: #57F2FF;
 }
 
 .dropdown-item {
