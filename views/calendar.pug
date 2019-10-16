@@ -14,14 +14,14 @@ block content
             form.cont(method='POST' action='/setconsult')
         
                 input(id="date" type="text" name="datetoday" value="1" hidden) 
-                h6 From:
+                h6 From: #{user}
                 select(id="options" name="timefrom")
                     option(value="800") 8.00AM
                     option(value="830") 8.30AM
                     option(value="900") 9.00AM
                     option(value="930") 9.30AM
                     option(value="1000") 10.00AM
-                input.add-event-day-field(type='text' placeholder='Create an Event')
+                //input.add-event-day-field(type='text' placeholder='Create an Event')
                 h6 To: 
                 select(id="datetoday" name="timeto")
                     option(value="800") 8.00AM
@@ -59,6 +59,16 @@ block content
             lol.value = ele.parentElement.parentElement.id;
             console.log(lol.value);
         }
+
+        function cancelcon(ele){
+
+            var lol = document.getElementById("cancel");
+            lol.value = ele.parentElement.parentElement.id;
+            console.log(lol.value);
+
+
+        }
+
         document.addEventListener('readystatechange', event => {
         if (event.target.readyState === "complete") {
             //alert("Now external resources are loaded too, like css,src etc... ");
@@ -100,16 +110,28 @@ block content
                 console.log(JSON.parse(localStorage.getItem(localStorageName)));
                 var events = {};
                 var newdict = "#{dict}";
+                var username = "#{user}";
                 var newdict2 = newdict.replace(/&quot;/g, '"');
                 var newdict3 = newdict2.replace(/-/g, "/");
+                
 
                 var dict = JSON.parse(newdict3);
                 console.log(dict);
                 for(var x in dict){
+                    //if slot is booked and not by user, don't show
+                    if(!(dict[x]["con1"]["booked"]=="1" && dict[x]["con1"]["bookedby"]!=username)){
+                
+                        if(dict[x]["con1"]["bookedby"]==username){
+                        
+                            events[dict[x]["date"]] = ["1 " + x, dict[x]["con1"]["course"] + " (" + dict[x]["con1"]["prof"] + ") : " + dict[x]["con1"]["timefrom"] + " - " +  dict[x]["con1"]["timeto"]] ;
+                        }else{
+                             events[dict[x]["date"]] = ["0 " + x, dict[x]["con1"]["course"] + " (" + dict[x]["con1"]["prof"] + ") : " + dict[x]["con1"]["timefrom"] + " - " +  dict[x]["con1"]["timeto"]] ;
+                        }
                     
-                    events[dict[x]["date"]] = [x];
+                    }
+                
                 }
-
+            console.log(events);
             this.eventList = events;
 
                 //JSON.parse(localStorage.getItem(localStorageName)) || {};
@@ -140,14 +162,50 @@ block content
                 let calendar = this.getCalendar();
                 let eventList = this.eventList[calendar.active.formatted] || ['No slots on this day'];
                 let eventTemplate = "";
-                //add logic to exclude empty
-                eventList.forEach(item => {
-                    eventTemplate += `<li id=${item}>${item}&nbsp&nbsp
-                    <form method="POST" action="/bookcon">
-                    <input id="lol" type="text" name="dateno" value="date" hidden></input>
-                    <input type="submit" value="Book" onclick="bookcon(this);"></input></li>
-                    </form>`;
-                });
+                //add logic for booked before. button should say unbook.
+                var bookedbyuser = false;
+                var dateno = "";
+
+                for(var x=0;x<eventList.length;x++){
+                
+                    
+                    if(x%2==0){
+                        if(eventList[x].charAt(0)==1){
+                            bookedbyuser = true;
+                        }
+                        var res = eventList[x].split(" ");
+                        dateno = res[1];
+
+                    }else{
+                        
+
+                        //need to find another way to setdayno, another arr element?
+                        if(bookedbyuser){
+                            eventTemplate += `<li id="${dateno}">&nbsp&nbsp ${eventList[x]} &nbsp&nbsp
+                            <form method="POST" action="/cancelcon">
+                            <input id="cancel" type="text" name="dateno" value="date" hidden></input>
+                            <input type="submit" value="Cancel" onclick="cancelcon(this);"></input></form></li>
+                            `;
+                            bookedbyuser = false;
+
+                        }else{
+
+                           eventTemplate += `<li id="${dateno}">&nbsp&nbsp ${eventList[x]} &nbsp&nbsp
+                            <form method="POST" action="/bookcon">
+                            <input id="lol" type="text" name="dateno" value="date" hidden></input>
+                            <input type="submit" value="Book" onclick="bookcon(this);"></input></form></li>
+                            `; 
+
+                        }
+
+                        dateno = "";
+
+                    }
+                    
+
+                }
+
+
 
                 this.elements.eventList.innerHTML = eventTemplate;
             }

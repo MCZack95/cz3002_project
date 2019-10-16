@@ -185,17 +185,16 @@ module.exports.viewQuiz = (coursecode,quizno) =>
 module.exports.getAllThreadsinOneCourse = (coursecode) => 
 {
   details_dict = {}
-  return Promise.resolve(
-    firebase.database().ref('/'+coursecode+'/threads').once('value',function(snapshot) {})
-    ).then(function(snapshot){
+  var details = firebase.database().ref('/'+coursecode+'/threads')
+  details.once('value',function(snapshot) {
     details_dict = snapshot.val()
     //console.log(snapshot.val());
     if (Object.keys(details_dict).length < 0)
     {
         console.log("DB get All Threads from course Error");
     }
-    return details_dict;
   });
+  return details_dict;
 }
 
 module.exports.increaseViewCount = (coursecode,threadid) => 
@@ -244,4 +243,28 @@ module.exports.increaseRepliesCount = (coursecode,threadid) =>
     replies += 1;
     details.child("noOfReplies").set(replies);
   });
+}
+
+
+module.exports.getAllCourses = (username) => 
+{
+  console.log("IN DB.JS >> " + username);
+  details_dict = {};
+  var courseArray = [];
+  var details = firebase.database().ref('/users');
+  details.once('value',function(snapshot) {
+    details_dict = snapshot.val();
+    console.log("SNAPSHOT>>" +snapshot.val());
+    for (var key in details_dict) {
+      if (details.hasOwnProperty(key)) {
+        //console.log(key + " , " + details[key].username + "\n");
+        if (details[key].username == username){
+          //console.log("Details of Array " + details[key].courses.split(','));
+          courseArray = details[key].courses.split(',');
+        }
+      }
+    }
+  });
+  console.log("WHAT?>>" + courseArray);
+  return courseArray;
 }
