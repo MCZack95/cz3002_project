@@ -42,11 +42,25 @@ body {
 .quizcont {
     /* border: 1px black solid; */
     margin-left: 25px;
+    border: none;
+    background: none;
     /* margin-bottom: 5px; */
 }
 
 .active, .quizcont:hover {
     background-color: yellow;
+}
+
+.quizcont:before {
+    content: '⮞'; /* Unicode character for "plus" sign (+) */
+    /* font-size: 13px; */
+    color: black;
+    /* float: right;
+    margin-left: 5px; */
+}
+
+.active:before {
+    content: "⮟"; /* Unicode character for "minus" sign (-) */
 }
 
 .content {
