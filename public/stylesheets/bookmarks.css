@@ -9,11 +9,6 @@ body > p {
   color: white;
 }
 
-h5 {
-  color: white;
-}
-
-
 .navbar.navbar-dark.navbar-expand-sm {
   border: 3px solid #000;
   color: white;
@@ -35,7 +30,7 @@ h5 {
 
 #forum_logo {
   height: 50px;
-  filter: brightness(0) invert(1);
+  width: 50px;
 }
 
 .coursesbutt {
@@ -49,7 +44,7 @@ h5 {
 }
 
 .dropdown-menu {
-  background-color: #57F2FF;
+  background-color: turquoise;
 }
 
 .dropdown-item {
@@ -312,4 +307,19 @@ input {
   -webkit-transform: translate(-100%, -50%);
   -ms-transform: translate(-100%, -50%);
   transform: translate(-100%, -50%);
+}
+
+#bookmark {
+  height: 30px;
+  width: 30px;
+}
+
+#return-button > img {
+  height: 30px;
+  width: 30px;
+}
+
+#return-button > h5 {
+  margin-top: 5px;
+  margin-left: 5px;
 }
