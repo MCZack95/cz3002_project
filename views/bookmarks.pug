@@ -1,0 +1,162 @@
+extends layout
+
+block content
+  p(styles = {"text-transform": "uppercase"}) 
+  strong Welcome #{username}
+  br
+  br
+
+  nav.navbar.navbar-dark.navbar-expand-sm
+    .navbar-header
+      img#forum_logo(src="/images/bookmark.png" alt="NTU Learning Platform")
+      span
+      h5.navbar-brand Bookmarked Threads
+
+    ul.navbar-nav
+      form#content(method='GET' action='/main')
+        input#search-input.input(type='text', name='input')
+        button#search-btn.search(type='reset')
+      // Dropdown
+      li.nav-item.dropdown
+        button.btn.btn-light.dropdown-toggle.coursesbutt(data-toggle="dropdown") Courses
+        .dropdown-menu
+          button.dropdown-item(id='cc0' value='Default' onclick="changeFilter(this)") Reset Filter
+          each coursename in coursecode
+            button.dropdown-item(id=`${coursename}` value=`${coursename}` onclick="changeFilter(this)") #{coursename}
+            //button.dropdown-item(id='cc2' value='code2' onclick="changeFilter(this)") Course Code 2
+  br
+
+  table.table
+    thead.headhead
+      tr
+        th#title Title
+        th#latestpost Latest Post
+        th#replies Replies
+        th#views Views
+        th#bookmark Book
+        //th Rating
+      tbody
+        each thread in data
+          tr(data-href=`${thread["id"]}` id=`${thread["id"]}`)
+            td
+              - var course = `${thread['coursecode']}`
+              case course
+                when 'CZ3002'
+                  .coursetag(style='background-color: orange') #{thread["coursecode"]}
+                when 'CZ3003'
+                  .coursetag(style='background-color: green') #{thread["coursecode"]}
+                when 'CZ4047'
+                  .coursetag(style='background-color: black') #{thread["coursecode"]}
+                default
+                  .coursetag #{thread["coursecode"]}
+              span#titles #{thread["title"]}
+              #username #{thread["threadowner"]}
+            td
+              // 25/19/2019 00:00:00AM
+              - var convertDateTime = function(dt) { return moment(Number(dt)).format('DD MMM YYYY hh:mm A '); }
+              - var datetime = convertDateTime(`${thread["dateMod"]}`)
+              p#datetime= datetime
+              p#replier #{thread["lasteditedby"]}
+            td#tdreplies #{thread["noOfReplies"]}
+            td#tdviews #{thread["viewcount"]}
+            td#tdbookmark
+              img#bookmark(src='/images/delete_bookmark.png' alt='Bookmark')
+
+  form(method='GET' action='/main')
+      button.btn.btn-light#return-button(type='submit')
+        img.float-left(src="/images/return_arrow.png" alt="ReturnButton")
+        h5.float-left Return
+
+  br
+  br
+  br
+  
+  script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js" type="text/javascript")
+  
+  script.
+
+    $('.dropdown-item').click((e)=>{
+      alert(e.target.value);
+      
+      /*
+      const url = "/main";
+      fetch(url, {
+        method : "POST",
+        body : JSON.stringify({
+          'username' : username,
+          'course' : e.target.value,
+        })
+        // -- or --
+        // body : JSON.stringify({
+        // user : document.getElementById('user').value,
+        // ...
+        // })
+      }).then(
+        response => response.text() // .json(), etc.
+        // same as function(response) {return response.text();}
+      ).then(
+      html => console.log(html)
+      );
+      */
+
+    });
+
+    const input = document.getElementById("search-input");
+    const searchBtn = document.getElementById("search-btn");
+
+    const expand = () => {
+      searchBtn.classList.toggle("close");
+      input.classList.toggle("square");
+    };
+
+    searchBtn.addEventListener("click", expand);
+
+
+    function toCourseDropdown(){
+      console.log("")
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      var rows = document.querySelectorAll('tr[data-href]');
+      rows.forEach(row => {
+        row.addEventListener('click', () => {
+          //- window.location.href = row.dataset.href;
+          //var threadTitle = document.getElementByNames(row.courseCode);
+          //- var threadTitle = document.getElementById(row.id).getElementsByTagName('td')[0].innerText;
+          console.log(row);
+          var threadTitle = document.getElementById(row.id).getElementsByTagName('span')[0].innerText;
+          console.log(threadTitle);
+          var courseCode = document.getElementById(row.id).getElementsByTagName('div')[0].innerText;
+          console.log(courseCode);
+          console.log("Thread : " + threadTitle + " / Course Code : " + courseCode);
+          toThreadViaPost('/main/' + row.id, {'id': row.id, 'title': threadTitle, 'coursecode' : courseCode});
+        });
+      });
+    });
+
+    function toThreadViaPost(path, params, method='post') {
+
+      const form = document.createElement('form');
+      form.method = method;
+      form.action = path;
+
+      for (const key in params) {
+        if (params.hasOwnProperty(key)) {
+          const hiddenField = document.createElement('input');
+          hiddenField.type = 'hidden';
+          hiddenField.name = key;
+          hiddenField.value = params[key];
+
+          form.appendChild(hiddenField);
+        }
+      }
+
+      document.body.appendChild(form);
+      form.submit();
+    }
+
+    function changeFilter(code){
+      document.getElementById('search-input').value = "";
+    }
+    
+  link(rel='stylesheet', href='/stylesheets/bookmarks.css')

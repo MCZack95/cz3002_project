@@ -68,9 +68,9 @@ block content
           h5.float-left Add Reply
       .watch
         button.btn.btn-primary#watch-button(type='submit') 
-          img.float-left(src="/images/eye_close.png" alt="UnWatchButton")
-          img.float-left(src="/images/eye_open.png" alt="WatchButton")
-          h5.float-left Watch
+          img.float-left(src="/images/add_bookmark.png" alt="UnWatchButton")
+          img.float-left(src="/images/remove_bookmark.png" alt="WatchButton")
+          h5.float-left Bookmark
       .filler
       .return
         form(method='GET' action='/main')
@@ -148,10 +148,10 @@ block content
         $("#watch-button > img:first-child").toggleClass("transparent");
         $("#watch-button > img:nth-child(2)").toggleClass("opaque");
 
-        if($("#watch-button > h5").text() == "Watch") {
-          $("#watch-button > h5").text("Stop");
+        if($("#watch-button > h5").text() == "Bookmark") {
+          $("#watch-button > h5").text("Remove");
         } else {
-          $("#watch-button > h5").text("Watch");
+          $("#watch-button > h5").text("Bookmark");
         }
       });
     });

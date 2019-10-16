@@ -185,7 +185,7 @@ router.post('/calendar', function(req, res, next) {
     details_dict = snapshot.val();
     console.log("\n");
     console.log(snapshot.val());
- 
+
     //var testdic = {"dates" : ["12/9/19","18/9/19"], "12/9/19": "event1", "18/9/19": "event2"};
     //var dic2 = {"date1": {"date":"12/10/2019", "con1": {"timefrom" : "08:00", "timeto" : "09:00", "course" : "CZ4047", "prof" : "Li Yi", "booked": 0}}};
     //var str = JSON.stringify(details_dict).replace(/"/g, "'");
@@ -490,13 +490,36 @@ router.get('/quiz', function(req, res, next){
 });
 
 router.get('/profile', function(req, res, next){
-  console.log('Entering profile')
-  res.render('profile', {title: 'profile', username: username})
-})
+  console.log('Entering profile');
+  res.render('profile', {title: 'profile', username: username});
+});
 
 router.post('/profile', function(req, res, next){
-  console.log('Entering profile')
-  res.render('profile', {title: 'profile', username: username})
-})
+  console.log('Entering profile');
+  res.render('profile', {title: 'profile', username: username});
+});
+
+router.get('/bookmarks', function(req, res, next){
+
+  console.log('Getting Main Page');
+  console.log('username: ' + username);
+  details_dict = {};
+  thread_dict1 = {};
+  thread_dict2 = {};
+  thread_dict3 = {};
+  finalthread_dict = {};
+  tmpthread_dict = {};
+
+  thread_dict1=db.getAllThreadsinOneCourse("CZ4047");
+  thread_dict2=db.getAllThreadsinOneCourse("CZ3002");
+  thread_dict3=db.getAllThreadsinOneCourse("CZ3003");
+  tmpthread_dict = Object.assign({}, thread_dict1, thread_dict2);
+  finalthread_dict = Object.assign({}, thread_dict3,tmpthread_dict);
+  //console.log("Final Threads : " + JSON.stringify(finalthread_dict));
+
+  Promise.resolve(main_page.UniqueCourse(username)).then(function(value){
+    res.render('bookmarks', { coursecode: value, title: 'Bookmarks', username: username, data: finalthread_dict});
+  });
+});
 
 module.exports = router;
