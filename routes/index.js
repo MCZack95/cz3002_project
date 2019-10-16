@@ -4,6 +4,7 @@ var main_page = require('./main_page');
 var thread = require('./thread');
 var db = require('./db');
 var firebase = require('firebase');
+var profile = require('./profile');
 firebase.initializeApp(require('../firebaseconfig.json'));
 
 var username = null;
@@ -514,15 +515,11 @@ router.get('/quiz', function(req, res, next){
 router.get('/profile', function(req, res, next){
   console.log('Entering profile')
   Promise.resolve(main_page.UniqueCourse(username)).then(function(value){
-    res.render('profile', { coursecode: value, title: 'profile', username: username})
+    Promise.resolve(profile.getUserDetails(username)).then(function(UserValue){
+      res.render('profile', { coursecode: value, CGPA: UserValue[0], DOA: UserValue[1], Programme: UserValue[2], Status: UserValue[3], StudyYear: UserValue[4], Type: UserValue[5], Role: UserValue[6], title: 'profile', username: username})
+    });
   });
 })
-
-router.post('/profile', function(req, res, next){
-  console.log('Entering profile')
-  Promise.resolve(main_page.UniqueCourse(username)).then(function(value){
-    res.render('profile', { coursecode: value, title: 'profile', username: username})
-  });})
 
 router.get('/bookmarks', function(req, res, next){
 
