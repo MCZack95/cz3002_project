@@ -490,14 +490,17 @@ router.get('/quiz', function(req, res, next){
 });
 
 router.get('/profile', function(req, res, next){
-  console.log('Entering profile');
-  res.render('profile', {title: 'profile', username: username});
-});
+  console.log('Entering profile')
+  Promise.resolve(main_page.UniqueCourse(username)).then(function(value){
+    res.render('profile', { coursecode: value, title: 'profile', username: username})
+  });
+})
 
 router.post('/profile', function(req, res, next){
-  console.log('Entering profile');
-  res.render('profile', {title: 'profile', username: username});
-});
+  console.log('Entering profile')
+  Promise.resolve(main_page.UniqueCourse(username)).then(function(value){
+    res.render('profile', { coursecode: value, title: 'profile', username: username})
+  });})
 
 router.get('/bookmarks', function(req, res, next){
 
