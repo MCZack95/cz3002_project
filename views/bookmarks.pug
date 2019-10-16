@@ -23,7 +23,6 @@ block content
           button.dropdown-item(id='cc0' value='Default' onclick="changeFilter(this)") Reset Filter
           each coursename in coursecode
             button.dropdown-item(id=`${coursename}` value=`${coursename}` onclick="changeFilter(this)") #{coursename}
-            //button.dropdown-item(id='cc2' value='code2' onclick="changeFilter(this)") Course Code 2
   br
 
   table.table
@@ -33,12 +32,12 @@ block content
         th#latestpost Latest Post
         th#replies Replies
         th#views Views
-        th#bookmark Book
+        th#bookmark
         //th Rating
       tbody
         each thread in data
-          tr(data-href=`${thread["id"]}` id=`${thread["id"]}`)
-            td
+          tr
+            td(data-href=`${thread["id"]}` id=`${thread["id"]}`)
               - var course = `${thread['coursecode']}`
               case course
                 when 'CZ3002'
@@ -59,7 +58,7 @@ block content
               p#replier #{thread["lasteditedby"]}
             td#tdreplies #{thread["noOfReplies"]}
             td#tdviews #{thread["viewcount"]}
-            td#tdbookmark
+            td.tdbookmark
               img#bookmark(src='/images/delete_bookmark.png' alt='Bookmark')
 
   form(method='GET' action='/main')
@@ -77,28 +76,15 @@ block content
 
     $('.dropdown-item').click((e)=>{
       alert(e.target.value);
-      
-      /*
-      const url = "/main";
-      fetch(url, {
-        method : "POST",
-        body : JSON.stringify({
-          'username' : username,
-          'course' : e.target.value,
-        })
-        // -- or --
-        // body : JSON.stringify({
-        // user : document.getElementById('user').value,
-        // ...
-        // })
-      }).then(
-        response => response.text() // .json(), etc.
-        // same as function(response) {return response.text();}
-      ).then(
-      html => console.log(html)
-      );
-      */
+    });
 
+    $(document).ready(function() {
+
+      $(".tdbookmark").click(function() {
+        var bookmark = $($($($($(this).parent().get(0)).get(0)).children().get(0)).children().get(1)).text();
+        console.log(bookmark);
+        // TODO: Remove entire row
+      });
     });
 
     const input = document.getElementById("search-input");
@@ -111,18 +97,14 @@ block content
 
     searchBtn.addEventListener("click", expand);
 
-
     function toCourseDropdown(){
       console.log("")
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      var rows = document.querySelectorAll('tr[data-href]');
+      var rows = document.querySelectorAll('td[data-href]');
       rows.forEach(row => {
         row.addEventListener('click', () => {
-          //- window.location.href = row.dataset.href;
-          //var threadTitle = document.getElementByNames(row.courseCode);
-          //- var threadTitle = document.getElementById(row.id).getElementsByTagName('td')[0].innerText;
           console.log(row);
           var threadTitle = document.getElementById(row.id).getElementsByTagName('span')[0].innerText;
           console.log(threadTitle);
