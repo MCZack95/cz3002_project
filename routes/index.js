@@ -181,8 +181,7 @@ router.post('/calendar', function(req, res, next) {
 
   var details_dict = {};
   var details = firebase.database().ref('/consultations/dates');
- 
-
+  
   details.once('value',
   function(snapshot) {
     details_dict = snapshot.val();
@@ -213,6 +212,29 @@ router.post('/bookcon', function(req, res, next) {
     console.log(snapshot.val());
     var details = firebase.database().ref('/consultations/dates/' + req.body.dateno + '/con1');
     details.child("booked").set("1");
+    details.child("bookedby").set(username);
+  
+    res.render('createquiz');
+    
+    
+  })
+
+});
+
+
+//cancel consult
+router.post('/cancelcon', function(req, res, next) {
+
+  //assume 1 a day
+  var details = firebase.database().ref('/consultations/dates/' + req.body.dateno);
+  details.once('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    console.log("CANCELCON\n" + req.body.dateno);
+    //console.log(snapshot.val());
+    var details = firebase.database().ref('/consultations/dates/' + req.body.dateno + '/con1');
+    details.child("booked").set("0");
+    details.child("bookedby").set(" ");
 
   
     res.render('createquiz');
