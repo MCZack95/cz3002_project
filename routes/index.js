@@ -37,22 +37,13 @@ router.get('/main', isLoggedIn, function(req, res, next) {
   finalthread_dict = {}
   tmpthread_dict = {}
 
-  testarray = [];
-
-  testarray = main_page.UniqueCourse(username);
-  console.log("TESTARRAY >> " + testarray);
-  for (var x=0;x<testarray.length;x++){
-    tmpthread_dict = db.getAllThreadsinOneCourse(testarray[x]);
-    finalthread_dict = Object.assign({},finalthread_dict,tmpthread_dict);
+  courseArray = main_page.UniqueCourse(username);
+  for (var x = 0; x < courseArray.length; x++){
+    tmpthread_dict = db.getAllThreadsinOneCourse(courseArray[x]);
+    finalthread_dict = Object.assign({}, finalthread_dict, tmpthread_dict);
   }
-  //thread_dict1=db.getAllThreadsinOneCourse("CZ4047");
-  //thread_dict2=db.getAllThreadsinOneCourse("CZ3002");
-  //thread_dict3=db.getAllThreadsinOneCourse("CZ3003");
-  //tmpthread_dict = Object.assign({}, thread_dict1, thread_dict2);
-  //finalthread_dict = Object.assign({}, thread_dict3,tmpthread_dict);
-  //console.log("Final Threads : " + JSON.stringify(finalthread_dict));
-
-  res.render('main_page', { coursecode: testarray, title: 'Main Page', username: username, data: finalthread_dict});
+  
+  res.render('main_page', { coursecode: courseArray, title: 'Main Page', username: username, data: finalthread_dict});
 });
 
 router.post('/main', function(req, res, next) {
@@ -79,33 +70,32 @@ router.post('/main', function(req, res, next) {
   threaddetails1.on('value',
   function(snapshot) {
     thread_dict1 = snapshot.val()
-    console.log("CZ3002 Threads : " + JSON.stringify(snapshot.val()));
+    // console.log("CZ3002 Threads : " + JSON.stringify(snapshot.val()));
   })
 
   threaddetails2.on('value',
   function(snapshot) {
     thread_dict2 = snapshot.val()
-    console.log("CZ3003 Threads : " + JSON.stringify(snapshot.val()));
+    // console.log("CZ3003 Threads : " + JSON.stringify(snapshot.val()));
   })
 
   threaddetails3.on('value',
   function(snapshot) {
     thread_dict3 = snapshot.val()
-    console.log("CZ4047 Threads : " + JSON.stringify(snapshot.val()));
+    // console.log("CZ4047 Threads : " + JSON.stringify(snapshot.val()));
   })
 
   tmpthread_dict = Object.assign({}, thread_dict1, thread_dict2);
   finalthread_dict = Object.assign({}, thread_dict3,tmpthread_dict);
-  console.log("Final Threads : " + JSON.stringify(finalthread_dict));
+  // console.log("Final Threads : " + JSON.stringify(finalthread_dict));
 
   setTimeout(function() { 
-    console.log('details_dict: ' + JSON.stringify(details_dict));
+    // console.log('details_dict: ' + JSON.stringify(details_dict));
   }, 1500);
 
   var verified = false;
 
   const courseArray = main_page.UniqueCourse(req.body.username);
-  console.log(courseArray);
 
   Object.keys(details_dict).forEach(function(key) {
     if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {
@@ -118,7 +108,6 @@ router.post('/main', function(req, res, next) {
   if (!verified) {
     res.redirect('/');
   }
-  
 });
 
 /*
