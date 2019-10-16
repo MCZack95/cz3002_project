@@ -115,10 +115,6 @@ router.post('/main', function(req, res, next) {
 
     var verified = false;
 
-    Promise.resolve(main_page.UniqueCourse(req.body.username)).then(function(value){
-      console.log(value);
-    });
-
     Object.keys(details_dict).forEach(function(key) {
       if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {
         username = req.body.username;

@@ -1,8 +1,8 @@
 extends layout
 
 block content
-  p(styles = {"text-transform": "uppercase"}) 
-  strong Welcome #{username}
+  p(styles = {"text-transform": "uppercase","color":"white"}) 
+    strong Welcome #{username}
   
   form(method = 'POST' action = '/createquiz')
     button.btn.btn-primary(type='submit') New Quiz
