@@ -147,6 +147,35 @@ router.post('/createquiz', function(req, res, next) {
 });
 
 //calendar test
+
+router.get('/calendar', function(req, res, next) {
+
+  var events = {"11/10/2019": ["test","damn","gg"]}; 
+
+  var details_dict = {};
+  var details = firebase.database().ref('/consultations/dates');
+ 
+
+  details.once('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    console.log("\n");
+    console.log(snapshot.val());
+ 
+    //var testdic = {"dates" : ["12/9/19","18/9/19"], "12/9/19": "event1", "18/9/19": "event2"};
+    //var dic2 = {"date1": {"date":"12/10/2019", "con1": {"timefrom" : "08:00", "timeto" : "09:00", "course" : "CZ4047", "prof" : "Li Yi", "booked": 0}}};
+    //var str = JSON.stringify(details_dict).replace(/"/g, "'");
+    //var str2 = str.replace(/-/g, "/");
+    console.log("ASGS: " + JSON.stringify(details_dict));
+
+    if (username != null) {
+      res.render('calendar', {dict: JSON.stringify(details_dict), testarr: ["lol","what"]});
+    } else {
+      res.render('error404');
+    }
+  }) 
+});
+
 router.post('/calendar', function(req, res, next) {
   var events = {"11/10/2019": ["test","damn","gg"]}; 
 
@@ -172,6 +201,7 @@ router.post('/calendar', function(req, res, next) {
 
   
 });
+
 router.post('/bookcon', function(req, res, next) {
 
   //assume 1 a day
