@@ -1,0 +1,44 @@
+extends layout
+
+block content
+
+    .centerDiv
+
+        br
+        .profile
+        br
+        
+        h3 
+            strong Profile Details 
+        br
+
+        h4  Username
+        p #{username}
+
+        h4 Date Of Admission 
+        p 3 August 2017
+
+        h4 Programme 
+        p Computer Science
+
+        h4 CGPA
+        p 4.95
+
+        h4 Type
+        p Student Full Time
+
+        h4 Study Year
+        p 4
+
+        h4 Status:
+        p SATISFACTORY
+
+        br
+        h3 Courses Enrolled
+
+        br
+        each coursename in coursecode
+            p #{coursename}
+        br
+
+    link(rel='stylesheet', href='/stylesheets/profile.css')

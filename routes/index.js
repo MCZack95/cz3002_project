@@ -48,6 +48,7 @@ router.get('/main', isLoggedIn, function(req, res, next) {
   });
 });
 
+
 router.post('/main', function(req, res, next) {
   console.log('Logging in via POST');
   details_dict = {};
@@ -113,10 +114,6 @@ router.post('/main', function(req, res, next) {
     }, 1500);
 
     var verified = false;
-
-    Promise.resolve(main_page.UniqueCourse(req.body.username)).then(function(value){
-      console.log(value);
-    });
 
     Object.keys(details_dict).forEach(function(key) {
       if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {
@@ -188,15 +185,18 @@ router.post('/calendar', function(req, res, next) {
     details_dict = snapshot.val();
     console.log("\n");
     console.log(snapshot.val());
- 
+
     //var testdic = {"dates" : ["12/9/19","18/9/19"], "12/9/19": "event1", "18/9/19": "event2"};
     //var dic2 = {"date1": {"date":"12/10/2019", "con1": {"timefrom" : "08:00", "timeto" : "09:00", "course" : "CZ4047", "prof" : "Li Yi", "booked": 0}}};
     //var str = JSON.stringify(details_dict).replace(/"/g, "'");
     //var str2 = str.replace(/-/g, "/");
     console.log("ASGS: " + JSON.stringify(details_dict));
-    res.render('calendar', {dict: JSON.stringify(details_dict), testarr: ["lol","what"]});
+    res.render('calendar', {dict: JSON.stringify(details_dict), testarr: ["lol","what"], user: username});
+    
+    
+  })
+
   
-  }) 
 });
 
 router.post('/bookcon', function(req, res, next) {
@@ -334,18 +334,30 @@ router.post('/quizscore', function(req, res, next) {
 
 //post to view quiz
 router.post('/viewquiz', function(req, res, next) {
-  details_dict = {}
+  details_dict = {};
   //Need to add in dynamic coursecode and quiz number
-  coursecode = "CZ4047"
-  quizno = "Quiz3"
-  details_dict = db.viewQuiz(coursecode,quizno);
-  
-  title = details_dict.Title;
-  delete details_dict.Title;
-  console.log("New : "+ details_dict);
-  
+  coursecode = "CZ4047";
+  quizno = "Quiz3";
+ // details_dict = db.viewQuiz(coursecode,quizno);
 
-  res.render('attemptquiz', { quiz: details_dict, title: title, coursecode: coursecode, quizno: quizno});
+ var details = firebase.database().ref('/'+ coursecode + "/quizzes/" +quizno);
+ details.once('value',
+ function(snapshot) {
+   details_dict = snapshot.val();
+   console.log("YOYO: " + snapshot.val());
+   if (Object.keys(details_dict).length < 0)
+   {
+       console.log("DB View Quiz Error");
+   }
+
+   var title = details_dict.Title;
+   delete details_dict.Title;
+   console.log("New : "+ details_dict);
+   
+   res.render('attemptquiz', { quiz: details_dict, title: title, coursecode: coursecode, quizno: quizno});
+
+ }) 
+
 });
 
 //up vote and down vote
@@ -475,6 +487,42 @@ router.get('/quiz', function(req, res, next){
   } else {
     res.render('error404');
   }
+});
+
+router.get('/profile', function(req, res, next){
+  console.log('Entering profile')
+  Promise.resolve(main_page.UniqueCourse(username)).then(function(value){
+    res.render('profile', { coursecode: value, title: 'profile', username: username})
+  });
+})
+
+router.post('/profile', function(req, res, next){
+  console.log('Entering profile')
+  Promise.resolve(main_page.UniqueCourse(username)).then(function(value){
+    res.render('profile', { coursecode: value, title: 'profile', username: username})
+  });})
+
+router.get('/bookmarks', function(req, res, next){
+
+  console.log('Getting Main Page');
+  console.log('username: ' + username);
+  details_dict = {};
+  thread_dict1 = {};
+  thread_dict2 = {};
+  thread_dict3 = {};
+  finalthread_dict = {};
+  tmpthread_dict = {};
+
+  thread_dict1=db.getAllThreadsinOneCourse("CZ4047");
+  thread_dict2=db.getAllThreadsinOneCourse("CZ3002");
+  thread_dict3=db.getAllThreadsinOneCourse("CZ3003");
+  tmpthread_dict = Object.assign({}, thread_dict1, thread_dict2);
+  finalthread_dict = Object.assign({}, thread_dict3,tmpthread_dict);
+  //console.log("Final Threads : " + JSON.stringify(finalthread_dict));
+
+  Promise.resolve(main_page.UniqueCourse(username)).then(function(value){
+    res.render('bookmarks', { coursecode: value, title: 'Bookmarks', username: username, data: finalthread_dict});
+  });
 });
 
 module.exports = router;

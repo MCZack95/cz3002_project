@@ -1,36 +1,21 @@
 extends layout
 
 block content
-  h4
-    strong Welcome #{username}
-  
-  form(method = 'POST' action = '/createquiz')
-    button.btn.btn-primary(type='submit') New Quiz
-
-  form(method = 'POST' action = '/viewquiz')
-    button.btn.btn-primary(type='submit') View Quiz
-
-  form(method = 'POST' action = '/email')
-    button.btn.btn-primary(type='submit') Email
-
-  form(method = 'POST' action = '/calendar')
-    button.btn.btn-primary(type='submit') Calendar
-
+  p(styles = {"text-transform": "uppercase"}) 
+  strong Welcome #{username}
+  br
   br
 
   nav.navbar.navbar-dark.navbar-expand-sm
     .navbar-header
-      img#forum_logo(src="/images/discuss.png" alt="NTU Learning Platform")
+      img#forum_logo(src="/images/bookmark.png" alt="NTU Learning Platform")
       span
-      h5.navbar-brand Discussion Forum
+      h5.navbar-brand Bookmarked Threads
 
     ul.navbar-nav
       form#content(method='GET' action='/main')
         input#search-input.input(type='text', name='input')
         button#search-btn.search(type='reset')
-      form(method = 'POST' action = '/createthread')
-        input(type="hidden" name="username" value=username)
-        button.btn.btn-light(type='submit') New Thread
       // Dropdown
       li.nav-item.dropdown
         button.btn.btn-light.dropdown-toggle.coursesbutt(data-toggle="dropdown") Courses
@@ -48,6 +33,7 @@ block content
         th#latestpost Latest Post
         th#replies Replies
         th#views Views
+        th#bookmark Book
         //th Rating
       tbody
         each thread in data
@@ -65,7 +51,7 @@ block content
                   .coursetag #{thread["coursecode"]}
               span#titles #{thread["title"]}
               #username #{thread["threadowner"]}
-            td 
+            td
               // 25/19/2019 00:00:00AM
               - var convertDateTime = function(dt) { return moment(Number(dt)).format('DD MMM YYYY hh:mm A '); }
               - var datetime = convertDateTime(`${thread["dateMod"]}`)
@@ -73,6 +59,13 @@ block content
               p#replier #{thread["lasteditedby"]}
             td#tdreplies #{thread["noOfReplies"]}
             td#tdviews #{thread["viewcount"]}
+            td#tdbookmark
+              img#bookmark(src='/images/delete_bookmark.png' alt='Bookmark')
+
+  form(method='GET' action='/main')
+      button.btn.btn-light#return-button(type='submit')
+        img.float-left(src="/images/return_arrow.png" alt="ReturnButton")
+        h5.float-left Return
 
   br
   br
@@ -106,7 +99,7 @@ block content
       );
       */
 
-    })
+    });
 
     const input = document.getElementById("search-input");
     const searchBtn = document.getElementById("search-btn");
@@ -166,4 +159,4 @@ block content
       document.getElementById('search-input').value = "";
     }
     
-  link(rel='stylesheet', href='/stylesheets/main_page.css')
+  link(rel='stylesheet', href='/stylesheets/bookmarks.css')
