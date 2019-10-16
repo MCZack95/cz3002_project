@@ -37,19 +37,91 @@ router.get('/main', isLoggedIn, function(req, res, next) {
   finalthread_dict = {}
   tmpthread_dict = {}
 
-  thread_dict1=db.getAllThreadsinOneCourse("CZ4047");
-  thread_dict2=db.getAllThreadsinOneCourse("CZ3002");
-  thread_dict3=db.getAllThreadsinOneCourse("CZ3003");
-  tmpthread_dict = Object.assign({}, thread_dict1, thread_dict2);
-  finalthread_dict = Object.assign({}, thread_dict3,tmpthread_dict);
+  testarray = [];
+
+  testarray = main_page.UniqueCourse(username);
+  console.log("TESTARRAY >> " + testarray);
+  for (var x=0;x<testarray.length;x++){
+    tmpthread_dict = db.getAllThreadsinOneCourse(testarray[x]);
+    finalthread_dict = Object.assign({},finalthread_dict,tmpthread_dict);
+  }
+  //thread_dict1=db.getAllThreadsinOneCourse("CZ4047");
+  //thread_dict2=db.getAllThreadsinOneCourse("CZ3002");
+  //thread_dict3=db.getAllThreadsinOneCourse("CZ3003");
+  //tmpthread_dict = Object.assign({}, thread_dict1, thread_dict2);
+  //finalthread_dict = Object.assign({}, thread_dict3,tmpthread_dict);
   //console.log("Final Threads : " + JSON.stringify(finalthread_dict));
 
-  Promise.resolve(main_page.UniqueCourse(username)).then(function(value){
-    res.render('main_page', { coursecode: value, title: 'Main Page', username: username, data: finalthread_dict});
-  });
+  res.render('main_page', { coursecode: testarray, title: 'Main Page', username: username, data: finalthread_dict});
 });
 
+router.post('/main', function(req, res, next) {
+  console.log('Logging in via POST');
+  details_dict = {}
+  thread_dict1 = {}
+  thread_dict2 = {}
+  thread_dict3 = {}
+  finalthread_dict = {}
+  tmpthread_dict = {}
 
+  var details = firebase.database().ref('/users');
+  details.on('value',
+  function(snapshot) {
+    details_dict = snapshot.val()
+    // console.log(snapshot.val());
+  }); 
+
+  var threaddetails1 = firebase.database().ref('CZ3002/threads');
+  var threaddetails2 = firebase.database().ref('CZ3003/threads');
+  var threaddetails3 = firebase.database().ref('CZ4047/threads');
+
+//Get threads in each course code
+  threaddetails1.on('value',
+  function(snapshot) {
+    thread_dict1 = snapshot.val()
+    console.log("CZ3002 Threads : " + JSON.stringify(snapshot.val()));
+  })
+
+  threaddetails2.on('value',
+  function(snapshot) {
+    thread_dict2 = snapshot.val()
+    console.log("CZ3003 Threads : " + JSON.stringify(snapshot.val()));
+  })
+
+  threaddetails3.on('value',
+  function(snapshot) {
+    thread_dict3 = snapshot.val()
+    console.log("CZ4047 Threads : " + JSON.stringify(snapshot.val()));
+  })
+
+  tmpthread_dict = Object.assign({}, thread_dict1, thread_dict2);
+  finalthread_dict = Object.assign({}, thread_dict3,tmpthread_dict);
+  console.log("Final Threads : " + JSON.stringify(finalthread_dict));
+
+  setTimeout(function() { 
+    console.log('details_dict: ' + JSON.stringify(details_dict));
+  }, 1500);
+
+  var verified = false;
+
+  const courseArray = main_page.UniqueCourse(req.body.username);
+  console.log(courseArray);
+
+  Object.keys(details_dict).forEach(function(key) {
+    if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {
+      username = req.body.username;
+      verified = true;
+      res.render('main_page', { coursecode: courseArray, title: 'Main Page', username: req.body.username, data: finalthread_dict });
+    }
+  });
+
+  if (!verified) {
+    res.redirect('/');
+  }
+  
+});
+
+/*
 router.post('/main', function(req, res, next) {
   console.log('Logging in via POST');
   details_dict = {};
@@ -58,7 +130,51 @@ router.post('/main', function(req, res, next) {
   thread_dict3 = {};
   finalthread_dict = {};
   tmpthread_dict = {};
-  
+
+  var details = firebase.database().ref('/users');
+  details.on('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    // console.log(snapshot.val());
+    resolve(details_dict);
+  });
+
+  var details_promise = new Promise(function(resolve, reject){
+    var details = firebase.database().ref('/users');
+    details.on('value',
+    function(snapshot) {
+      details_dict = snapshot.val();
+      // console.log(snapshot.val());
+      resolve(details_dict);
+    });
+  });
+
+  Promise.resolve(details_promise).then(function(details_dict){
+    Promise.resolve(main_page.UniqueCourse(req.body.username)).then(function(courses){
+      Promise.all(courses.map(function(course){
+        return db.getAllThreadsinOneCourse(course);
+      })).then(function(value){
+        finalthread_dict = Object.assign({}, value[0], value[1]);
+        console.log(finalthread_dict);
+        var verified = false;
+        
+        Object.keys(details_dict).forEach(function(key) {
+          if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {
+            username = req.body.username;
+            verified = true;
+            res.render('main_page', { coursecode: value, title: 'Main Page', username: req.body.username, data: finalthread_dict });
+          }
+        });
+      
+        if (!verified) {
+          res.redirect('/');
+        }
+      });
+    });
+  });
+
+  /*
+  // Get all users from db
   var details_promise = new Promise(function(resolve, reject){
     var details = firebase.database().ref('/users');
     details.on('value',
@@ -80,6 +196,8 @@ router.post('/main', function(req, res, next) {
     });
   });
 
+
+
   var thread2_promise = new Promise(function(resolve, reject){
     var threaddetails2 = firebase.database().ref('CZ3003/threads');
     threaddetails2.on('value',
@@ -100,7 +218,7 @@ router.post('/main', function(req, res, next) {
     });
   });
 
-  Promise.all([details_promise, thread1_promise, thread2_promise, thread3_promise]).then(function(values){
+  Promise.all([details_promise, thread1_promise, thread2_promise, thread3_promise, db.getAllThreadsinOneCourse('CZ3002')]).then(function(values){
     details_dict = values[0];
     thread_dict1 = values[1];
     thread_dict2 = values[2];
@@ -130,7 +248,7 @@ router.post('/main', function(req, res, next) {
       res.redirect('/');
     }
   });
-});
+});*/
 
 //post to create Thread can't shift cause button on main page so routing is index.js
 router.post('/createthread', function(req, res, next) {
@@ -456,7 +574,7 @@ router.post('/main/:thread_id', isLoggedIn, function(req, res, next){
   details_dict = {};
   details_dict = db.getAllPosts(coursecode,threadid);
   db.increaseViewCount(req.body.coursecode,req.body.id);
-
+  
   // Pass only Post into data parameter
   dataArray = [];
   Object.keys(details_dict).forEach(function(key){
@@ -464,7 +582,7 @@ router.post('/main/:thread_id', isLoggedIn, function(req, res, next){
       dataArray.push(details_dict[key]);
     }
   });
-  
+
   res.render('thread', { title: req.body.title, data: dataArray, threadid: req.body.id , coursecode: req.body.coursecode});
 });
 

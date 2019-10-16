@@ -18,24 +18,18 @@ function get_data(){
 // Get Unique Course ID
 function UniqueCourse(t_id){
   var courseArray = []
-  return Promise.resolve(
-    firebase.database().ref('/users').once('value',function(snapshot) {})
-    ).then(function(snapshot){
-
+  details = firebase.database().ref('/users').once('value',function(snapshot) {
     details = snapshot.val();
     //console.log(snapshot.val());
 
     for (var key in details) {
-      if (details.hasOwnProperty(key)) {
-        //console.log(key + " , " + details[key].username + "\n");
-        if (details[key].username == t_id){
-          //console.log("Details of Array " + details[key].courses.split(','));
-          courseArray = details[key].courses.split(',');
-        }
+      if (details[key].username == t_id){
+        //console.log("Details of Array " + details[key].courses.split(','));
+        courseArray = details[key].courses.split(',');
       }
     }
-    return courseArray;
-    })
+  });
+  return courseArray;
 }
 
 // Filter Course
