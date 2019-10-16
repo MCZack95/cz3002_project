@@ -4,6 +4,10 @@ body {
     background-image: url('/images/plain-background.png');
 }
 
+button:focus {
+    outline: 0;
+}
+
 .overallcont {
     background-color: white;
     padding: 20px;
@@ -21,7 +25,7 @@ body {
 }
 
 #avatext {
-    font-family: 'PN Bold';
+    font-family: 'PN Extrabold';
     margin-left: 5px;
     /* color: #D8D8D8; */
 }
@@ -44,28 +48,68 @@ body {
     margin-left: 25px;
     border: none;
     background: none;
+    display: block;
     /* margin-bottom: 5px; */
 }
 
 .active, .quizcont:hover {
-    background-color: yellow;
+    font-family: 'PN Bold';
 }
 
 .quizcont:before {
-    content: '⮞'; /* Unicode character for "plus" sign (+) */
-    /* font-size: 13px; */
+    content: '⮞  '; 
     color: black;
-    /* float: right;
-    margin-left: 5px; */
 }
 
 .active:before {
-    content: "⮟"; /* Unicode character for "minus" sign (-) */
+    content: "⮟  "; 
 }
 
 .content {
-    padding: 0 18px;
     display: none;
     overflow: hidden;
-    background-color: #f1f1f1;
+}
+
+button.content {
+    margin-left: 47px;
+    background: #fff;
+    color: #000033;
+    border: none;
+    position: relative;
+    height: 20px;
+    font-size: .6em;
+    padding: 0 2em;
+    cursor: pointer;
+    transition: 800ms ease all;
+    outline: none;
+    text-transform: uppercase;
+    width: 100px;
+}
+
+button.content:hover {
+    background: #000033;
+    color: #fff;
+}
+
+button.content:before, button.content:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 2px;
+    width: 0;
+    background: #fff;
+    transition: 400ms ease all;
+}
+
+button.content:after {
+    right: inherit;
+    top: inherit;
+    left: 0;
+    bottom: 0;
+}
+
+button.content:hover:before, button.content:hover:after {
+    width: 100%;
+    transition: 800ms ease all;
 }

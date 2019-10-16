@@ -1,27 +1,31 @@
 extends layout
 
-
 block content
-    strong Quiz Title: #{title}
-    br
-    -var index = 1
-    form(method = 'POST' action = '/quizscore')
-        each ques in quiz
-            h3 Q#{index}. #{ques.ques}
-            br
-            input(type='radio', name='q' + index, value='1')
-            | &nbsp 1) #{ques.opt1}
-            br
-            input(type='radio', name='q' + index, value='2')
-            | &nbsp 2) #{ques.opt2}
-            br
-            input(type='radio', name='q' + index, value='3')
-            | &nbsp 3) #{ques.opt3}
-            br
-            input(type='radio', name='q' + index, value='4')
-            | &nbsp 4) #{ques.opt4}
-            - index = index + 1
-            br
+
+    .quizcont 
+        #quiztitle Quiz Title: 
+            #quizname #{title}
+    
+        - var index = 1
+        form(method='POST' action='/quizscore')
+            each ques in quiz
+                .question
+                    h3 Q#{index}. #{ques.ques}
+                    br
+                    input(type='radio', name='q' + index, value='1')
+                    | &nbsp 1) #{ques.opt1}
+                    br
+                    input(type='radio', name='q' + index, value='2')
+                    | &nbsp 2) #{ques.opt2}
+                    br
+                    input(type='radio', name='q' + index, value='3')
+                    | &nbsp 3) #{ques.opt3}
+                    br
+                    input(type='radio', name='q' + index, value='4')
+                    | &nbsp 4) #{ques.opt4}
+                    - index = index + 1
+
+        
         input(type="text" name="testing" value=index-1 hidden) 
         input(type="text" name="coursecode" value=`${coursecode}` hidden) 
         input(type="text" name="quizno" value=`${quizno}` hidden)        
@@ -29,5 +33,6 @@ block content
         br
         br
         button.btn.btn-primary(type='submit') Submit Quiz
-    
 
+
+    link(rel='stylesheet', href='/stylesheets/attemptquiz.css')
