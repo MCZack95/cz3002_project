@@ -1,3 +1,57 @@
+@import 'fonts.css';
+
 body {
     background-image: url('/images/plain-background.png');
+}
+
+.overallcont {
+    background-color: white;
+    padding: 20px;
+    width: 100%;
+    -webkit-box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+}
+
+#avaquiz {
+    width: 100%;
+    margin-bottom: 20px;
+    /* border-bottom: 1px #D8D8D8 solid; */
+    border-bottom: 1px black solid;
+}
+
+#avatext {
+    font-family: 'PN Bold';
+    margin-left: 5px;
+    /* color: #D8D8D8; */
+}
+
+.coursecont {
+    /* border: 1px black solid; */
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 5px;
+}
+
+.modcont {
+    /* border: 1px black solid; */
+    width: 100%;
+    font-family: 'PN Regular';
+}
+
+.quizcont {
+    /* border: 1px black solid; */
+    margin-left: 25px;
+    /* margin-bottom: 5px; */
+}
+
+.active, .quizcont:hover {
+    background-color: yellow;
+}
+
+.content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
 }
