@@ -244,13 +244,27 @@ router.post('/cancelcon', function(req, res, next) {
 //calendar test
 router.post('/setconsult', function(req, res, next) {
   console.log('SET!');
-  //assume 1 a day
+  var details_dict = {};
   var details = firebase.database().ref('/consultations/dates');
-
+  //check if date is in current dates
   details.once('value',
   function(snapshot) {
+    console.log("start");
     details_dict = snapshot.val();
-    var newindex = Object.keys(details_dict).length + 1;
+    var dateno = "";
+    var conno = 0;
+    for(var x in snapshot.val()){
+
+        console.log(details_dict[x]["date"]);
+        if(req.body.datetoday==details_dict[x]["date"]){
+          console.log("HIHIHIHI");
+          dateno = x;
+          console.log(dateno);
+          conno = Object.keys(details_dict[x]).length;
+          console.log(conno);
+        }
+
+    }
 
     var newConsult = 
     {
@@ -259,17 +273,30 @@ router.post('/setconsult', function(req, res, next) {
       timeto: req.body.timeto,
       course: "CZ4047",
       booked: 0,
+      bookedby: " ",
       
     }
-    //req.body.datetoday,
-    var details = firebase.database().ref('/consultations/dates/date' + newindex + "/con1");
-    details.set(newConsult);
-    var details = firebase.database().ref('/consultations/dates/date' + newindex);
-    details.child("date").set(req.body.datetoday);
+    
+    if(dateno!=""){
+      //date exists set new con
+      var details = firebase.database().ref('/consultations/dates/' + dateno);
+      details.child("con" + conno).set(newConsult);
+      
+      
+    }else{
+
+      //new date
+      var newindex = Object.keys(details_dict).length + 1;
+      var details = firebase.database().ref('/consultations/dates/date' + newindex + "/con1");
+      details.set(newConsult);
+      var details = firebase.database().ref('/consultations/dates/date' + newindex);
+      details.child("date").set(req.body.datetoday);
+
+    }
 
   })
 
-  res.render('createquiz');
+    res.render('createquiz');
 });
 
 

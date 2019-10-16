@@ -15,6 +15,7 @@ block content
         
                 input(id="date" type="text" name="datetoday" value="1" hidden) 
                 h6 From: #{user}
+                button.btn.btn-primary(type='submit') Save Slot
                 select(id="options" name="timefrom")
                     option(value="800") 8.00AM
                     option(value="830") 8.30AM
@@ -30,7 +31,7 @@ block content
                     option(value="930") 9.30AM
                     option(value="1000") 10.00AM
                 |&nbsp &nbsp &nbsp
-                button.btn.btn-primary(type='submit') Save Slot
+               
                 span.fa.fa-plus-circle.cursor-pointer.add-event-day-field-btn 
                 
         .right-side
@@ -74,7 +75,7 @@ block content
             //alert("Now external resources are loaded too, like css,src etc... ");
             var date = "";
             var d = new Date();
-            date = d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear();
+            date = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
             document.getElementById("date").value = date;
             console.log(document.getElementById("date").value);
         }
@@ -118,6 +119,7 @@ block content
                 var dict = JSON.parse(newdict3);
                 console.log(dict);
                 for(var x in dict){
+                    //for(var y in dict[x])
                     //if slot is booked and not by user, don't show
                     if(!(dict[x]["con1"]["booked"]=="1" && dict[x]["con1"]["bookedby"]!=username)){
                 
@@ -315,9 +317,9 @@ block content
                     this.updateTime(newMonth);
                     this.drawAll()
                     console.log(month);
-                    var prevday = document.getElementById("date").value.split("/")[0];
+                    var prevday = document.getElementById("date").value.split("-")[0];
                     var d = new Date();
-                    document.getElementById("date").value = prevday + "/" + month + "/" + d.getFullYear();
+                    document.getElementById("date").value = prevday + "-" + month + "-" + d.getFullYear();
                     console.log("New mth: " + document.getElementById("date").value);
                 });
 
@@ -332,9 +334,9 @@ block content
                     this.updateTime(strDate);
                     this.drawAll()
                     console.log(day);
-                    var prevmth = document.getElementById("date").value.split("/")[1];
+                    var prevmth = document.getElementById("date").value.split("-")[1];
                     var d = new Date();
-                    document.getElementById("date").value = day + "/" + prevmth  + "/" + d.getFullYear();
+                    document.getElementById("date").value = day + "-" + prevmth  + "-" + d.getFullYear();
                     console.log("New mth: " + document.getElementById("date").value);
                 });
 
