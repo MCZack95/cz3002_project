@@ -148,6 +148,35 @@ router.post('/createquiz', function(req, res, next) {
 });
 
 //calendar test
+
+router.get('/calendar', function(req, res, next) {
+
+  var events = {"11/10/2019": ["test","damn","gg"]}; 
+
+  var details_dict = {};
+  var details = firebase.database().ref('/consultations/dates');
+ 
+
+  details.once('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    console.log("\n");
+    console.log(snapshot.val());
+ 
+    //var testdic = {"dates" : ["12/9/19","18/9/19"], "12/9/19": "event1", "18/9/19": "event2"};
+    //var dic2 = {"date1": {"date":"12/10/2019", "con1": {"timefrom" : "08:00", "timeto" : "09:00", "course" : "CZ4047", "prof" : "Li Yi", "booked": 0}}};
+    //var str = JSON.stringify(details_dict).replace(/"/g, "'");
+    //var str2 = str.replace(/-/g, "/");
+    console.log("ASGS: " + JSON.stringify(details_dict));
+
+    if (username != null) {
+      res.render('calendar', {dict: JSON.stringify(details_dict), testarr: ["lol","what"]});
+    } else {
+      res.render('error404');
+    }
+  }) 
+});
+
 router.post('/calendar', function(req, res, next) {
   var events = {"11/10/2019": ["test","damn","gg"]}; 
 
@@ -166,13 +195,14 @@ router.post('/calendar', function(req, res, next) {
     //var str = JSON.stringify(details_dict).replace(/"/g, "'");
     //var str2 = str.replace(/-/g, "/");
     console.log("ASGS: " + JSON.stringify(details_dict));
-    res.render('calendar', {dict: JSON.stringify(details_dict), testarr: ["lol","what"]});
+    res.render('calendar', {dict: JSON.stringify(details_dict), testarr: ["lol","what"], user: username});
     
     
   })
 
   
 });
+
 router.post('/bookcon', function(req, res, next) {
 
   //assume 1 a day
@@ -308,18 +338,30 @@ router.post('/quizscore', function(req, res, next) {
 
 //post to view quiz
 router.post('/viewquiz', function(req, res, next) {
-  details_dict = {}
+  details_dict = {};
   //Need to add in dynamic coursecode and quiz number
-  coursecode = "CZ4047"
-  quizno = "Quiz3"
-  details_dict = db.viewQuiz(coursecode,quizno);
-  
-  title = details_dict.Title;
-  delete details_dict.Title;
-  console.log("New : "+ details_dict);
-  
+  coursecode = "CZ4047";
+  quizno = "Quiz3";
+ // details_dict = db.viewQuiz(coursecode,quizno);
 
-  res.render('attemptquiz', { quiz: details_dict, title: title, coursecode: coursecode, quizno: quizno});
+ var details = firebase.database().ref('/'+ coursecode + "/quizzes/" +quizno);
+ details.once('value',
+ function(snapshot) {
+   details_dict = snapshot.val();
+   console.log("YOYO: " + snapshot.val());
+   if (Object.keys(details_dict).length < 0)
+   {
+       console.log("DB View Quiz Error");
+   }
+
+   var title = details_dict.Title;
+   delete details_dict.Title;
+   console.log("New : "+ details_dict);
+   
+   res.render('attemptquiz', { quiz: details_dict, title: title, coursecode: coursecode, quizno: quizno});
+
+ }) 
+
 });
 
 //up vote and down vote
