@@ -170,13 +170,14 @@ module.exports.viewQuiz = (coursecode,quizno) =>
   details.once('value',
   function(snapshot) {
     details_dict = snapshot.val();
-    console.log(snapshot.val());
+    console.log("YOYO: " + snapshot.val());
     if (Object.keys(details_dict).length < 0)
     {
         console.log("DB View Quiz Error");
     }
     
   })
+
   return details_dict;
 
 }

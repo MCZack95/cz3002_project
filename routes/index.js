@@ -165,7 +165,7 @@ router.post('/calendar', function(req, res, next) {
     //var str = JSON.stringify(details_dict).replace(/"/g, "'");
     //var str2 = str.replace(/-/g, "/");
     console.log("ASGS: " + JSON.stringify(details_dict));
-    res.render('calendar', {dict: JSON.stringify(details_dict), testarr: ["lol","what"]});
+    res.render('calendar', {dict: JSON.stringify(details_dict), testarr: ["lol","what"], user: username});
     
     
   })
@@ -307,18 +307,30 @@ router.post('/quizscore', function(req, res, next) {
 
 //post to view quiz
 router.post('/viewquiz', function(req, res, next) {
-  details_dict = {}
+  details_dict = {};
   //Need to add in dynamic coursecode and quiz number
-  coursecode = "CZ4047"
-  quizno = "Quiz3"
-  details_dict = db.viewQuiz(coursecode,quizno);
-  
-  title = details_dict.Title;
-  delete details_dict.Title;
-  console.log("New : "+ details_dict);
-  
+  coursecode = "CZ4047";
+  quizno = "Quiz3";
+ // details_dict = db.viewQuiz(coursecode,quizno);
 
-  res.render('attemptquiz', { quiz: details_dict, title: title, coursecode: coursecode, quizno: quizno});
+ var details = firebase.database().ref('/'+ coursecode + "/quizzes/" +quizno);
+ details.once('value',
+ function(snapshot) {
+   details_dict = snapshot.val();
+   console.log("YOYO: " + snapshot.val());
+   if (Object.keys(details_dict).length < 0)
+   {
+       console.log("DB View Quiz Error");
+   }
+
+   var title = details_dict.Title;
+   delete details_dict.Title;
+   console.log("New : "+ details_dict);
+   
+   res.render('attemptquiz', { quiz: details_dict, title: title, coursecode: coursecode, quizno: quizno});
+
+ }) 
+
 });
 
 //up vote and down vote
