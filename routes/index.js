@@ -48,6 +48,7 @@ router.get('/main', isLoggedIn, function(req, res, next) {
   });
 });
 
+
 router.post('/main', function(req, res, next) {
   console.log('Logging in via POST');
   details_dict = {};
@@ -449,5 +450,15 @@ router.get('/quiz', function(req, res, next){
     res.render('error404');
   }
 });
+
+router.get('/profile', function(req, res, next){
+  console.log('Entering profile')
+  res.render('profile', {title: 'profile', username: username})
+})
+
+router.post('/profile', function(req, res, next){
+  console.log('Entering profile')
+  res.render('profile', {title: 'profile', username: username})
+})
 
 module.exports = router;
