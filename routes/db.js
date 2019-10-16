@@ -184,19 +184,18 @@ module.exports.viewQuiz = (coursecode,quizno) =>
 module.exports.getAllThreadsinOneCourse = (coursecode) => 
 {
   details_dict = {}
-  var details = firebase.database().ref('/'+coursecode+'/threads');
-  details.once('value',
-  function(snapshot) {
+  return Promise.resolve(
+    firebase.database().ref('/'+coursecode+'/threads').once('value',function(snapshot) {})
+    ).then(function(snapshot){
     details_dict = snapshot.val()
     //console.log(snapshot.val());
     if (Object.keys(details_dict).length < 0)
     {
         console.log("DB get All Threads from course Error");
     }
+    return details_dict;
   });
-  return details_dict;
 }
-
 
 module.exports.increaseViewCount = (coursecode,threadid) => 
 {
