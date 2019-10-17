@@ -308,14 +308,17 @@ router.post('/calendar', function(req, res, next) {
 
 router.post('/bookcon', function(req, res, next) {
 
-  //assume 1 a day
-  var details = firebase.database().ref('/consultations/dates/' + req.body.dateno);
+  var arr = req.body.dateno.split(" ");
+  var dateno = arr[0];
+  var conno = arr[1];
+  console.log(dateno + " " + conno);
+  var details = firebase.database().ref('/consultations/dates/' + dateno);
   details.once('value',
   function(snapshot) {
     details_dict = snapshot.val();
     console.log("BOOKCON\n");
     console.log(snapshot.val());
-    var details = firebase.database().ref('/consultations/dates/' + req.body.dateno + '/con1');
+    var details = firebase.database().ref('/consultations/dates/' + dateno + '/' + conno);
     details.child("booked").set("1");
     details.child("bookedby").set(username);
   
@@ -330,14 +333,17 @@ router.post('/bookcon', function(req, res, next) {
 //cancel consult
 router.post('/cancelcon', function(req, res, next) {
 
-  //assume 1 a day
-  var details = firebase.database().ref('/consultations/dates/' + req.body.dateno);
+  var arr = req.body.dateno1.split(" ");
+  var dateno = arr[0];
+  var conno = arr[1];
+  console.log(dateno + " " + conno);
+  var details = firebase.database().ref('/consultations/dates/' + dateno);
   details.once('value',
   function(snapshot) {
     details_dict = snapshot.val();
     console.log("CANCELCON\n" + req.body.dateno);
     //console.log(snapshot.val());
-    var details = firebase.database().ref('/consultations/dates/' + req.body.dateno + '/con1');
+    var details = firebase.database().ref('/consultations/dates/' + dateno + '/' + conno);
     details.child("booked").set("0");
     details.child("bookedby").set(" ");
 
