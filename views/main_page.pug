@@ -25,8 +25,8 @@ block content
       h5.navbar-brand Discussion Forum
 
     ul.navbar-nav
-      form#content(method='GET' action='/main')
-        input#search-input.input(type='text', name='input')
+      form#content(onsubmit='')
+        input#search-input.input(type='text')
         button#search-btn.search(type='reset')
       form(method = 'POST' action = '/createthread')
         input(type="hidden" name="username" value=username)
@@ -83,29 +83,12 @@ block content
   script.
 
     $('.dropdown-item').click((e)=>{
-      alert(e.target.value);
-      
-      /*
-      const url = "/main";
-      fetch(url, {
-        method : "POST",
-        body : JSON.stringify({
-          'username' : username,
-          'course' : e.target.value,
-        })
-        // -- or --
-        // body : JSON.stringify({
-        // user : document.getElementById('user').value,
-        // ...
-        // })
-      }).then(
-        response => response.text() // .json(), etc.
-        // same as function(response) {return response.text();}
-      ).then(
-      html => console.log(html)
-      );
-      */
-
+      //console.log(e.target.value);
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/main", true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(JSON.stringify({course: e.target.value}));
+      return false;
     })
 
     const input = document.getElementById("search-input");
@@ -118,6 +101,20 @@ block content
 
     searchBtn.addEventListener("click", expand);
 
+    $('#content').submit(function () {
+      getSearchInput();
+      return false;
+    });
+
+    function getSearchInput() {
+      var searchinput = document.getElementById('search-input').value;
+      //console.log(searchinput);
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/main", true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(JSON.stringify({value: searchinput}));
+      return false;
+    }
 
     function toCourseDropdown(){
       console.log("")

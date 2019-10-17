@@ -85,20 +85,15 @@ tbody > tr {
 
 tbody > tr:hover {
   background-color: #57F2FF;
+}
+
+tbody > tr > td:first-child:hover {
   cursor: pointer;
 }
 
 tbody > tr > td > span {
   margin-left: 5px;
 }
-
-/* tbody > tr > td:first-child {
-  text-decoration: underline;
-} */
-
-/* tbody > tr > td:first-child:hover {
-  color: blue;
-} */
 
 #title {
   width: 89%;
@@ -312,6 +307,11 @@ input {
 #bookmark {
   height: 30px;
   width: 30px;
+}
+
+#bookmark:hover {
+  transform: scale(1.2);
+  transition: .5s ease;
 }
 
 #return-button > img {

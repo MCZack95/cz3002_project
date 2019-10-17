@@ -35,6 +35,79 @@ body {
     margin-top: 20px;
 }
 
-input[type=radio]:checked {
-    font-size: 200px;
+.optcont {
+    display: block;
+    position: relative;
+    padding-left: 26px;
+    margin-bottom: 18px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-family: 'PN Alt Light';
+}
+  
+.optcont input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+  
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 17px;
+    width: 17px;
+    background-color: #eee;
+    border-radius: 50%;
+    margin-top: 2px;
+    overflow: hidden; 
+    line-height: 1; 
+    text-align: center;
+    font-family: 'PN Alt Light';
+    font-size: 13px;
+}
+
+span.checkmark {
+    padding-top: 3px;
+}
+.optcont:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+  
+.optcont input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+  
+.optcont input:checked ~ .checkmark:after {
+    display: block;
+}
+  
+.optcont .checkmark:after {
+    top: 3.8px;
+    left: 3.7px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: white;
+    content: '✓';
+    font-weight: bold;
+}
+
+.questitle {
+    font-family: 'PN Alt Bold';
+    font-size: 15px;
+}
+
+.buttcont {
+    text-align: right;
+    margin-bottom: 20px;
 }
