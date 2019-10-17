@@ -10,6 +10,8 @@ firebase.initializeApp(require('../firebaseconfig.json'));
 var username = null;
 var threadid = null;
 var coursecode = null;
+var title = null;
+var role = null;
 
 function isLoggedIn(req, res, next) {
   if(username == null) {
@@ -478,6 +480,7 @@ router.post('/main/:thread_id', isLoggedIn, function(req, res, next){
   console.log("Posting to particular thread");
   threadid = req.body.id;
   coursecode = req.body.coursecode;
+  title = req.body.title;
   details_dict = {};
   details_dict = db.getAllPosts(coursecode,threadid);
   db.increaseViewCount(req.body.coursecode,req.body.id);
@@ -490,7 +493,7 @@ router.post('/main/:thread_id', isLoggedIn, function(req, res, next){
     }
   });
 
-  res.render('thread', { title: req.body.title, data: dataArray, threadid: req.body.id , coursecode: req.body.coursecode});
+  res.render('thread', { title: title, data: dataArray, threadid: req.body.id , coursecode: req.body.coursecode});
 });
 
 router.get('/main/:thread_id', isLoggedIn, function(req, res, next){
@@ -507,6 +510,12 @@ router.get('/main/:thread_id', isLoggedIn, function(req, res, next){
   else{
     newcoursecode = req.body.coursecode;
   }
+  if (req.body.title == null){
+    newtitle = title;
+  }
+  else{
+    newtitle = req.body.title;
+  }
 
   console.log("Test456 : " + threadid);
   details_dict = {};
@@ -520,7 +529,7 @@ router.get('/main/:thread_id', isLoggedIn, function(req, res, next){
     }
   });
   
-  res.render('thread', { title: req.body.title, data: dataArray, threadid: newthreadid , coursecode: newcoursecode});
+  res.render('thread', { title: newtitle, data: dataArray, threadid: newthreadid , coursecode: newcoursecode});
 });
 
 
