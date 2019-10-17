@@ -7,7 +7,6 @@ block content
   .container-fluid#threads
     each post in data
       -var index =post.id
-      -var title =title
       .row#container_row
         .row#main_row
           .score
@@ -26,6 +25,10 @@ block content
           .content
             .row#username_row
               h3 #{post.username}
+            if post.quote
+              .row#quote_row
+                h3 #{post.quote.quote_owner}
+                h3 #{post.quote.quote_content}
             .row#content_row
               h5 #{post.content}
           .filler
@@ -137,19 +140,6 @@ block content
         $(".reply > form").addClass("opaque");
         $("#reply-content > textarea").removeAttr("disabled");
         $("#confirm-button").removeAttr("disabled");
-      });
-
-      $(".report").click(function() {
-        console.log("REPORTING");
-      });      
-
-      $(".edit").click(function() {
-        console.log("EDITING");
-        $(".edit > form").submit();
-      });
-
-      $(".delete").click(function() {
-
       });
 
       $("#watch-button").click(function() {

@@ -82,6 +82,11 @@ body {
   font-family: 'PN Alt Bold';
 }
 
+#quote_row {
+  border: 1px dotted black;
+  background-color: lightslategray;
+}
+
 #content_row {
   max-height: 500px;
 }
