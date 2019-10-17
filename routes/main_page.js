@@ -10,6 +10,31 @@ module.exports.UniqueCourse = (t_id) => {
   return UniqueCourse(t_id)
 }
 
+module.exports.MergeSortThread = (object) => {
+  return MergeSortThread(object)
+}
+
+function MergeSortThread(object){
+  console.log(object)
+  console.log("Hereeeeeeeeeeeee")
+  //Split by threads
+  for (var key in object) {
+    if (object.hasOwnProperty(key)) {
+
+      //Split by posts
+      for (var key2 in object[key]){
+        if (object[key].hasOwnProperty(key2)){
+          if(key2.includes('Post')){
+            console.log(key2);
+            console.log(object[key][key2]);
+          }
+        }
+      }
+
+    }
+  }
+}
+
 // LOCAL METHODS
 function get_data(){
   return forum_data;
