@@ -59,9 +59,9 @@ body {
     background: #ec364f;
     float: left; }
   .calendar .current-day, .calendar .current-day-events {
-    padding-top: 40px; }
+    padding-top: 0px; }
   .calendar .current-day-events {
-    height: 215px; }
+    height: 120px; }
   .calendar .current-day-events ul {
     padding-left: 30px;
     list-style: none; }

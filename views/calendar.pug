@@ -14,25 +14,18 @@ block content
             form.cont(method='POST' action='/setconsult')
         
                 input(id="date" type="text" name="datetoday" value="1" hidden) 
-                h6 From: #{user}
-                button.btn.btn-primary(type='submit') Save Slot
-                select(id="options" name="timefrom")
-                    option(value="800") 8.00AM
-                    option(value="830") 8.30AM
-                    option(value="900") 9.00AM
-                    option(value="930") 9.30AM
-                    option(value="1000") 10.00AM
-                //input.add-event-day-field(type='text' placeholder='Create an Event')
-                h6 To: 
-                select(id="datetoday" name="timeto")
-                    option(value="800") 8.00AM
-                    option(value="830") 8.30AM
-                    option(value="900") 9.00AM
-                    option(value="930") 9.30AM
-                    option(value="1000") 10.00AM
-                |&nbsp &nbsp &nbsp
+                h6 Select timeslot: #{user}
                
-                span.fa.fa-plus-circle.cursor-pointer.add-event-day-field-btn 
+                select(id="options" name="time")
+                    option(value="08:00 08:30") 8.00AM - 8:30AM
+                    option(value="08:30 09:00") 8.30AM - 9:00AM
+                    option(value="09:00 09:30") 9.00AM - 9:30AM
+                    option(value="09:00 09:30") 9.00AM - 9:30AM
+                
+                //input.add-event-day-field(type='text' placeholder='Create an Event')
+                |&nbsp &nbsp &nbsp
+                button.btn.btn-primary(type='submit') Save Slot
+                //span.fa.fa-plus-circle.cursor-pointer.add-event-day-field-btn 
                 
         .right-side
             .text-right.calendar-change-year
@@ -52,10 +45,9 @@ block content
     link(rel="stylesheet" href="app/styles/all.css")
 
     script.  
-
+         //set con also
         function bookcon(ele){
-
-            //alert(ele.parentElement.id);
+           
             var lol = document.getElementById("lol");
             lol.value = ele.parentElement.parentElement.id;
             console.log(lol.value);
@@ -65,7 +57,8 @@ block content
 
             var lol = document.getElementById("cancel");
             lol.value = ele.parentElement.parentElement.id;
-            console.log(lol.value);
+            console.log("HELLO" + lol.value);
+            //works leh
 
 
         }
@@ -119,19 +112,36 @@ block content
                 var dict = JSON.parse(newdict3);
                 console.log(dict);
                 for(var x in dict){
-                    //for(var y in dict[x])
+
+                    for(var y in dict[x]){
+                    //skip if is date element
+                    if(y=="date"){
+                        continue;
+                    }else{
+
                     //if slot is booked and not by user, don't show
-                    if(!(dict[x]["con1"]["booked"]=="1" && dict[x]["con1"]["bookedby"]!=username)){
+                    if(!(dict[x][y]["booked"]=="1" && dict[x][y]["bookedby"]!=username)){
                 
-                        if(dict[x]["con1"]["bookedby"]==username){
-                        
-                            events[dict[x]["date"]] = ["1 " + x, dict[x]["con1"]["course"] + " (" + dict[x]["con1"]["prof"] + ") : " + dict[x]["con1"]["timefrom"] + " - " +  dict[x]["con1"]["timeto"]] ;
+                        if(dict[x][y]["bookedby"]==username){
+                            if(events[dict[x]["date"]]==null){
+                                events[dict[x]["date"]] = ["1 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"]] ;
+                            }else{
+                                events[dict[x]["date"]].push("1 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"]);
+                            }
                         }else{
-                             events[dict[x]["date"]] = ["0 " + x, dict[x]["con1"]["course"] + " (" + dict[x]["con1"]["prof"] + ") : " + dict[x]["con1"]["timefrom"] + " - " +  dict[x]["con1"]["timeto"]] ;
+                            if(events[dict[x]["date"]]==null){
+                                events[dict[x]["date"]] = ["0 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"]] ;
+                            }else{
+                                events[dict[x]["date"]].push("0 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"]) ;
+                            }
+                        
                         }
                     
-                    }
+                     }
                 
+                    }
+
+                    }   
                 }
             console.log(events);
             this.eventList = events;
@@ -167,6 +177,7 @@ block content
                 //add logic for booked before. button should say unbook.
                 var bookedbyuser = false;
                 var dateno = "";
+                var conno = "";
 
                 for(var x=0;x<eventList.length;x++){
                 
@@ -177,25 +188,26 @@ block content
                         }
                         var res = eventList[x].split(" ");
                         dateno = res[1];
+                        conno = res[2];
 
                     }else{
                         
 
                         //need to find another way to setdayno, another arr element?
                         if(bookedbyuser){
-                            eventTemplate += `<li id="${dateno}">&nbsp&nbsp ${eventList[x]} &nbsp&nbsp
+                            eventTemplate += `<li id="${dateno} ${conno}">&nbsp&nbsp ${eventList[x]} &nbsp&nbsp
                             <form method="POST" action="/cancelcon">
-                            <input id="cancel" type="text" name="dateno" value="date" hidden></input>
-                            <input type="submit" value="Cancel" onclick="cancelcon(this);"></input></form></li>
+                            <input id="cancel" type="text" name="dateno1" value="${dateno} ${conno}" hidden></input>
+                            <input type="submit" value="Cancel"></input></form></li>
                             `;
                             bookedbyuser = false;
 
                         }else{
 
-                           eventTemplate += `<li id="${dateno}">&nbsp&nbsp ${eventList[x]} &nbsp&nbsp
+                           eventTemplate += `<li id="${dateno} ${conno}">&nbsp&nbsp ${eventList[x]} &nbsp&nbsp
                             <form method="POST" action="/bookcon">
-                            <input id="lol" type="text" name="dateno" value="date" hidden></input>
-                            <input type="submit" value="Book" onclick="bookcon(this);"></input></form></li>
+                            <input id="lol" type="text" name="dateno" value="${dateno} ${conno}" hidden></input>   
+                            <input type="submit" value="Book"></input></form></li>
                             `; 
 
                         }
@@ -341,19 +353,8 @@ block content
                 });
 
                 //store prev month or day when change...
-
-                this.elements.eventAddBtn.addEventListener('click', e => {
-                    let fieldValue = this.elements.eventField.value;
-                    if (!fieldValue) return false;
-                    let dateFormatted = this.getFormattedDate(new Date(this.date));
-                    if (!this.eventList[dateFormatted]) this.eventList[dateFormatted] = [];
-                    this.eventList[dateFormatted].push(fieldValue);
                 
-                    localStorage.setItem(localStorageName, JSON.stringify(this.eventList));
-                    this.elements.eventField.value = '';
-                    this.drawAll()
-                });
-
+            
 
             }
 
