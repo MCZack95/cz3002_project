@@ -26,7 +26,7 @@ router.post('/newthread', function(req, res, next) {
   var newThread =
   {
     id : 1,
-    username : "Username",
+    username : req.body.username,
     content : req.body.content,
     dateTime : Date.now(),
     noOfLikes : 0,

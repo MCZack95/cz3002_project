@@ -126,7 +126,7 @@ router.post('/main', function(req, res, next) {
 //post to create Thread can't shift cause button on main page so routing is index.js
 router.post('/createthread', function(req, res, next) {
   console.log('Creating a Thread');
-  res.render('createthread');
+  res.render('createthread',{username : username});
 });
 
 //post to create Quiz can't shift cause button on main page so routing is index.js
