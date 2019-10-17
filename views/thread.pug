@@ -7,6 +7,7 @@ block content
   .container-fluid#threads
     each post in data
       -var index =post.id
+      -var title =title
       .row#container_row
         .row#main_row
           .score
@@ -30,33 +31,30 @@ block content
           .filler
         .row#extra_row
           .quote
-            form.float-left(method = 'POST' action = '#' )
-              input(type="hidden" name="threadid" value=threadid)
-              input(type="hidden" name="coursecode" value=coursecode)
-              button#quote_button(type="submit" name="returnarrow" value=index+";1")
-                img#quote(src='/images/quote.png' alt="ReplyButton")
-            h5.float-left Quote
+            button#quote_button(type="submit" name="returnarrow" value=index+";1")
+              img.float-left#quote(src='/images/quote.png' alt="ReplyButton")
+              h5.float-left Quote
           .report
             form.float-left(method = 'POST' action = '#')
               input(type="hidden" name="threadid" value=threadid)
               input(type="hidden" name="coursecode" value=coursecode)
               button#report_button(type="submit" name="reportarrow" value=index+";2")
-                img#report(src='/images/report.png' alt="ReportButton")
-            h5.float-left Report
+                img.float-left#report(src='/images/report.png' alt="ReportButton")
+                h5.float-left Report
           .edit
             form.float-left(method = 'POST' action = '/editpost')
               input(type="hidden" name="threadid" value=threadid)
               input(type="hidden" name="coursecode" value=coursecode)
               button#edit_button(type="submit" name="editarrow" value=index+";4")
-                img#edit(src='/images/edit.png' alt="EditButton")
-            h5.float-left Edit Post
+                img.float-left#edit(src='/images/edit.png' alt="EditButton")
+                h5.float-left Edit Post
           .delete
             form.float-left(method = 'POST' action = '/deletepost')
               input(type="hidden" name="threadid" value=threadid)
               input(type="hidden" name="coursecode" value=coursecode)
               button#delete_button(type="submit" name="deletearrow" value=index+";5")
-                img#delete(src='/images/delete-bin.png' alt="DeleteButton")
-            h5.float-left Delete Post
+                img.float-left#delete(src='/images/delete-bin.png' alt="DeleteButton")
+                h5.float-left Delete Post
 
   br
   .container-fluid#thread_buttons
@@ -141,7 +139,18 @@ block content
         $("#confirm-button").removeAttr("disabled");
       });
 
-      
+      $(".report").click(function() {
+        console.log("REPORTING");
+      });      
+
+      $(".edit").click(function() {
+        console.log("EDITING");
+        $(".edit > form").submit();
+      });
+
+      $(".delete").click(function() {
+
+      });
 
       $("#watch-button").click(function() {
         $("#watch-button").toggleClass("btn-light");

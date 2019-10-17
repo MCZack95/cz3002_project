@@ -27,8 +27,9 @@ body {
   width: 100%;
   margin-top: 20px;
   border-radius: 15px;
-  background-color: #57F2FF;
-  background-image: repeating-linear-gradient(135deg, #2BDDF9, #57F2FF 10%, #2BDDF9 20%);
+  background-color: white;
+  width: 100%;
+  box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
 }
 
 #container_row:hover {
@@ -123,12 +124,6 @@ body {
   margin-left: 1%;
 }
 
-.quote > h5, .report > h5, .edit > h5, .delete > h5 {
-  margin-left: 5px;
-  margin-top: 2px;
-  font-family: 'PN Alt Light';
-}
-
 .quote {
   width: 100px;
 }
@@ -151,19 +146,22 @@ body {
 }
 
 #quote_button, #report_button, #edit_button, #delete_button {
+  border-radius: 10px;
   background: transparent;
   border: transparent;
 }
 
-.quote, .report, .edit, .delete {
-  border-radius: 10px;
-}
-
-.quote:hover, .report:hover, .edit:hover, .delete:hover {
+#quote_button:hover, #report_button:hover, #edit_button:hover, #delete_button:hover {
   cursor: pointer;
   box-shadow: 5px 5px #0B1A51;
   transform: translate(0px, -10px);
   transition: .5s ease;
+}
+
+#quote_button > h5, #report_button > h5, #edit_button > h5, #delete_button > h5 {
+  margin-left: 5px;
+  margin-top: 2px;
+  font-family: 'PN Alt Light';
 }
 
 #thread_buttons {
