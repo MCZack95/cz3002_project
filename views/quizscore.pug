@@ -1,23 +1,28 @@
 extends layout
 
 block content
-    h1 Results for #{title}
-    h2 You scored #{score} / #{quesnos}! 
-    h2 You are stupid! Let's look at the answers. 
-    br
-    -var index = 1
-    each ques in details
-        h3 Q#{index}. #{ques.ques}
+
+    #quizscorecont
+        h1 Results for #{title}
+        h2 You scored #{score} / #{quesnos}! 
+        h2 You are stupid! Let's look at the answers. 
         br
-        h5 1) #{ques.opt1}
-        br
-        h5 2) #{ques.opt2}
-        br
-        h5 3) #{ques.opt3}
-        br
-        h5 4) #{ques.opt4}
-        br
-        h5 You answered: #{answers[index-1]}
-        br
-        h5 The correct answer is #{answerkey[index-1]}. #{ques.explanation}
-        - index = index + 1
+        -var index = 1
+        each ques in details
+            h3 Q#{index}. #{ques.ques}
+            br
+            h5 1) #{ques.opt1}
+            br
+            h5 2) #{ques.opt2}
+            br
+            h5 3) #{ques.opt3}
+            br
+            h5 4) #{ques.opt4}
+            br
+            h5 You answered: #{answers[index-1]}
+            br
+            h5 The correct answer is #{answerkey[index-1]}. #{ques.explanation}
+            - index = index + 1
+
+
+    link(rel='stylesheet', href='/stylesheets/quizscore.css')

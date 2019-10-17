@@ -10,29 +10,48 @@ block content
         form(method='POST' action='/quizscore')
             each ques in quiz
                 .question
-                    h3 Q#{index}. #{ques.ques}
+                    .questitle Q#{index}. #{ques.ques}
                     br
-                    input(type='radio', name='q' + index, value='1')
-                    | &nbsp 1) #{ques.opt1}
-                    br
-                    input(type='radio', name='q' + index, value='2')
-                    | &nbsp 2) #{ques.opt2}
-                    br
-                    input(type='radio', name='q' + index, value='3')
-                    | &nbsp 3) #{ques.opt3}
-                    br
-                    input(type='radio', name='q' + index, value='4')
-                    | &nbsp 4) #{ques.opt4}
+                    label.optcont #{ques.opt1}
+                        input(type='radio', name='q'+index, value='1')
+                        span.checkmark 1
+                    label.optcont #{ques.opt2}
+                        input(type='radio', name='q'+index, value='2')
+                        span.checkmark 2
+                    label.optcont #{ques.opt3}
+                        input(type='radio', name='q'+index, value='3')
+                        span.checkmark 3     
+                    label.optcont #{ques.opt4}
+                        input(type='radio', name='q'+index, value='4')
+                        span.checkmark 4
                     - index = index + 1
 
-        
             input(type="text" name="testing" value=index-1 hidden) 
             input(type="text" name="coursecode" value=`${coursecode}` hidden) 
             input(type="text" name="quizno" value=`${quizno}` hidden)        
-            br 
             br
-            br
-            button.btn.btn-primary(type='submit') Submit Quiz
+            .buttcont
+                button.btn.btn-primary(type='submit' style='margin-right: 10px;') Submit Quiz
+                button.btn.btn-light(onclick='goBack()') Cancel
+            
 
 
     link(rel='stylesheet', href='/stylesheets/attemptquiz.css')
+
+    script.
+        $(document).ready(function() {
+            $('input[type="radio"]').click(function() {
+                $this = $(this);
+                $label = $this.parent();
+                // first make ALL labels normal
+                $label.parent().parent().find('label').css('font-family', 'PN Alt Light');
+                $label.parent().parent().find('label').css('background', 'white');
+                // then color just THIS one
+                $label.css('font-family', 'PN Alt Bold');
+                $label.css('background', '#2196F3');
+            });
+        });
+
+        function goBack() {
+            window.history.back();
+        }
