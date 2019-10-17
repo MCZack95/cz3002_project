@@ -12,6 +12,7 @@ var threadid = null;
 var coursecode = null;
 var title = null;
 var role = null;
+var courses = null;
 
 function isLoggedIn(req, res, next) {
   if(username == null) {
@@ -96,6 +97,8 @@ router.post('/main', function(req, res, next) {
         username = req.body.username;
         verified = true;
         var courseArray = details_dict[key]['courses'].split(",");
+        //global for courses  
+        courses = courseArray
         for (var x=0;x<courseArray.length;x++){
           switch (courseArray[x])
           {
@@ -539,11 +542,47 @@ router.get('/thread', function(req, res, next){
 
 // view quiz
 router.get('/quiz', function(req, res, next){ 
-  if (username != null) {
-    res.render('quiz');
-  } else {
-    res.render('error404');
-  }
+  details_dict = {};
+  details_dict1 = {};
+  console.log("Courses : " + courses);
+  //details_dict = db.getQuizzes(courses[0]);
+  //details_dict1 = db.getQuizzes(courses[1]);
+
+  var promises = courses.map(function(element) {
+    return db.getQuizzes(element).then((value) => {
+      return value;
+     });
+ });
+
+ /**(Promise.all(promises).then(function(values) {
+  values.forEach(function(value) {
+    console.log("Testing : " + JSON.stringify(value));
+  });
+});
+**/
+//initial index
+var x = 0;
+Promise.all(promises).then(function(values) {
+  values.forEach(function(value) {
+    details_dict[courses[x]] = value.val();
+    console.log("X Value " + x + "COurse : " + courses[x]); 
+    console.log("Testing for courses : " + " | " + courses[x] + JSON.stringify(details_dict[courses[x]]));
+    details_dict1 = Object.assign({},details_dict1,details_dict);
+    x = x + 1;
+  });
+  console.log("Dict Final Value for CZ3002 : " + JSON.stringify(details_dict1["CZ3002"]));
+  console.log("Dict Final Value for CZ3003 : " + JSON.stringify(details_dict1["CZ3003"]));
+});
+  setTimeout(function() { 
+    if (username != null) {
+      res.render('quiz',{data : details_dict1});
+    } else {
+      res.render('error404');
+    }
+    
+  }, 1000);
+
+
 });
 
 router.get('/profile', function(req, res, next){

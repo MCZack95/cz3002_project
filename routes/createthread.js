@@ -40,7 +40,7 @@ router.post('/newthread', function(req, res, next) {
   // Post 1 cause create thread always is first post
   
   var details = firebase.database().ref('/'+req.body.coursecode+"/threads/"+req.body.coursecode+"Thread"+ newThreadindex);
-  details.child("Title").set(req.body.title);
+  details.child("title").set(req.body.title);
 
   console.log('hi'+req.body.coursecode);
 
