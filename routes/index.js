@@ -133,31 +133,33 @@ router.post('/createquiz', function(req, res, next) {
 //calendar test
 
 router.get('/calendar', function(req, res, next) {
+  setTimeout(function(){
 
-  var events = {"11/10/2019": ["test","damn","gg"]}; 
+    console.log("Getting calender ");
+    var events = {"11/10/2019": ["test","damn","gg"]}; 
+  
+    var details_dict = {};
+    var details = firebase.database().ref('/consultations/dates');
+   
+  
+    details.once('value',
+    function(snapshot) {
+      details_dict = snapshot.val();
+      console.log("\n");
+      console.log(snapshot.val());
+   
+      console.log("ASGS: " + JSON.stringify(details_dict));
+  
+      if (username != null) {
+        res.render('calendar', {dict: JSON.stringify(details_dict), user: username});
+      } else {
+        res.render('error404');
+      }
+    }) 
 
-  var details_dict = {};
-  var details = firebase.database().ref('/consultations/dates');
+
+  },1000);
  
-
-  details.once('value',
-  function(snapshot) {
-    details_dict = snapshot.val();
-    console.log("\n");
-    console.log(snapshot.val());
- 
-    //var testdic = {"dates" : ["12/9/19","18/9/19"], "12/9/19": "event1", "18/9/19": "event2"};
-    //var dic2 = {"date1": {"date":"12/10/2019", "con1": {"timefrom" : "08:00", "timeto" : "09:00", "course" : "CZ4047", "prof" : "Li Yi", "booked": 0}}};
-    //var str = JSON.stringify(details_dict).replace(/"/g, "'");
-    //var str2 = str.replace(/-/g, "/");
-    console.log("ASGS: " + JSON.stringify(details_dict));
-
-    if (username != null) {
-      res.render('calendar', {dict: JSON.stringify(details_dict), testarr: ["lol","what"]});
-    } else {
-      res.render('error404');
-    }
-  }) 
 });
 
 router.post('/calendar', function(req, res, next) {
@@ -172,10 +174,7 @@ router.post('/calendar', function(req, res, next) {
     console.log("\n");
     console.log(snapshot.val());
 
-    //var testdic = {"dates" : ["12/9/19","18/9/19"], "12/9/19": "event1", "18/9/19": "event2"};
-    //var dic2 = {"date1": {"date":"12/10/2019", "con1": {"timefrom" : "08:00", "timeto" : "09:00", "course" : "CZ4047", "prof" : "Li Yi", "booked": 0}}};
-    //var str = JSON.stringify(details_dict).replace(/"/g, "'");
-    //var str2 = str.replace(/-/g, "/");
+  
     console.log("ASGS: " + JSON.stringify(details_dict));
     res.render('calendar', {dict: JSON.stringify(details_dict), testarr: ["lol","what"], user: username});   
   });
@@ -235,57 +234,63 @@ router.post('/setconsult', function(req, res, next) {
   console.log('SET!');
   var details_dict = {};
   var details = firebase.database().ref('/consultations/dates');
-  //check if date is in current dates
-  details.once('value',
-  function(snapshot) {
-    console.log("start");
-    details_dict = snapshot.val();
-    var dateno = "";
-    var conno = 0;
-    for(var x in snapshot.val()){
+  var times = req.body.time.split(" ");
+  var from = times[0];
+  var to = times[1];
 
-        console.log(details_dict[x]["date"]);
-        if(req.body.datetoday==details_dict[x]["date"]){
-          console.log("HIHIHIHI");
-          dateno = x;
-          console.log(dateno);
-          conno = Object.keys(details_dict[x]).length;
-          console.log(conno);
-        }
+    details.once('value',
+    function(snapshot) {
+      console.log("start");
+      details_dict = snapshot.val();
+      var dateno = "";
+      var conno = 0;
 
-    }
+     
+      for(var x in details_dict){
 
-    var newConsult = 
-    {
-      prof: "Li Yi",
-      timefrom: req.body.timefrom,
-      timeto: req.body.timeto,
-      course: "CZ4047",
-      booked: 0,
-      bookedby: " ",
+          console.log(details_dict[x]["date"]);
+          if(req.body.datetoday==details_dict[x]["date"]){
+            console.log("HIHIHIHI");
+            dateno = x;
+            console.log(dateno);
+            conno = Object.keys(details_dict[x]).length;
+            console.log(conno);
+          }
+
+      }
+
+      var newConsult = 
+      {
+        prof: "Li Yi",
+        timefrom: from,
+        timeto: to,
+        course: "CZ4047",
+        booked: 0,
+        bookedby: " ",
+        
+      }
       
-    }
-    
-    if(dateno!=""){
-      //date exists set new con
-      var details = firebase.database().ref('/consultations/dates/' + dateno);
-      details.child("con" + conno).set(newConsult);
-      
-      
-    }else{
+      if(dateno!=""){
+        //date exists set new con
+        var details1 = firebase.database().ref('/consultations/dates/' + dateno);
+        details1.child("con" + conno).set(newConsult);
+        
+        
+      }else{
 
-      //new date
-      var newindex = Object.keys(details_dict).length + 1;
-      var details = firebase.database().ref('/consultations/dates/date' + newindex + "/con1");
-      details.set(newConsult);
-      var details = firebase.database().ref('/consultations/dates/date' + newindex);
-      details.child("date").set(req.body.datetoday);
+        //new date
+        var newindex = Object.keys(details_dict).length + 1;
+        var details2 = firebase.database().ref('/consultations/dates/date' + newindex + "/con1");
+        details2.set(newConsult);
+        var details2 = firebase.database().ref('/consultations/dates/date' + newindex);
+        
+        details2.child("date").set(req.body.datetoday);
 
-    }
+      }
 
-  })
+    })
 
-    res.render('createquiz');
+    res.redirect(req.get('referer'));
 });
 
 

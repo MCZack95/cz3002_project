@@ -17,10 +17,34 @@ block content
                 h6 Select timeslot: #{user}
                
                 select(id="options" name="time")
-                    option(value="08:00 08:30") 8.00AM - 8:30AM
-                    option(value="08:30 09:00") 8.30AM - 9:00AM
-                    option(value="09:00 09:30") 9.00AM - 9:30AM
-                    option(value="09:00 09:30") 9.00AM - 9:30AM
+                    option(value="8.00AM 8:30AM") 8.00AM - 8:30AM
+                    option(value="8.30AM 9:00AM") 8.30AM - 9:00AM
+                    option(value="9.00AM 9:30AM") 9.00AM - 9:30AM
+                    option(value="9.30AM 10:00AM") 9.30AM - 10:00AM
+                    option(value="10.00AM 10:30AM") 10.00AM - 10:30AM
+                    option(value="10.30AM 11:00AM") 10.30AM - 11:00AM
+                    option(value="11.00AM 11:30AM") 11.00AM - 11:30AM
+                    option(value="11.30AM 12:00PM") 11.30AM - 12:00PM
+                    option(value="12.00PM 12:30PM") 12.00PM - 12:30PM
+                    option(value="12.30PM 1:00PM") 12.30PM - 1:00PM
+                    option(value="1.00PM 1:30PM") 1.00PM - 1:30PM
+                    option(value="1.30PM 2:00PM") 1.30PM - 2:00PM
+                    option(value="2.00PM 2:30PM") 2.00PM - 2:30PM
+                    option(value="2.30PM 3:00PM") 2.30PM - 3:00PM
+                    option(value="3.00PM 3:30PM") 3.00PM - 3:30PM
+                    option(value="3.30PM 4:00PM") 3.30PM - 4:00PM
+                    option(value="4.00PM 4:30PM") 4.00PM - 4:30PM
+                    option(value="4.30PM 5:00PM") 4.30PM - 5:00PM
+
+                h6 Select recurring slots for: 
+                select(id="recur" name="recur" onchange="test();")
+                    option(value="0") -
+                    option(value="4") 4 weeks
+                    option(value="8") 8 weeks
+                    option(value="16") 16 weeks
+                    option(value="32") 32 weeks
+
+                    
                 
                 //input.add-event-day-field(type='text' placeholder='Create an Event')
                 |&nbsp &nbsp &nbsp
@@ -46,21 +70,11 @@ block content
 
     script.  
          //set con also
-        function bookcon(ele){
-           
-            var lol = document.getElementById("lol");
-            lol.value = ele.parentElement.parentElement.id;
-            console.log(lol.value);
-        }
-
-        function cancelcon(ele){
-
-            var lol = document.getElementById("cancel");
-            lol.value = ele.parentElement.parentElement.id;
-            console.log("HELLO" + lol.value);
-            //works leh
-
-
+        function test(){
+            var date =  document.getElementById("date").value.split("-");
+            var day = new Date(date[2],date[1],date[0],12,0,0,0);
+            var nextWeek = new Date(day.getTime() + 7 * 24 * 60 * 60 * 1000);
+            alert(nextWeek.getDate() + "/" + nextWeek.getMonth());
         }
 
         document.addEventListener('readystatechange', event => {
