@@ -51,25 +51,6 @@ router.post('/main', function(req, res, next) {
   finalthread_dict = {}
   tmpthread_dict = {}
 
-  // Search result Filter on Threads, to check title of threads and filter
-  if(req.body.value){
-    console.log(req.body.value);
-    return false;
-  }
-
-  // Course Filter on Threads, filter by course name
-  if(req.body.course){
-    console.log(req.body.course);
-    return false;
-  }
-
-  var details = firebase.database().ref('/users');
-  details.on('value',
-  function(snapshot) {
-    details_dict = snapshot.val()
-    // console.log(snapshot.val());
-  }); 
-
   var threaddetails1 = firebase.database().ref('CZ3002/threads');
   var threaddetails2 = firebase.database().ref('CZ3003/threads');
   var threaddetails3 = firebase.database().ref('CZ4047/threads');
@@ -93,29 +74,53 @@ router.post('/main', function(req, res, next) {
     // console.log("CZ4047 Threads : " + JSON.stringify(snapshot.val()));
   })
 
-  tmpthread_dict = Object.assign({}, thread_dict1, thread_dict2);
-  finalthread_dict = Object.assign({}, thread_dict3,tmpthread_dict);
-  // console.log("Final Threads : " + JSON.stringify(finalthread_dict));
+  var details = firebase.database().ref('/users');
+  details.on('value',
+  function(snapshot) {
+    //tmpthread_dict = Object.assign({}, thread_dict1, thread_dict2);
+    //finalthread_dict = Object.assign({}, thread_dict3,tmpthread_dict);
+    console.log("Final Threads : " + JSON.stringify(finalthread_dict));
 
-  setTimeout(function() { 
-    // console.log('details_dict: ' + JSON.stringify(details_dict));
-  }, 1500);
+    setTimeout(function() { 
+      // console.log('details_dict: ' + JSON.stringify(details_dict));
+    }, 1500);
 
-  var verified = false;
-
-  const courseArray = main_page.UniqueCourse(req.body.username);
-
-  Object.keys(details_dict).forEach(function(key) {
-    if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {
-      username = req.body.username;
-      verified = true;
-      res.render('main_page', { coursecode: courseArray, title: 'Main Page', username: req.body.username, data: finalthread_dict });
+    var verified = false;
+    
+    details_dict = snapshot.val();
+    // console.log(snapshot.val());
+    Object.keys(details_dict).forEach(function(key) {
+      if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {
+        username = req.body.username;
+        verified = true;
+        var courseArray = details_dict[key]['courses'].split(",");
+        for (var x=0;x<courseArray.length;x++){
+          switch (courseArray[x])
+          {
+            case "CZ3002":{
+              finalthread_dict = Object.assign({}, finalthread_dict,thread_dict1);
+              break;
+            }
+            case "CZ3003":{
+              finalthread_dict = Object.assign({},finalthread_dict,thread_dict2);
+              break;
+            }
+            case "CZ4047":{
+              finalthread_dict = Object.assign({},finalthread_dict,thread_dict3);
+              break;
+            }
+          }
+        }
+        console.log("Final Threads : " + JSON.stringify(finalthread_dict));
+        console.log("CourseArray : " + courseArray);
+        res.render('main_page', { coursecode: courseArray, title: 'Main Page', username: req.body.username, data: finalthread_dict });
+      }
+    });
+  
+    if (!verified) {
+      res.redirect('/');
     }
-  });
-
-  if (!verified) {
-    res.redirect('/');
-  }
+  }); 
 });
 
 //post to create Thread can't shift cause button on main page so routing is index.js
