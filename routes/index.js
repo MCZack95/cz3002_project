@@ -51,6 +51,18 @@ router.post('/main', function(req, res, next) {
   finalthread_dict = {}
   tmpthread_dict = {}
 
+  // Search result Filter on Threads, to check title of threads and filter
+  if(req.body.value){
+    console.log(req.body.value);
+    return false;
+  }
+
+  // Course Filter on Threads, filter by course name
+  if(req.body.course){
+    console.log(req.body.course);
+    return false;
+  }
+
   var details = firebase.database().ref('/users');
   details.on('value',
   function(snapshot) {
