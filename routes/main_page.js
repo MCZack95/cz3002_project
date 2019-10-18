@@ -14,25 +14,65 @@ module.exports.MergeSortThread = (object) => {
   return MergeSortThread(object)
 }
 
+module.exports.filterCourse = (search,course,object) =>{
+  return filterCourse(search,course,object)
+}
+
 function MergeSortThread(object){
-  console.log(object)
-  console.log("Hereeeeeeeeeeeee")
+  //console.log(object);
+  Dict = {};
+  tList = [];
+
   //Split by threads
   for (var key in object) {
     if (object.hasOwnProperty(key)) {
+      if (tList.length == 0){tList.push({[key] : object[key]})}
+      else{
+        counter = 0;
 
-      //Split by posts
-      for (var key2 in object[key]){
-        if (object[key].hasOwnProperty(key2)){
-          if(key2.includes('Post')){
-            console.log(key2);
-            console.log(object[key][key2]);
+        //Iterate through each thread in list
+        tList.forEach(function(item,index){
+
+          //Check if element is alr inserted
+          if (counter == 0){
+
+            //Get date element to compare
+            for (var key2 in item){
+              if (object.hasOwnProperty(key)){
+                listDate = item[key2].dateMod;
+                newDate = object[key].dateMod;
+
+                /*
+                console.log("");
+                console.log(key2);
+                console.log(listDate);
+                console.log(newDate);
+                console.log("");
+                */
+
+                if (newDate > listDate){
+                  counter = 1;
+                  tList.splice(index,0,{[key] : object[key]});
+                }
+              }
+            }
           }
+        })
+
+        if (counter == 0){
+          tList[tList.length] = {[key] : object[key]};
         }
       }
-
     }
   }
+
+  tList.forEach(function(item,index){
+    for (var key in item){
+      Dict[key] = item[key]
+    }
+  })
+  return Dict;
+  //console.log(Dict);
 }
 
 // LOCAL METHODS
@@ -58,8 +98,40 @@ function UniqueCourse(t_id){
 }
 
 // Filter Course
-function filterCourse(){
+function filterCourse(search,course,object){
+  //console.log("search: " + search);
+  //console.log("course" + course);
 
+  Dict = {};
+  
+  //Split by threads
+  for (var key in object) {
+    if (object.hasOwnProperty(key)) {
+      if (search){
+        sVal = search.toLowerCase();
+        tVal = object[key].title.toLowerCase();
+        if (tVal.includes(sVal)){
+          Dict[key] = object[key]
+        }
+      }
+
+      else if (course){
+        if (course.includes("Default")){
+          return object;
+        }
+        else {
+          cVal = course.toLowerCase();
+          iVal = object[key].id.toLowerCase();
+          if (iVal.includes(cVal)){
+            Dict[key] = object[key]
+          }
+        }
+      }
+    }
+  }
+
+  //console.log(Dict);
+  return Dict;
 }
 
 
