@@ -41,7 +41,8 @@ router.get('/main', isLoggedIn, function(req, res, next) {
     tmpthread_dict = db.getAllThreadsinOneCourse(courseArray[x]);
     finalthread_dict = Object.assign({}, finalthread_dict, tmpthread_dict);
   }
-
+  
+  finalthread_dict = main_page.MergeSortThread(finalthread_dict);
   res.render('main_page', { coursecode: courseArray, title: 'Main Page', username: username, data: finalthread_dict});
 });
 
