@@ -181,7 +181,7 @@ router.post('/calendar', function(req, res, next) {
 
   
     console.log("ASGS: " + JSON.stringify(details_dict));
-    res.render('calendar', {dict: JSON.stringify(details_dict), testarr: ["lol","what"], user: username});   
+    res.render('calendar', {dict: JSON.stringify(details_dict), user: username});   
   });
 });
 
