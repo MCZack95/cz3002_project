@@ -13,6 +13,8 @@ var coursecode = null;
 var title = null;
 var role = null;
 var courses = null;
+var searchFilter = null;
+var courseFilter = null;
 
 function isLoggedIn(req, res, next) {
   if(username == null) {
@@ -42,6 +44,13 @@ router.get('/main', isLoggedIn, function(req, res, next) {
     finalthread_dict = Object.assign({}, finalthread_dict, tmpthread_dict);
   }
 
+  if (searchFilter || courseFilter){
+    finalthread_dict = main_page.filterCourse(searchFilter, courseFilter,finalthread_dict);
+    courseFilter = null;
+    searchFilter = null;
+  }
+  
+  finalthread_dict = main_page.MergeSortThread(finalthread_dict);
   res.render('main_page', { coursecode: courseArray, title: 'Main Page', username: username, data: finalthread_dict});
 });
 
@@ -92,13 +101,14 @@ router.post('/main', function(req, res, next) {
     
     details_dict = snapshot.val();
     // console.log(snapshot.val());
+
     Object.keys(details_dict).forEach(function(key) {
       if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {
         username = req.body.username;
         verified = true;
         var courseArray = details_dict[key]['courses'].split(",");
         //global for courses  
-        courses = courseArray
+        courses = courseArray;
         for (var x=0;x<courseArray.length;x++){
           switch (courseArray[x])
           {
@@ -116,8 +126,9 @@ router.post('/main', function(req, res, next) {
             }
           }
         }
-        console.log("Final Threads : " + JSON.stringify(finalthread_dict));
-        console.log("CourseArray : " + courseArray);
+        //console.log("Final Threads : " + JSON.stringify(finalthread_dict));
+        //console.log("CourseArray : " + courseArray);
+        finalthread_dict = main_page.MergeSortThread(finalthread_dict);
         res.render('main_page', { coursecode: courseArray, title: 'Main Page', username: req.body.username, data: finalthread_dict });
       }
     });
@@ -610,5 +621,12 @@ router.get('/bookmarks', function(req, res, next){
 
   res.render('bookmarks', { coursecode: courseArray, title: 'Bookmarks', username: username, data: finalthread_dict});
 });
+
+
+router.post('/main_page/search',function(req,res,next){
+  searchFilter = req.body.value;
+  courseFilter = req.body.course;
+  return;
+})
 
 module.exports = router;

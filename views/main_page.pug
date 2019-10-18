@@ -85,9 +85,10 @@ block content
     $('.dropdown-item').click((e)=>{
       //console.log(e.target.value);
       var xhr = new XMLHttpRequest();
-      xhr.open("POST", "/main", true);
+      xhr.open("POST", "/main_page/search", true);
       xhr.setRequestHeader('Content-Type', 'application/json');
       xhr.send(JSON.stringify({course: e.target.value}));
+      window.location.href = '/main';
       return false;
     })
 
@@ -110,9 +111,10 @@ block content
       var searchinput = document.getElementById('search-input').value;
       //console.log(searchinput);
       var xhr = new XMLHttpRequest();
-      xhr.open("POST", "/main", true);
+      xhr.open("POST", "/main_page/search", true);
       xhr.setRequestHeader('Content-Type', 'application/json');
       xhr.send(JSON.stringify({value: searchinput}));
+      window.location.href = '/main';
       return false;
     }
 
