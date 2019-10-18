@@ -217,7 +217,7 @@ router.post('/bookcon', function(req, res, next) {
     details.child("booked").set("1");
     details.child("bookedby").set(username);
   
-    res.render('createquiz');
+    res.redirect(req.get('referer'));
     
     
   })
@@ -243,7 +243,30 @@ router.post('/cancelcon', function(req, res, next) {
     details.child("bookedby").set(" ");
 
   
-    res.render('createquiz');
+    res.redirect(req.get('referer'));
+    
+    
+  })
+
+});
+
+router.post('/deletecon', function(req, res, next) {
+
+  var arr = req.body.dateno1.split(" ");
+  var dateno = arr[0];
+  var conno = arr[1];
+  console.log(dateno + " " + conno);
+  var details = firebase.database().ref('/consultations/dates/' + dateno);
+  details.once('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    console.log("DELETECON\n" + req.body.dateno);
+    //console.log(snapshot.val());
+    var details = firebase.database().ref('/consultations/dates/' + dateno + '/' + conno);
+    details.remove();
+
+  
+    res.redirect(req.get('referer'));
     
     
   })
