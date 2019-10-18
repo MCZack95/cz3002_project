@@ -10,6 +10,9 @@ firebase.initializeApp(require('../firebaseconfig.json'));
 var username = null;
 var threadid = null;
 var coursecode = null;
+var title = null;
+var role = null;
+var courses = null;
 
 function isLoggedIn(req, res, next) {
   if(username == null) {
@@ -94,6 +97,8 @@ router.post('/main', function(req, res, next) {
         username = req.body.username;
         verified = true;
         var courseArray = details_dict[key]['courses'].split(",");
+        //global for courses  
+        courses = courseArray
         for (var x=0;x<courseArray.length;x++){
           switch (courseArray[x])
           {
@@ -127,7 +132,7 @@ router.post('/main', function(req, res, next) {
 //post to create Thread can't shift cause button on main page so routing is index.js
 router.post('/createthread', function(req, res, next) {
   console.log('Creating a Thread');
-  res.render('createthread');
+  res.render('createthread',{username : username});
 });
 
 //post to create Quiz can't shift cause button on main page so routing is index.js
@@ -139,31 +144,33 @@ router.post('/createquiz', function(req, res, next) {
 //calendar test
 
 router.get('/calendar', function(req, res, next) {
+  setTimeout(function(){
 
-  var events = {"11/10/2019": ["test","damn","gg"]}; 
+    console.log("Getting calender ");
+    var events = {"11/10/2019": ["test","damn","gg"]}; 
+  
+    var details_dict = {};
+    var details = firebase.database().ref('/consultations/dates');
+   
+  
+    details.once('value',
+    function(snapshot) {
+      details_dict = snapshot.val();
+      console.log("\n");
+      console.log(snapshot.val());
+   
+      console.log("ASGS: " + JSON.stringify(details_dict));
+  
+      if (username != null) {
+        res.render('calendar', {dict: JSON.stringify(details_dict), user: username});
+      } else {
+        res.render('error404');
+      }
+    }) 
 
-  var details_dict = {};
-  var details = firebase.database().ref('/consultations/dates');
+
+  },1000);
  
-
-  details.once('value',
-  function(snapshot) {
-    details_dict = snapshot.val();
-    console.log("\n");
-    console.log(snapshot.val());
- 
-    //var testdic = {"dates" : ["12/9/19","18/9/19"], "12/9/19": "event1", "18/9/19": "event2"};
-    //var dic2 = {"date1": {"date":"12/10/2019", "con1": {"timefrom" : "08:00", "timeto" : "09:00", "course" : "CZ4047", "prof" : "Li Yi", "booked": 0}}};
-    //var str = JSON.stringify(details_dict).replace(/"/g, "'");
-    //var str2 = str.replace(/-/g, "/");
-    console.log("ASGS: " + JSON.stringify(details_dict));
-
-    if (username != null) {
-      res.render('calendar', {dict: JSON.stringify(details_dict), testarr: ["lol","what"]});
-    } else {
-      res.render('error404');
-    }
-  }) 
 });
 
 router.post('/calendar', function(req, res, next) {
@@ -178,10 +185,7 @@ router.post('/calendar', function(req, res, next) {
     console.log("\n");
     console.log(snapshot.val());
 
-    //var testdic = {"dates" : ["12/9/19","18/9/19"], "12/9/19": "event1", "18/9/19": "event2"};
-    //var dic2 = {"date1": {"date":"12/10/2019", "con1": {"timefrom" : "08:00", "timeto" : "09:00", "course" : "CZ4047", "prof" : "Li Yi", "booked": 0}}};
-    //var str = JSON.stringify(details_dict).replace(/"/g, "'");
-    //var str2 = str.replace(/-/g, "/");
+  
     console.log("ASGS: " + JSON.stringify(details_dict));
     res.render('calendar', {dict: JSON.stringify(details_dict), testarr: ["lol","what"], user: username});   
   });
@@ -241,57 +245,63 @@ router.post('/setconsult', function(req, res, next) {
   console.log('SET!');
   var details_dict = {};
   var details = firebase.database().ref('/consultations/dates');
-  //check if date is in current dates
-  details.once('value',
-  function(snapshot) {
-    console.log("start");
-    details_dict = snapshot.val();
-    var dateno = "";
-    var conno = 0;
-    for(var x in snapshot.val()){
+  var times = req.body.time.split(" ");
+  var from = times[0];
+  var to = times[1];
 
-        console.log(details_dict[x]["date"]);
-        if(req.body.datetoday==details_dict[x]["date"]){
-          console.log("HIHIHIHI");
-          dateno = x;
-          console.log(dateno);
-          conno = Object.keys(details_dict[x]).length;
-          console.log(conno);
-        }
+    details.once('value',
+    function(snapshot) {
+      console.log("start");
+      details_dict = snapshot.val();
+      var dateno = "";
+      var conno = 0;
 
-    }
+     
+      for(var x in details_dict){
 
-    var newConsult = 
-    {
-      prof: "Li Yi",
-      timefrom: req.body.timefrom,
-      timeto: req.body.timeto,
-      course: "CZ4047",
-      booked: 0,
-      bookedby: " ",
+          console.log(details_dict[x]["date"]);
+          if(req.body.datetoday==details_dict[x]["date"]){
+            console.log("HIHIHIHI");
+            dateno = x;
+            console.log(dateno);
+            conno = Object.keys(details_dict[x]).length;
+            console.log(conno);
+          }
+
+      }
+
+      var newConsult = 
+      {
+        prof: "Li Yi",
+        timefrom: from,
+        timeto: to,
+        course: "CZ4047",
+        booked: 0,
+        bookedby: " ",
+        
+      }
       
-    }
-    
-    if(dateno!=""){
-      //date exists set new con
-      var details = firebase.database().ref('/consultations/dates/' + dateno);
-      details.child("con" + conno).set(newConsult);
-      
-      
-    }else{
+      if(dateno!=""){
+        //date exists set new con
+        var details1 = firebase.database().ref('/consultations/dates/' + dateno);
+        details1.child("con" + conno).set(newConsult);
+        
+        
+      }else{
 
-      //new date
-      var newindex = Object.keys(details_dict).length + 1;
-      var details = firebase.database().ref('/consultations/dates/date' + newindex + "/con1");
-      details.set(newConsult);
-      var details = firebase.database().ref('/consultations/dates/date' + newindex);
-      details.child("date").set(req.body.datetoday);
+        //new date
+        var newindex = Object.keys(details_dict).length + 1;
+        var details2 = firebase.database().ref('/consultations/dates/date' + newindex + "/con1");
+        details2.set(newConsult);
+        var details2 = firebase.database().ref('/consultations/dates/date' + newindex);
+        
+        details2.child("date").set(req.body.datetoday);
 
-    }
+      }
 
-  })
+    })
 
-    res.render('createquiz');
+    res.redirect(req.get('referer'));
 });
 
 
@@ -474,6 +484,7 @@ router.post('/main/:thread_id', isLoggedIn, function(req, res, next){
   console.log("Posting to particular thread");
   threadid = req.body.id;
   coursecode = req.body.coursecode;
+  title = req.body.title;
   details_dict = {};
   details_dict = db.getAllPosts(coursecode,threadid);
   db.increaseViewCount(req.body.coursecode,req.body.id);
@@ -486,7 +497,7 @@ router.post('/main/:thread_id', isLoggedIn, function(req, res, next){
     }
   });
 
-  res.render('thread', { title: req.body.title, data: dataArray, threadid: req.body.id , coursecode: req.body.coursecode});
+  res.render('thread', { title: title, data: dataArray, threadid: req.body.id , coursecode: req.body.coursecode});
 });
 
 router.get('/main/:thread_id', isLoggedIn, function(req, res, next){
@@ -503,6 +514,12 @@ router.get('/main/:thread_id', isLoggedIn, function(req, res, next){
   else{
     newcoursecode = req.body.coursecode;
   }
+  if (req.body.title == null){
+    newtitle = title;
+  }
+  else{
+    newtitle = req.body.title;
+  }
 
   console.log("Test456 : " + threadid);
   details_dict = {};
@@ -516,7 +533,7 @@ router.get('/main/:thread_id', isLoggedIn, function(req, res, next){
     }
   });
   
-  res.render('thread', { title: req.body.title, data: dataArray, threadid: newthreadid , coursecode: newcoursecode});
+  res.render('thread', { title: newtitle, data: dataArray, threadid: newthreadid , coursecode: newcoursecode});
 });
 
 
@@ -526,11 +543,47 @@ router.get('/thread', function(req, res, next){
 
 // view quiz
 router.get('/quiz', function(req, res, next){ 
-  if (username != null) {
-    res.render('quiz');
-  } else {
-    res.render('error404');
-  }
+  details_dict = {};
+  details_dict1 = {};
+  console.log("Courses : " + courses);
+  //details_dict = db.getQuizzes(courses[0]);
+  //details_dict1 = db.getQuizzes(courses[1]);
+
+  var promises = courses.map(function(element) {
+    return db.getQuizzes(element).then((value) => {
+      return value;
+     });
+ });
+
+ /**(Promise.all(promises).then(function(values) {
+  values.forEach(function(value) {
+    console.log("Testing : " + JSON.stringify(value));
+  });
+});
+**/
+//initial index
+var x = 0;
+Promise.all(promises).then(function(values) {
+  values.forEach(function(value) {
+    details_dict[courses[x]] = value.val();
+    console.log("X Value " + x + "COurse : " + courses[x]); 
+    console.log("Testing for courses : " + " | " + courses[x] + JSON.stringify(details_dict[courses[x]]));
+    details_dict1 = Object.assign({},details_dict1,details_dict);
+    x = x + 1;
+  });
+  console.log("Dict Final Value for CZ3002 : " + JSON.stringify(details_dict1["CZ3002"]));
+  console.log("Dict Final Value for CZ3003 : " + JSON.stringify(details_dict1["CZ3003"]));
+});
+  setTimeout(function() { 
+    if (username != null) {
+      res.render('quiz',{data : details_dict1});
+    } else {
+      res.render('error404');
+    }
+    
+  }, 1000);
+
+
 });
 
 router.get('/profile', function(req, res, next){

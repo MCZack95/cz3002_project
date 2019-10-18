@@ -3,6 +3,7 @@ extends layout
 block content
 
     form.cont(method='POST' action='/createthread/newthread')
+        input(type="hidden" name="username" value=username)
         .minicont_title Title
             br
             input#title(type='text' name='title' placeholder='' required)

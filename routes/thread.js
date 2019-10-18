@@ -47,7 +47,7 @@ router.post('/newthread', function(req, res, next) {
   details.child("coursecode").set(req.body.coursecode);
   details.child("dateMod").set(Date.now());
   details.child("id").set(newThreadindex+req.body.coursecode);
-  details.child("noOfReplies").set("0");
+  details.child("noOfReplies").set(0);
   details.child("lasteditedby").set(req.body.username);
   details.child("threadowner").set(req.body.username);
   details.child("viewcount").set(0);
@@ -160,6 +160,8 @@ var replies = [
   {
     't_id': 0,
     'r_id': 0,
+    'quote': { 'quote_owner': 'Admin',
+                'quote_content': 'Hmmm?' },
     'username': 'Developer',
     'content': 'Development Phase SOMETHING LONG!!!!   ojjjjjjjjjj  jjjjj jjjjjjjjjjjjjjjjjjjjjj jjj j jjj jjjj jjjjjjjjjjjjj jjjjjjjjjjjjjjjjj jjjjjjjjjjjjjjjjjjjjjj jjjjjjjjjjjjjjjjjjjjjjjjjjj jjjjjjjjjjjjjjjjjj jjjjlolpawodawjp doawjpdojawpdo ajpdwojWWWWWWWWW WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW WWWWWWWWWWWWWWWWWWWWWWWW WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW WWWWWWWWWWWWWWWWWWWWWWWWWWWW WWWWWWWWWWWWWWWWW',
     'reply_pos': 1,

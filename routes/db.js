@@ -238,6 +238,7 @@ module.exports.increaseRepliesCount = (coursecode,threadid) =>
   details.once('value',
   function(snapshot) {
     details_dict = snapshot.val()
+
     var replies = details_dict["noOfReplies"];
     console.log("Course Code : " + coursecode + "Thread ID : " + threadid + "Replies : " + replies)
     replies += 1;
@@ -267,4 +268,20 @@ module.exports.getAllCourses = (username) =>
   });
   console.log("WHAT?>>" + courseArray);
   return courseArray;
+}
+
+module.exports.getQuizzes = (coursecode) => 
+{
+  details_dict = {}
+  var details = firebase.database().ref('/'+ coursecode + "/quizzes");
+
+  return details.once('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    console.log("Quizzes Value : " + JSON.stringify(snapshot.val()));   
+    return details_dict;
+  })
+
+  
+
 }
