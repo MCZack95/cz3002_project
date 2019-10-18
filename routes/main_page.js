@@ -14,9 +14,12 @@ module.exports.MergeSortThread = (object) => {
   return MergeSortThread(object)
 }
 
+module.exports.filterCourse = (search,course,object) =>{
+  return filterCourse(search,course,object)
+}
+
 function MergeSortThread(object){
   //console.log(object);
-
   Dict = {};
   tList = [];
 
@@ -25,7 +28,6 @@ function MergeSortThread(object){
     if (object.hasOwnProperty(key)) {
       if (tList.length == 0){tList.push({[key] : object[key]})}
       else{
-
         counter = 0;
 
         //Iterate through each thread in list
@@ -96,8 +98,40 @@ function UniqueCourse(t_id){
 }
 
 // Filter Course
-function filterCourse(){
+function filterCourse(search,course,object){
+  //console.log("search: " + search);
+  //console.log("course" + course);
 
+  Dict = {};
+  
+  //Split by threads
+  for (var key in object) {
+    if (object.hasOwnProperty(key)) {
+      if (search){
+        sVal = search.toLowerCase();
+        tVal = object[key].title.toLowerCase();
+        if (tVal.includes(sVal)){
+          Dict[key] = object[key]
+        }
+      }
+
+      else if (course){
+        if (course.includes("Default")){
+          return object;
+        }
+        else {
+          cVal = course.toLowerCase();
+          iVal = object[key].id.toLowerCase();
+          if (iVal.includes(cVal)){
+            Dict[key] = object[key]
+          }
+        }
+      }
+    }
+  }
+
+  //console.log(Dict);
+  return Dict;
 }
 
 
