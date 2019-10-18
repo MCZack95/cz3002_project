@@ -542,8 +542,6 @@ router.get('/thread', function(req, res, next){
 
 // view quiz
 router.get('/quiz', function(req, res, next){ 
-  details_dict = {};
-  details_dict1 = {};
   console.log("Courses : " + courses);
   //details_dict = db.getQuizzes(courses[0]);
   //details_dict1 = db.getQuizzes(courses[1]);
@@ -554,27 +552,30 @@ router.get('/quiz', function(req, res, next){
      });
  });
 
- /**(Promise.all(promises).then(function(values) {
-  values.forEach(function(value) {
-    console.log("Testing : " + JSON.stringify(value));
-  });
-});
-**/
 //initial index
 var x = 0;
 Promise.all(promises).then(function(values) {
+  details_dict = {};
+  details_dict1 = {};
   values.forEach(function(value) {
     details_dict[courses[x]] = value.val();
-    console.log("X Value " + x + "COurse : " + courses[x]); 
-    console.log("Testing for courses : " + " | " + courses[x] + JSON.stringify(details_dict[courses[x]]));
+    console.log("Before putting key : " + JSON.stringify(value.val()))
+    console.log("In final dict : " + JSON.stringify(details_dict1));
+    //console.log("X Value " + x + "Course : " + courses[x]); 
+    console.log("After putting key : " + " | " + courses[x] + " | " + JSON.stringify(details_dict));
     details_dict1 = Object.assign({},details_dict1,details_dict);
+    console.log("After combining dict :  " + x + JSON.stringify(details_dict1));
     x = x + 1;
   });
   console.log("Dict Final Value for CZ3002 : " + JSON.stringify(details_dict1["CZ3002"]));
   console.log("Dict Final Value for CZ3003 : " + JSON.stringify(details_dict1["CZ3003"]));
+  // i dont know why got additional quiz 1 appearing
+  delete details_dict1.Quiz1;
 });
+
   setTimeout(function() { 
     if (username != null) {
+      console.log("Final value : " + JSON.stringify(details_dict1))
       res.render('quiz',{data : details_dict1});
     } else {
       res.render('error404');

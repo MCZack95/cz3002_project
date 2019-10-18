@@ -1,20 +1,30 @@
 extends layout
 
-block content
 
+block content
     .overallcont
         #avaquiz 
             img(src='/svg/tick.svg' style='margin-left: 5px; margin-bottom: 5px;')
             span#avatext Available Quiz
-        .coursecont 
-            .modcont CZ3002 - Advanced Software Engineering
-                button.quizcont Quiz1
-                button.content Attempt Quiz
-                button.content View Materials
-
-                button.quizcont Quiz2
-                button.content Attempt Quiz
-                button.content View Materials
+        h1 #{Object.keys(data)} 
+        -var index = 0
+        -var index1 = 0
+        tbody
+            each course in data
+                .coursecont #{JSON.stringify(Object.keys(data)[index])}
+                h2 #{index}
+                each quiz in course
+                    tr(data-href=`${quiz}` id=`${quiz}`)
+                        td       
+                            .modcont
+                                button.quizcont #{JSON.stringify(Object.keys(course)[index1])}
+                                button.content Attempt Quiz
+                                button.content View Materials
+                                -var index1 = index1 + 1
+                -var index = index + 1
+                //button.quizcont Quiz2
+                //button.content Attempt Quiz
+                //button.content View Materials
         .coursecont 
             .modcont CZ4062 - Computer Security
                 button.quizcont Quiz1
