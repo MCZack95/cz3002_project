@@ -268,6 +268,7 @@ router.post('/coursefilter', function(req, res, next) {
 
 router.post('/bookcon', function(req, res, next) {
 
+  var details_dict = {};
   var arr = req.body.dateno.split(" ");
   var dateno = arr[0];
   var conno = arr[1];
@@ -281,7 +282,36 @@ router.post('/bookcon', function(req, res, next) {
     var details = firebase.database().ref('/consultations/dates/' + dateno + '/' + conno);
     details.child("booked").set("1");
     details.child("bookedby").set(username);
-    
+
+    var nodemailer = require('nodemailer');
+
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'liyiase3002@gmail.com',
+      pass: 'Liyi@ase123'
+    }
+  });
+
+  var datearr = details_dict["date"].split("-");
+  datearr[1] = parseInt(datearr[1]) + 1;
+  var date = datearr.join("/");
+  
+  var mailOptions = {
+    from: 'liyiase3002@gmail.com',
+    to: 'cr7roxdswk@gmail.com',
+    subject: 'Consultation Booked',
+    text: 'Consultation on ' + date + " is booked by " + username + "."
+  };
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+  
     
   })
 
@@ -306,6 +336,37 @@ router.post('/cancelcon', function(req, res, next) {
     var details = firebase.database().ref('/consultations/dates/' + dateno + '/' + conno);
     details.child("booked").set("0");
     details.child("bookedby").set(" ");
+
+
+    var nodemailer = require('nodemailer');
+
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'liyiase3002@gmail.com',
+        pass: 'Liyi@ase123'
+      }
+    });
+    
+    var datearr = details_dict["date"].split("-");
+    datearr[1] = parseInt(datearr[1]) + 1;
+    var date = datearr.join("/");
+
+    var mailOptions = {
+      from: 'liyiase3002@gmail.com',
+      to: 'cr7roxdswk@gmail.com',
+      subject: 'Consultation Booked',
+      text: 'Consultation on ' + date + " is cancelled by " + username + "."
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+    
 
   
     res.redirect('/calendar');
