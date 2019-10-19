@@ -186,7 +186,7 @@ block content
                                     }
                                 
                                 }
-                            
+
                             }
                       }else{
                           //is professor, get course code?
@@ -259,7 +259,7 @@ block content
                         }else{
                         
                                 if(bookedbyuser){
-                                    eventTemplate += `<li id="${dateno} ${conno}">&nbsp&nbsp ${eventList[x]} &nbsp&nbsp
+                                    eventTemplate += `<li class="booked" id="${dateno} ${conno}">&nbsp&nbsp ${eventList[x]} &nbsp&nbsp
                                     <form method="POST" action="/cancelcon">
                                     <input id="cancel" type="text" name="dateno1" value="${dateno} ${conno}" hidden></input>
                                     <input type="submit" value="Cancel"></input></form></li>

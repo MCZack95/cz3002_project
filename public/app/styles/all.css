@@ -39,6 +39,12 @@ body {
   bottom: 0;
   margin: auto; }
 
+.booked {
+
+  color: gold;
+
+}
+
 .calendar {
   background: white;
   width: 840px;
