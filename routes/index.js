@@ -185,6 +185,37 @@ router.get('/calendar', function(req, res, next) {
  
 });
 
+
+router.get('/coursefilter', function(req, res, next) {
+  setTimeout(function(){
+
+    console.log("Getting calender ");
+    var events = {"11/10/2019": ["test","damn","gg"]}; 
+  
+    var details_dict = {};
+    var details = firebase.database().ref('/consultations/dates');
+   
+  
+    details.once('value',
+    function(snapshot) {
+      details_dict = snapshot.val();
+      console.log("\n");
+      console.log(snapshot.val());
+   
+      console.log("ASGS: " + JSON.stringify(details_dict));
+  
+      if (username != null) {
+        res.render('calendar', {dict: JSON.stringify(details_dict), user: username});
+      } else {
+        res.render('error404');
+      }
+    }) 
+
+
+  },1000);
+ 
+});
+
 router.post('/calendar', function(req, res, next) {
 
  
@@ -229,7 +260,7 @@ router.post('/coursefilter', function(req, res, next) {
 
   
     console.log("Filtered cons: " + JSON.stringify(details_dict));
-    res.render('calendar', {dict: JSON.stringify(details_dict), user: username});   
+    res.render('calendar', {dict: JSON.stringify(details_dict), user: username, course: course});   
   });
 });
 
@@ -248,11 +279,11 @@ router.post('/bookcon', function(req, res, next) {
     var details = firebase.database().ref('/consultations/dates/' + dateno + '/' + conno);
     details.child("booked").set("1");
     details.child("bookedby").set(username);
-  
-    res.redirect('/calendar');
     
     
   })
+
+  res.redirect(req.get('referer'));
 
 });
 
