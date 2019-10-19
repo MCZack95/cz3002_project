@@ -49,8 +49,8 @@ router.post('/newquiz', function(req, res, next) {
     
   }
   )
-
-  res.redirect(req.get('referer'));
+  res.redirect('/main');
+  //res.redirect(req.get('referer'));
 
 });
 

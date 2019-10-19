@@ -106,6 +106,8 @@ router.post('/main', function(req, res, next) {
       if (req.body.username === details_dict[key]['username'] && req.body.password === details_dict[key]['password']) {
         username = req.body.username;
         verified = true;
+        role = details_dict[key]['role'];
+        console.log("Role of User : " + role);
         var courseArray = details_dict[key]['courses'].split(",");
         //global for courses  
         courses = courseArray;
@@ -199,7 +201,7 @@ router.post('/calendar', function(req, res, next) {
 });
 
 router.post('/coursefilter', function(req, res, next) {
- 
+  
   var course = req.body.coursefilter;
   var details_dict = {};
   var details = firebase.database().ref('/consultations/dates');
@@ -247,7 +249,7 @@ router.post('/bookcon', function(req, res, next) {
     details.child("booked").set("1");
     details.child("bookedby").set(username);
   
-    res.redirect(req.get('referer'));
+    res.redirect('/calendar');
     
     
   })
@@ -273,7 +275,7 @@ router.post('/cancelcon', function(req, res, next) {
     details.child("bookedby").set(" ");
 
   
-    res.redirect(req.get('referer'));
+    res.redirect('/calendar');
     
     
   })
