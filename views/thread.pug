@@ -43,6 +43,8 @@ block content
             form.cont(method='POST' action='/email')
               input(type="hidden" name="threadid" value=threadid)
               input(type="hidden" name="coursecode" value=coursecode)
+              input(type="hidden" name="username" value=post.username)
+              input(type="hidden" name="postcontent" value=post.content)
               button#report_button(type="submit" name="reportarrow" value=index+";2" onclick= "reportPost()")
                 img.float-left#report(src='/images/report.png' alt="ReportButton")
                 h5.float-left Report

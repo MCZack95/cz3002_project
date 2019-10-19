@@ -477,12 +477,12 @@ var transporter = nodemailer.createTransport({
     pass: 'Liyi@ase123'
   }
 });
-
+content = "User : " + req.body.username + " has been reported for the post : \n " + req.body.postcontent + " \n Please take note!"
 var mailOptions = {
   from: 'liyiase3002@gmail.com',
   to: 'cr7roxdswk@gmail.com',
-  subject: 'Sending Email using Node.js',
-  text: 'That was easy!'
+  subject: 'ShanJing is a Paypal Scholar',
+  text: content,
 };
 
 transporter.sendMail(mailOptions, function(error, info){
