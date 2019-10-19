@@ -75,7 +75,7 @@ block content
             .row#edit_content_row
               textarea.form-control(name='content') #{post.content}
             //button.btn.btn-primary(type='submit' name="editarrow" value=index+";4") Confirm
-            button.btn.btn-primary.edit_confirm_button(type='button' name="editarrow" value=index+";4") Confirm
+            button.btn.btn-primary.edit_confirm_button(type='submit' name="editarrow" value=index+";4") Confirm
             button.btn.btn-light(type='button') Cancel
   br
   .container-fluid#thread_buttons
@@ -138,6 +138,7 @@ block content
           var quote_owner = $(this).parent().parent().children().children(".content").children("#username_row").text();
           var quote_content = $(this).parent().parent().children().children(".content").children("#content_row").text();
           var quote_text =  quote_owner + " - " + quote_content;
+          
           $(edit_row.children("form").children().get(2)).val("true");
           $(edit_row.children("form").children().get(3)).val(quote_owner);
           $(edit_row.children("form").children().get(4)).val(quote_content);
@@ -276,11 +277,11 @@ block content
 
       $(".edit_confirm_button").click(function() {
         console.log("Edit Confirm");
-        
-        if($(this).parent().children("#edit_reply_quote").length) {
-          var quote_owner = $($(this).parent().children(".edit_quote_wrapper").children().children().get(0)).text();
-          var quote_content = $($(this).parent().children(".edit_quote_wrapper").children().children().get(1)).text();
 
+        if($(this).parent().children("#edit_reply_quote").length) {
+          var quote_data = $(this).parent().children("#edit_reply_quote").children("textarea").val().split("-");
+          var quote_owner = quote_data[0];
+          var quote_content = quote_data[1];
           $($(this).parent().children().get(2)).val("true");
           $($(this).parent().children().get(3)).val(quote_owner);
           $($(this).parent().children().get(4)).val(quote_content);
