@@ -59,7 +59,7 @@ module.exports.votePost = (coursecode,threadid,postid,isVote) => {
     return true;
   }
 
-module.exports.editPost = (coursecode,threadid,postid,content,username) => {
+module.exports.editPost = (coursecode,threadid,postid,content,username,hasquote,quoteowner,quotecontent) => {
   details_dict = {};
   var newthreadid = threadid.split("CZ")[0];
   var details = firebase.database().ref('/'+ coursecode + "/threads/" + coursecode+"Thread"+newthreadid + "/Post" + postid);
@@ -67,11 +67,27 @@ module.exports.editPost = (coursecode,threadid,postid,content,username) => {
   details.once('value',
   function(snapshot) {
     details_dict = snapshot.val();
-    console.log(snapshot.val());
+    console.log("Editing this post : " + JSON.stringify(snapshot.val()));
     //push new content to DB
     details.child("content").set(content);
     details.child("dateTime").set(Date.now());
   })
+
+  if (hasquote === true){
+    quotes = {
+      quote_owner : quoteowner,
+      quote_content : quotecontent,
+    }
+    var details = firebase.database().ref('/'+ coursecode + "/threads/" + coursecode+"Thread"+newthreadid + "/Post" + postid);
+  //console.log(req.body.coursecode);
+  details.once('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    console.log(snapshot.val());
+    //push new content to DB
+    details.child("quote").set(quotes);
+  })
+  }
 
   //update thread details
   this.updateThreadDetails(coursecode,threadid,username);

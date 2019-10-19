@@ -524,6 +524,11 @@ router.post('/votepost', isLoggedIn, function(req, res, next) {
 router.post('/editpost', function(req, res, next) {
   
   console.log('Editing Post');
+  if (req.body.quote != null){
+    console.log("Checking for quotes : " + req.body.quote);
+    console.log("Quote Owner : " + req.body.quote_owner);
+    console.log("Quote Content : " + req.body.quote_content);
+  }
 
   //need to add dynamic inputs from pug form
   var coursecode = req.body.coursecode;
@@ -531,7 +536,7 @@ router.post('/editpost', function(req, res, next) {
   var postid = req.body.editarrow.split(";")[0];
   //var content = req.body.content;
   var content = req.body.content
-  db.editPost(coursecode,threadid,postid,content,username);
+  db.editPost(coursecode,threadid,postid,content,username,req.body.quote,req.quote_owner,req.quote_content);
 
   res.redirect(req.get('referer'));
 });
@@ -559,8 +564,9 @@ router.post('/makepost', isLoggedIn, function(req, res, next) {
   console.log("Checking for quotes : " + req.body.quote);
   console.log("Quote Owner : " + req.body.quote_owner);
   console.log("Quote Content : " + req.body.quote_content);
-  //once boolean is passed then use this logic
-  /**if (req.body.quote == true){
+  
+  if (req.body.quote == "true"){
+    console.log("Has Quotes")
     var newPost =
     {
       id : " ",
@@ -568,14 +574,15 @@ router.post('/makepost', isLoggedIn, function(req, res, next) {
       content : req.body.content,
       dateTime : Date.now(),
       noOfVotes : 0,
-      replyTo : req.body.owner,
-      quotes : {
-        quote_owner = req.body.quote_owner,
-        quote_content = req.body.quote_content
+      replyTo : req.body.quote_owner,
+      quote : {
+        quote_owner : req.body.quote_owner,
+        quote_content : req.body.quote_content,
       }
     }
   }
   else{
+    console.log("No Quotes")
     var newPost =
     {
       id : " ",
@@ -586,8 +593,8 @@ router.post('/makepost', isLoggedIn, function(req, res, next) {
       replyTo : " ",
     }
   }  
-  **/
- var newPost =
+  
+ /**var newPost =
  {
    id : " ",
    username : username,
@@ -596,6 +603,9 @@ router.post('/makepost', isLoggedIn, function(req, res, next) {
    noOfVotes : 0,
    replyTo : " ",
  }
+ **/
+
+  console.log("New Post : " + JSON.stringify(newPost));
   db.makePost(coursecode,threadid,newPost,username);
   
   res.redirect(req.get('referer'));

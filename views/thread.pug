@@ -75,7 +75,7 @@ block content
             .row#edit_content_row
               textarea.form-control(name='content') #{post.content}
             //button.btn.btn-primary(type='submit' name="editarrow" value=index+";4") Confirm
-            button.btn.btn-primary.edit_confirm_button(type='button') Confirm
+            button.btn.btn-primary.edit_confirm_button(type='submit' name="editarrow" value=index+";4") Confirm
             button.btn.btn-light(type='button') Cancel
   br
   .container-fluid#thread_buttons
