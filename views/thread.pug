@@ -40,11 +40,12 @@ block content
               img.float-left#quote(src='/images/quote.png' alt="ReplyButton")
               h5.float-left Quote
           .report
-            input(type="hidden" name="threadid" value=threadid)
-            input(type="hidden" name="coursecode" value=coursecode)
-            button#report_button(name="reportarrow" value=index+";2" onclick= "reportPost()")
-              img.float-left#report(src='/images/report.png' alt="ReportButton")
-              h5.float-left Report
+            form.cont(method='POST' action='/email')
+              input(type="hidden" name="threadid" value=threadid)
+              input(type="hidden" name="coursecode" value=coursecode)
+              button#report_button(type="submit" name="reportarrow" value=index+";2" onclick= "reportPost()")
+                img.float-left#report(src='/images/report.png' alt="ReportButton")
+                h5.float-left Report
           .edit
             button#edit_button(type="submit")
               img.float-left#edit(src='/images/edit.png' alt="EditButton")
