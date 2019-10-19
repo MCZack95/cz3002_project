@@ -13,26 +13,34 @@ block content
                     .questitle Q#{index}. #{ques.ques}
                     br
                     label.optcont #{ques.opt1}
-                        input(type='radio', name='q'+index, value='1')
+                        if role === "student"
+                          input(type='radio', name='q'+index, value='1')
                         span.checkmark 1
                     label.optcont #{ques.opt2}
-                        input(type='radio', name='q'+index, value='2')
+                        if role === "student"
+                          input(type='radio', name='q'+index, value='2')
                         span.checkmark 2
                     label.optcont #{ques.opt3}
-                        input(type='radio', name='q'+index, value='3')
+                        if role === "student"
+                          input(type='radio', name='q'+index, value='3')
                         span.checkmark 3     
                     label.optcont #{ques.opt4}
-                        input(type='radio', name='q'+index, value='4')
+                        if role === "student"
+                          input(type='radio', name='q'+index, value='4')
                         span.checkmark 4
                     - index = index + 1
+
+                    if role !== "student"
+                      h5 Explanation : #{ques.explanation}
 
             input(type="text" name="testing" value=index-1 hidden) 
             input(type="text" name="coursecode" value=`${coursecode}` hidden) 
             input(type="text" name="quizno" value=`${quizno}` hidden)        
             br
             .buttcont
-                button.btn.btn-primary(type='submit' style='margin-right: 10px;') Submit Quiz
-                button.btn.btn-light(onclick='goBack()') Cancel
+                if role === "student"
+                  button.btn.btn-primary(type='submit' style='margin-right: 10px;') Submit Quiz
+                  button.btn.btn-light(onclick='goBack()') Cancel
             
 
 
