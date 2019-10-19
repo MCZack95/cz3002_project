@@ -13,6 +13,16 @@ h5 {
   color: white;
 }
 
+.btn {
+  text-transform: uppercase;
+  font-family: 'PN Regular';
+  font-size: 10px;
+  height: 30px;
+  letter-spacing: 2px;
+  border-bottom-width: 3px;
+  padding-top: 8px;
+}
+
 .navbar.navbar-dark.navbar-expand-sm {
   border: 3px solid #000;
   color: white;
@@ -105,21 +115,21 @@ tbody > tr > td > span {
 } */
 
 #title {
-  width: 89%;
+  width: 50%;
   text-align: left;
 }
 
 #latestpost {
-  width: 11%;
+  width: 15%;
   text-align: left;
 }
 
 #replies {
-  width: 5%;
+  width: 10%;
 }
 
 #views {
-  width: 5%;
+  width: 10%;
 }
 
 #replies, #views {
