@@ -28,9 +28,6 @@ block content
       form(method = 'POST' action = '/createthread')
         input(type="hidden" name="username" value=username)
         button.btn.btn-light(type='submit') New Thread
-      if role === "professor"
-        form(method = 'POST' action = '/createquiz')
-          button.btn.btn-light(type='submit') New Quiz  
       // Dropdown
       li.nav-item.dropdown
         button.btn.btn-light.dropdown-toggle.coursesbutt(data-toggle="dropdown") Courses
