@@ -38,14 +38,6 @@ block content
                         option(value="4.00PM 4:30PM") 4.00PM - 4:30PM
                         option(value="4.30PM 5:00PM") 4.30PM - 5:00PM
 
-                    h6 Select recurring slots for: 
-                    select(id="recur" name="recur" onchange="test();")
-                        option(value="0") -
-                        option(value="4") 4 weeks
-                        option(value="8") 8 weeks
-                        option(value="16") 16 weeks
-                        option(value="32") 32 weeks
-
                     //input.add-event-day-field(type='text' placeholder='Create an Event')
                     |&nbsp &nbsp &nbsp
                     button.btn.btn-primary(type='submit') Save Slot
@@ -126,35 +118,52 @@ block content
                 var dict = JSON.parse(newdict3);
                 console.log(dict);
                 for(var x in dict){
-
+                    //x is dateno, y is conno.
                     for(var y in dict[x]){
                     //skip if is date element
                     if(y=="date"){
                         continue;
                     }else{
                     
-                        if(!(dict[x][y]["booked"]=="1" && dict[x][y]["bookedby"]!=username)){
+                      //is student
+                      if(username=="admin2"){
+                            if(!(dict[x][y]["booked"]=="1" && dict[x][y]["bookedby"]!=username)){
 
-                            if(dict[x][y]["bookedby"]==username){
-                                if(events[dict[x]["date"]]==null){
-                                    events[dict[x]["date"]] = ["1 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"]] ;
+                                if(dict[x][y]["bookedby"]==username){
+                                    if(events[dict[x]["date"]]==null){
+                                        events[dict[x]["date"]] = ["1 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"]] ;
+                                    }else{
+                                        events[dict[x]["date"]].push("1 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"]);
+                                    }
                                 }else{
-                                    events[dict[x]["date"]].push("1 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"]);
-                                }
-                            }else{
-                                if(events[dict[x]["date"]]==null){
-                                    events[dict[x]["date"]] = ["0 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"]] ;
-                                }else{
-                                    events[dict[x]["date"]].push("0 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"]) ;
+                                    if(events[dict[x]["date"]]==null){
+                                        events[dict[x]["date"]] = ["0 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"]] ;
+                                    }else{
+                                        events[dict[x]["date"]].push("0 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"]) ;
+                                    }
+                                
                                 }
                             
                             }
-                        
-                        }
-                    
+                      }else{
+                          //is professor, get course code?
+                          if(dict[x][y]["booked"]=="0"){
+                            if(events[dict[x]["date"]]==null){
+                                    events[dict[x]["date"]] = ["0 " + x + " " + y, dict[x][y]["course"] +  " : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"]] ;
+                                }else{
+                                    events[dict[x]["date"]].push("0 " + x + " " + y, dict[x][y]["course"] + " : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"]) ;
+                                }
+                          }else{
+                             if(events[dict[x]["date"]]==null){
+                                    events[dict[x]["date"]] = ["1 " + x + " " + y, dict[x][y]["course"] +  " : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"] + " (Booked by " +  dict[x][y]["bookedby"] + ")"] ;
+                                }else{
+                                    events[dict[x]["date"]].push("1 " + x + " " + y, dict[x][y]["course"] + " : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"] + " (Booked by " +  dict[x][y]["bookedby"] + ")") ;
+                                }
+
+                          }
+                      }
                 
                     }
-
                     }   
                 }
             console.log(events);
@@ -188,52 +197,82 @@ block content
                 let calendar = this.getCalendar();
                 let eventList = this.eventList[calendar.active.formatted] || ['No slots on this day'];
                 let eventTemplate = "";
-                //add logic for booked before. button should say unbook.
+                var username = "#{user}";
                 var bookedbyuser = false;
                 var dateno = "";
                 var conno = "";
-
-                for(var x=0;x<eventList.length;x++){
+                //student
+                if(username=="admin2"){
+                    for(var x=0;x<eventList.length;x++){
                 
-                    
-                    if(x%2==0){
-                        if(eventList[x].charAt(0)==1){
-                            bookedbyuser = true;
-                        }
-                        var res = eventList[x].split(" ");
-                        dateno = res[1];
-                        conno = res[2];
-
-                    }else{
-                        
-
-                        //need to find another way to setdayno, another arr element?
-                        if(username=="admin2"){
-                        if(bookedbyuser){
-                            eventTemplate += `<li id="${dateno} ${conno}">&nbsp&nbsp ${eventList[x]} &nbsp&nbsp
-                            <form method="POST" action="/cancelcon">
-                            <input id="cancel" type="text" name="dateno1" value="${dateno} ${conno}" hidden></input>
-                            <input type="submit" value="Cancel"></input></form></li>
-                            `;
-                            bookedbyuser = false;
+                        if(x%2==0){
+                            if(eventList[x].charAt(0)==1){
+                                bookedbyuser = true;
+                            }
+                            var res = eventList[x].split(" ");
+                            dateno = res[1];
+                            conno = res[2];
 
                         }else{
+                        
+                                if(bookedbyuser){
+                                    eventTemplate += `<li id="${dateno} ${conno}">&nbsp&nbsp ${eventList[x]} &nbsp&nbsp
+                                    <form method="POST" action="/cancelcon">
+                                    <input id="cancel" type="text" name="dateno1" value="${dateno} ${conno}" hidden></input>
+                                    <input type="submit" value="Cancel"></input></form></li>
+                                    `;
+                                    bookedbyuser = false;
 
-                           eventTemplate += `<li id="${dateno} ${conno}">&nbsp&nbsp ${eventList[x]} &nbsp&nbsp
-                            <form method="POST" action="/bookcon">
-                            <input id="lol" type="text" name="dateno" value="${dateno} ${conno}" hidden></input>   
-                            <input type="submit" value="Book"></input></form></li>
-                            `; 
+                                }else{
 
-                        }
+                                eventTemplate += `<li id="${dateno} ${conno}">&nbsp&nbsp ${eventList[x]} &nbsp&nbsp
+                                    <form method="POST" action="/bookcon">
+                                    <input id="lol" type="text" name="dateno" value="${dateno} ${conno}" hidden></input>   
+                                    <input type="submit" value="Book"></input></form></li>
+                                    `; 
 
-                        dateno = "";
+                                }
 
-                    }
-                    
+                            dateno = "";
 
-                }
 
+                            }   
+                        
+
+                    }   
+            }else{
+                  //is professor 
+                 for(var x=0;x<eventList.length;x++){
+                
+                        if(x%2==0){
+                            var res = eventList[x].split(" ");
+                            dateno = res[1];
+                            conno = res[2];
+
+                        }else{
+                        
+                                eventTemplate += `<li id="${dateno} ${conno}">&nbsp&nbsp ${eventList[x]} &nbsp&nbsp
+                               <form method="POST" action="/deletecon">
+                                <input id="cancel" type="text" name="dateno1" value="${dateno} ${conno}" hidden></input>
+                               <input type="submit" value="Remove Slot"></input></form></li>
+                                `;
+
+
+                            }   
+                        
+
+                    }   
+
+
+
+
+
+
+
+
+
+
+            }
 
 
                 this.elements.eventList.innerHTML = eventTemplate;
@@ -361,7 +400,7 @@ block content
                     this.updateTime(strDate);
                     this.drawAll()
                     console.log(day);
-                    var prevmth = document.getElementById("date").value.split("-")[1];
+                    var prevmth = document.getElementById("date").value.split("-")[1];   
                     var d = new Date();
                     document.getElementById("date").value = day + "-" + prevmth  + "-" + d.getFullYear();
                     console.log("New mth: " + document.getElementById("date").value);
