@@ -4,9 +4,6 @@ block content
   h5
     strong Welcome #{username}
   
-  form(method = 'POST' action = '/createquiz')
-    button.btn.btn-primary(type='submit') New Quiz
-
   form(method = 'POST' action = '/attemptquiz')
     button.btn.btn-primary(type='submit') View Quiz
 
@@ -31,6 +28,8 @@ block content
       form(method = 'POST' action = '/createthread')
         input(type="hidden" name="username" value=username)
         button.btn.btn-light(type='submit') New Thread
+      form(method = 'POST' action = '/createquiz')
+        button.btn.btn-light(type='submit') New Quiz  
       // Dropdown
       li.nav-item.dropdown
         button.btn.btn-light.dropdown-toggle.coursesbutt(data-toggle="dropdown") Courses

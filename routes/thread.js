@@ -10,9 +10,10 @@ router.get('/', function(req, res, next) {
 })
 
 router.post('/newthread', function(req, res, next) {
-
+  console.log("Posting into new thread" + req.body.content);
   details_dict = {}
-
+  content = req.body.content.replace(/<[^>]*>?/gm, '');
+  
   var details = firebase.database().ref('/'+req.body.coursecode+"/threads");
   //console.log(req.body.coursecode);
   details.once('value',
@@ -31,7 +32,7 @@ router.post('/newthread', function(req, res, next) {
   {
     id : "1",
     username : req.body.username,
-    content : req.body.content,
+    content : content,
     dateTime : Date.now(),
     noOfLikes : 0,
     noOfVotes : 0,
@@ -55,8 +56,7 @@ router.post('/newthread', function(req, res, next) {
   }
   )
   
-  // can change this to directly to the new thread
-  res.redirect('/createthread');
+  res.redirect('/main');
 });
 
 module.exports = router;
@@ -160,12 +160,20 @@ var replies = [
   {
     't_id': 0,
     'r_id': 0,
-    'quote': { 'quote_owner': 'Admin',
-                'quote_content': 'Hmmm?' },
-    'username': 'Developer',
-    'content': 'Development Phase SOMETHING LONG!!!!   ojjjjjjjjjj  jjjjj jjjjjjjjjjjjjjjjjjjjjj jjj j jjj jjjj jjjjjjjjjjjjj jjjjjjjjjjjjjjjjj jjjjjjjjjjjjjjjjjjjjjj jjjjjjjjjjjjjjjjjjjjjjjjjjj jjjjjjjjjjjjjjjjjj jjjjlolpawodawjp doawjpdojawpdo ajpdwojWWWWWWWWW WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW WWWWWWWWWWWWWWWWWWWWWWWW WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW WWWWWWWWWWWWWWWWWWWWWWWWWWWW WWWWWWWWWWWWWWWWW',
+    'quote': { 'quote_owner': 'Dev2',
+                'quote_content': 'This is interesting...' },
+    'username': 'Dev1',
+    'content': 'Well Well Well...',
     'reply_pos': 1,
     'noOfVotes': 1
+  },
+  {
+    't_id': 0,
+    'r_id': 1,
+    'username': 'Dev2',
+    'content': 'This is interesting...',
+    'reply_pos': 2,
+    'noOfVotes': 4
   },
   {
     't_id': 5,
