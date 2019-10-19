@@ -493,7 +493,7 @@ transporter.sendMail(mailOptions, function(error, info){
   }
 });
 
-  res.redirect('.');
+    res.redirect(req.get('referer'));
 });
 
 
