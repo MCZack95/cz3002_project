@@ -73,8 +73,11 @@ module.exports.editPost = (coursecode,threadid,postid,content,username,hasquote,
     details.child("dateTime").set(Date.now());
   })
 
-  if (hasquote === true){
-    quotes = {
+  if (hasquote === "true")
+  {
+    //console.log("This edit post has quotes : " + hasquote + quoteowner + quotecontent)
+    var quote = 
+    {
       quote_owner : quoteowner,
       quote_content : quotecontent,
     }
@@ -85,7 +88,7 @@ module.exports.editPost = (coursecode,threadid,postid,content,username,hasquote,
     details_dict = snapshot.val();
     console.log(snapshot.val());
     //push new content to DB
-    details.child("quote").set(quotes);
+    details.child("quote").set(quote);
   })
   }
 
