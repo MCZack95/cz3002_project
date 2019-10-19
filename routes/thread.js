@@ -10,9 +10,10 @@ router.get('/', function(req, res, next) {
 })
 
 router.post('/newthread', function(req, res, next) {
-
+  console.log("Posting into new thread" + req.body.content);
   details_dict = {}
-
+  content = req.body.content.replace(/<[^>]*>?/gm, '');
+  
   var details = firebase.database().ref('/'+req.body.coursecode+"/threads");
   //console.log(req.body.coursecode);
   details.once('value',
@@ -31,7 +32,7 @@ router.post('/newthread', function(req, res, next) {
   {
     id : "1",
     username : req.body.username,
-    content : req.body.content,
+    content : content,
     dateTime : Date.now(),
     noOfLikes : 0,
     noOfVotes : 0,
@@ -55,8 +56,7 @@ router.post('/newthread', function(req, res, next) {
   }
   )
   
-  // can change this to directly to the new thread
-  res.redirect('/createthread');
+  res.redirect('/main');
 });
 
 module.exports = router;

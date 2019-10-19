@@ -424,10 +424,8 @@ router.post('/attemptquiz', function(req, res, next) {
   console.log("Post to attempt quiz")
   console.log("Course code : " + req.body.coursecode +  " | " +  "Quiz No : " + req.body.quizno);
   details_dict = {};
-  //Need to add in dynamic coursecode and quiz number
   coursecode = req.body.coursecode;
   quizno = req.body.quizno;
- // details_dict = db.viewQuiz(coursecode,quizno);
 
  var details = firebase.database().ref('/'+ coursecode + "/quizzes/" +quizno);
  details.once('value',
@@ -444,6 +442,39 @@ router.post('/attemptquiz', function(req, res, next) {
 
 });
 
+/**router.get('/attemptquiz', function(req, res, next) {
+  console.log("Get to attempt quiz")
+  //console.log("Course code : " + req.body.coursecode +  " | " +  "Quiz No : " + req.body.quizno);
+  details_dict = {};
+  //Need to add in dynamic coursecode and quiz number
+  if (req.body.coursecode!= null){
+    this.coursecode = req.body.coursecode
+  } 
+  else {
+    this.coursecode = coursecode
+  }
+  if (req.body.quizno !=null){
+    this.quizno = req.body.quizno
+  }
+  else{
+    this.quizno = quizno
+  }
+
+
+ var details = firebase.database().ref('/'+ this.coursecode + "/quizzes/" + this.quizno);
+ details.once('value',
+ function(snapshot) {
+   details_dict = snapshot.val();
+   console.log("Quiz retrieved: " + snapshot.val());
+   var title = details_dict.Title;
+   delete details_dict.Title;
+   console.log("New Quiz to pass : "+ details_dict);
+   res.render('attemptquiz', { quiz: details_dict, title: title, coursecode: this.coursecode, quizno: this.quizno});
+
+ }) 
+
+});
+**/
 //up vote and down vote
 router.post('/votepost', isLoggedIn, function(req, res, next) {
   threadid = req.body.threadid;
@@ -493,6 +524,7 @@ router.post('/makepost', isLoggedIn, function(req, res, next) {
   console.log('Making New Post :' + req.body.coursecode + " ; " + req.body.threadid + username);
   var coursecode = req.body.coursecode;
   var threadid = req.body.threadid; 
+  console.log("Checking for quotes : " + req.body.quote)
 
   var newPost =
     {
