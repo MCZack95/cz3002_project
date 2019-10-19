@@ -184,8 +184,8 @@ router.get('/calendar', function(req, res, next) {
 });
 
 router.post('/calendar', function(req, res, next) {
-  var events = {"11/10/2019": ["test","damn","gg"]}; 
 
+ 
   var details_dict = {};
   var details = firebase.database().ref('/consultations/dates');
   
@@ -194,9 +194,39 @@ router.post('/calendar', function(req, res, next) {
     details_dict = snapshot.val();
     console.log("\n");
     console.log(snapshot.val());
+    res.render('calendar', {dict: JSON.stringify(details_dict), user: username});   
+  });
+});
+
+router.post('/coursefilter', function(req, res, next) {
+ 
+  var course = req.body.coursefilter;
+  var details_dict = {};
+  var details = firebase.database().ref('/consultations/dates');
+  
+  details.once('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    console.log("\n");
+    console.log(snapshot.val());
+    for(var x in details_dict){
+        for(var y in details_dict[x]){
+
+            if(y.includes("con")){
+
+              if(details_dict[x][y]["course"]!=course){
+
+                delete details_dict[x][y];
+
+              }
+
+            }
+
+        }
+    }
 
   
-    console.log("ASGS: " + JSON.stringify(details_dict));
+    console.log("Filtered cons: " + JSON.stringify(details_dict));
     res.render('calendar', {dict: JSON.stringify(details_dict), user: username});   
   });
 });
@@ -273,6 +303,8 @@ router.post('/deletecon', function(req, res, next) {
 
 });
 
+
+
 //calendar test
 router.post('/setconsult', function(req, res, next) {
   console.log('SET!');
@@ -305,7 +337,7 @@ router.post('/setconsult', function(req, res, next) {
 
       var newConsult = 
       {
-        prof: "Li Yi",
+        prof: username,
         timefrom: from,
         timeto: to,
         course: "CZ4047",
