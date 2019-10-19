@@ -498,7 +498,7 @@ router.post('/editpost', function(req, res, next) {
   var threadid = req.body.threadid;
   var postid = req.body.editarrow.split(";")[0];
   //var content = req.body.content;
-  var content = "testing the edit function"
+  var content = req.body.content
   db.editPost(coursecode,threadid,postid,content,username);
 
   res.redirect(req.get('referer'));
@@ -525,8 +525,24 @@ router.post('/makepost', isLoggedIn, function(req, res, next) {
   var coursecode = req.body.coursecode;
   var threadid = req.body.threadid; 
   console.log("Checking for quotes : " + req.body.quote)
-
-  var newPost =
+  //once boolean is passed then use this logic
+  /**if (req.body.quote == true){
+    var newPost =
+    {
+      id : " ",
+      username : username,
+      content : req.body.content,
+      dateTime : Date.now(),
+      noOfVotes : 0,
+      replyTo : req.body.owner,
+      quotes : {
+        quote_owner = req.body.quote_owner,
+        quote_content = req.body.quote_content
+      }
+    }
+  }
+  else{
+    var newPost =
     {
       id : " ",
       username : username,
@@ -535,7 +551,17 @@ router.post('/makepost', isLoggedIn, function(req, res, next) {
       noOfVotes : 0,
       replyTo : " ",
     }
-
+  }  
+  **/
+ var newPost =
+ {
+   id : " ",
+   username : username,
+   content : req.body.content,
+   dateTime : Date.now(),
+   noOfVotes : 0,
+   replyTo : " ",
+ }
   db.makePost(coursecode,threadid,newPost,username);
   
   res.redirect(req.get('referer'));

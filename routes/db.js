@@ -89,6 +89,7 @@ module.exports.deletePost = (coursecode,threadid,postid) =>
     details.remove();
   }
   )
+  this.updateRepliesCount("decrease",coursecode,threadid);
 }
 
 module.exports.makePost = (coursecode,threadid,newpost,username) => {
@@ -115,7 +116,7 @@ module.exports.makePost = (coursecode,threadid,newpost,username) => {
   });
 
   //updating number of replies
-  this.increaseRepliesCount(coursecode,threadid);
+  this.updateRepliesCount("increase",coursecode,threadid);
 
   //updating thread details
   this.updateThreadDetails(coursecode,threadid,username);
@@ -229,9 +230,9 @@ module.exports.updateThreadDetails = (coursecode,threadid,username) =>
 }
 
 
-module.exports.increaseRepliesCount = (coursecode,threadid) => 
+module.exports.updateRepliesCount = (update,coursecode,threadid) => 
 {
-  console.log("Increasing replies count");
+  console.log("Update replies count");
   details_dict = {}
   threadid = threadid.split("CZ")[0];
   var details = firebase.database().ref('/'+coursecode+'/threads/'+coursecode+'Thread'+threadid);
@@ -241,7 +242,12 @@ module.exports.increaseRepliesCount = (coursecode,threadid) =>
 
     var replies = details_dict["noOfReplies"];
     console.log("Course Code : " + coursecode + "Thread ID : " + threadid + "Replies : " + replies)
-    replies += 1;
+    if (update== "increase"){
+      replies += 1;
+    }
+    else{
+      replies -= 1;
+    }
     details.child("noOfReplies").set(replies);
   });
 }

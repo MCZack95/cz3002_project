@@ -46,7 +46,7 @@ block content
               img.float-left#report(src='/images/report.png' alt="ReportButton")
               h5.float-left Report
           .edit
-            button#edit_button(type="submit" name="editarrow" value=index+";4")
+            button#edit_button(type="submit")
               img.float-left#edit(src='/images/edit.png' alt="EditButton")
               h5.float-left Edit Post
           .delete
@@ -71,7 +71,7 @@ block content
                   p #{post.quote.quote_content}
             .row#edit_content_row
               textarea.form-control(name='content') #{post.content}
-            button.btn.btn-primary(type='submit') Confirm
+            button.btn.btn-primary(type='submit' name="editarrow" value=index+";4") Confirm
             button.btn.btn-light(type='button') Cancel
   br
   .container-fluid#thread_buttons
