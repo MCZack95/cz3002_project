@@ -131,7 +131,7 @@ router.post('/main', function(req, res, next) {
         //console.log("Final Threads : " + JSON.stringify(finalthread_dict));
         //console.log("CourseArray : " + courseArray);
         finalthread_dict = main_page.MergeSortThread(finalthread_dict);
-        res.render('main_page', { coursecode: courseArray, title: 'Main Page', username: req.body.username, data: finalthread_dict });
+        res.render('main_page', { role: role,coursecode: courseArray, title: 'Main Page', username: req.body.username, data: finalthread_dict });
       }
     });
   
