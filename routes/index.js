@@ -131,7 +131,7 @@ router.post('/main', function(req, res, next) {
         //console.log("Final Threads : " + JSON.stringify(finalthread_dict));
         //console.log("CourseArray : " + courseArray);
         finalthread_dict = main_page.MergeSortThread(finalthread_dict);
-        res.render('main_page', { coursecode: courseArray, title: 'Main Page', username: req.body.username, data: finalthread_dict });
+        res.render('main_page', { role: role,coursecode: courseArray, title: 'Main Page', username: req.body.username, data: finalthread_dict });
       }
     });
   
@@ -564,7 +564,7 @@ router.post('/attemptquiz', function(req, res, next) {
    delete details_dict.Title;
    console.log("New Quiz to pass : "+ details_dict);
    
-   res.render('attemptquiz', { quiz: details_dict, title: title, coursecode: coursecode, quizno: quizno});
+   res.render('attemptquiz', {quiz: details_dict, title: title, coursecode: coursecode, quizno: quizno, role: role});
 
  }) 
 
@@ -805,7 +805,7 @@ Promise.all(promises).then(function(values) {
   setTimeout(function() { 
     if (username != null) {
       console.log("Final value : " + JSON.stringify(details_dict1))
-      res.render('quiz',{data : details_dict1});
+      res.render('quiz',{data : details_dict1,role: role});
     } else {
       res.render('error404');
     }

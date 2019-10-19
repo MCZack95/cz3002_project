@@ -5,22 +5,36 @@ block content
     .overallcont
         #avaquiz 
             img(src='/svg/tick.svg' style='margin-left: 5px; margin-bottom: 5px;')
-            span#avatext Available Quiz
+            if role === "student"
+              span#avatext Quizzes
+            else 
+              span#avatext Quizzes created
             //h1 #{Object.keys(data)} 
         each course, index in data
           h1 #{JSON.stringify(Object.keys(data)[`${index}`])} 
           h2 #{index}  
-          each quiz,index1 in course
-            form(method = 'POST' action = '/attemptquiz')
-                //input(type="hidden" name="coursecode" value = Object.keys(data)[index]) 
-                input(type="hidden" name="coursecode" value = index) 
-                input(type="hidden" name="quizno" value = index1) 
-                button(type='submit' name = 'attemptquiz') Attempt Quiz test 
+          each quiz, index1 in course
+            //- form(method = 'POST' action = '/attemptquiz')
+            //-     //input(type="hidden" name="coursecode" value = Object.keys(data)[index]) 
+            //-     input(type="hidden" name="coursecode" value = index) 
+            //-     input(type="hidden" name="quizno" value = index1) 
+            //-     if role === "student"
+            //-       button(type='submit' name = 'attemptquiz') Attempt Quiz 
+            //-     else 
+            //-       button(type='submit' name = 'attemptquiz') View Quiz
             .modcont 
               //button.btn.btn-primary(type='submit') New Quiz
               button.quizcont #{index1}
-              button.content(type='submit') Attempt Quiz
-              button.content View Materials
+                form(method='POST', action='/attemptquiz')
+                  input(type="hidden" name="coursecode" value = index) 
+                  input(type="hidden" name="quizno" value = index1)
+                  if role === "student"
+                    button.content(type='submit' name='attemptquiz') Attempt Quiz 
+                  else 
+                    button.content(type='submit' name='attemptquiz') View Quiz
+                  button.content View Materials
+              //- button.content(type='submit') Attempt Quiz
+              //- button.content View Materials
                             
                 //button.quizcont Quiz2
                 //button.content Attempt Quiz
