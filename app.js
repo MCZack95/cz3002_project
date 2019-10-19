@@ -27,6 +27,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/createthread', createThreadRouter);
 app.use('/createquiz', createQuizRouter);
+app.use('/quiz', indexRouter);
+app.use('/attemptquiz',indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
