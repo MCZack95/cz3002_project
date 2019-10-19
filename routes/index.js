@@ -396,27 +396,24 @@ router.post('/quizscore', function(req, res, next) {
 
 });
 
-//post to view quiz
-router.post('/viewquiz', function(req, res, next) {
+//post to attemot quiz
+router.post('/attemptquiz', function(req, res, next) {
+  console.log("Post to attempt quiz")
+  console.log("Course code : " + req.body.coursecode +  " | " +  "Quiz No : " + req.body.quizno);
   details_dict = {};
   //Need to add in dynamic coursecode and quiz number
-  coursecode = "CZ4047";
-  quizno = "Quiz3";
+  coursecode = req.body.coursecode;
+  quizno = req.body.quizno;
  // details_dict = db.viewQuiz(coursecode,quizno);
 
  var details = firebase.database().ref('/'+ coursecode + "/quizzes/" +quizno);
  details.once('value',
  function(snapshot) {
    details_dict = snapshot.val();
-   console.log("YOYO: " + snapshot.val());
-   if (Object.keys(details_dict).length < 0)
-   {
-       console.log("DB View Quiz Error");
-   }
-
+   console.log("Quiz retrieved: " + snapshot.val());
    var title = details_dict.Title;
    delete details_dict.Title;
-   console.log("New : "+ details_dict);
+   console.log("New Quiz to pass : "+ details_dict);
    
    res.render('attemptquiz', { quiz: details_dict, title: title, coursecode: coursecode, quizno: quizno});
 

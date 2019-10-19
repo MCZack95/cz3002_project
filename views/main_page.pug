@@ -7,7 +7,7 @@ block content
   form(method = 'POST' action = '/createquiz')
     button.btn.btn-primary(type='submit') New Quiz
 
-  form(method = 'POST' action = '/viewquiz')
+  form(method = 'POST' action = '/attemptquiz')
     button.btn.btn-primary(type='submit') View Quiz
 
   form(method = 'POST' action = '/email')
@@ -126,9 +126,6 @@ block content
       var rows = document.querySelectorAll('tr[data-href]');
       rows.forEach(row => {
         row.addEventListener('click', () => {
-          //- window.location.href = row.dataset.href;
-          //var threadTitle = document.getElementByNames(row.courseCode);
-          //- var threadTitle = document.getElementById(row.id).getElementsByTagName('td')[0].innerText;
           console.log(row);
           var threadTitle = document.getElementById(row.id).getElementsByTagName('span')[0].innerText;
           console.log(threadTitle);

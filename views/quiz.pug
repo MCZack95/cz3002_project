@@ -6,26 +6,27 @@ block content
         #avaquiz 
             img(src='/svg/tick.svg' style='margin-left: 5px; margin-bottom: 5px;')
             span#avatext Available Quiz
-        h1 #{Object.keys(data)} 
-       
-        tbody
-          each course, index in data
-            h1 #{JSON.stringify(Object.keys(data)[`${index}`])} 
-              h2 #{index}  
-                each quiz, index1 in course
-                    tr(data-href=`${quiz}` id=`${quiz}`)
-                        td       
-                            .modcont 
-                                button.quizcont #{index1}
-                                button.content Attempt Quiz
-                                button.content View Materials
-
-                                
-                
+            //h1 #{Object.keys(data)} 
+        each course, index in data
+          h1 #{JSON.stringify(Object.keys(data)[`${index}`])} 
+          h2 #{index}  
+          each quiz,index1 in course
+            form(method = 'POST' action = '/attemptquiz')
+                //-var no= index1.split("z")[1]
+                //input(type="hidden" name="coursecode" value = Object.keys(data)[index]) 
+                input(type="hidden" name="coursecode" value = Object.keys(data)[0]) 
+                input(type="hidden" name="quizno" value = index1) 
+                button(type='submit' name = 'attemptquiz') Attempt Quiz test 
+            .modcont 
+              //button.btn.btn-primary(type='submit') New Quiz
+              button.quizcont #{index1}
+              button.content(type='submit') Attempt Quiz
+              button.content View Materials
+                            
                 //button.quizcont Quiz2
                 //button.content Attempt Quiz
                 //button.content View Materials
-        .coursecont 
+        //.coursecont 
             .modcont CZ4062 - Computer Security
                 button.quizcont Quiz1
                 button.content Attempt Quiz
