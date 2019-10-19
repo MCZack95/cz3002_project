@@ -240,21 +240,23 @@ router.post('/coursefilter', function(req, res, next) {
     details_dict = snapshot.val();
     console.log("\n");
     console.log(snapshot.val());
-    for(var x in details_dict){
-        for(var y in details_dict[x]){
+    if(course!="all"){
+      for(var x in details_dict){
+          for(var y in details_dict[x]){
 
-            if(y.includes("con")){
+              if(y.includes("con")){
 
-              if(details_dict[x][y]["course"]!=course){
+                if(details_dict[x][y]["course"]!=course){
 
-                delete details_dict[x][y];
+                  delete details_dict[x][y];
+
+                }
 
               }
 
-            }
-
-        }
-    }
+          }
+      }
+  }
 
   
     console.log("Filtered cons: " + JSON.stringify(details_dict));
