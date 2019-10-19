@@ -556,7 +556,9 @@ router.post('/makepost', isLoggedIn, function(req, res, next) {
   console.log('Making New Post :' + req.body.coursecode + " ; " + req.body.threadid + username);
   var coursecode = req.body.coursecode;
   var threadid = req.body.threadid; 
-  console.log("Checking for quotes : " + req.body.quote)
+  console.log("Checking for quotes : " + req.body.quote);
+  console.log("Quote Owner : " + req.body.quote_owner);
+  console.log("Quote Content : " + req.body.quote_content);
   //once boolean is passed then use this logic
   /**if (req.body.quote == true){
     var newPost =
