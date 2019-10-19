@@ -571,7 +571,7 @@ router.post('/editpost', function(req, res, next) {
   var postid = req.body.editarrow.split(";")[0];
   //var content = req.body.content;
   var content = req.body.content
-  db.editPost(coursecode,threadid,postid,content,username,req.body.quote,req.quote_owner,req.quote_content);
+  db.editPost(coursecode,threadid,postid,content,username,req.body.quote,req.body.quote_owner,req.body.quote_content);
 
   res.redirect(req.get('referer'));
 });
