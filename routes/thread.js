@@ -160,12 +160,20 @@ var replies = [
   {
     't_id': 0,
     'r_id': 0,
-    'quote': { 'quote_owner': 'Admin',
-                'quote_content': 'Hmmm?' },
-    'username': 'Developer',
-    'content': 'Development Phase SOMETHING LONG!!!!   ojjjjjjjjjj  jjjjj jjjjjjjjjjjjjjjjjjjjjj jjj j jjj jjjj jjjjjjjjjjjjj jjjjjjjjjjjjjjjjj jjjjjjjjjjjjjjjjjjjjjj jjjjjjjjjjjjjjjjjjjjjjjjjjj jjjjjjjjjjjjjjjjjj jjjjlolpawodawjp doawjpdojawpdo ajpdwojWWWWWWWWW WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW WWWWWWWWWWWWWWWWWWWWWWWW WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW WWWWWWWWWWWWWWWWWWWWWWWWWWWW WWWWWWWWWWWWWWWWW',
+    'quote': { 'quote_owner': 'Dev2',
+                'quote_content': 'This is interesting...' },
+    'username': 'Dev1',
+    'content': 'Well Well Well...',
     'reply_pos': 1,
     'noOfVotes': 1
+  },
+  {
+    't_id': 0,
+    'r_id': 1,
+    'username': 'Dev2',
+    'content': 'This is interesting...',
+    'reply_pos': 2,
+    'noOfVotes': 4
   },
   {
     't_id': 5,

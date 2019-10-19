@@ -72,8 +72,7 @@ body {
 }
 
 #username_row {
-  border-bottom: 1px solid black;
-  border-bottom-style: dotted;
+  border-bottom: 1px dotted black;
 }
 
 #username_row > h3 {
@@ -82,9 +81,22 @@ body {
   font-family: 'PN Alt Bold';
 }
 
-#quote_row {
-  border: 1px dotted black;
-  background-color: lightslategray;
+.quote_wrapper {
+  margin-top: 2%;
+  padding-left: 5%;
+  border: 1px solid black;
+  border-radius: 0px 20px 20px 0px;
+  background-color: lightgrey;
+}
+
+#quote_owner > p {
+  margin-top: 1%;
+  font-family: 'PN Light';
+  /*font-family: 'PN Regular';*/
+}
+
+#quote_content > p {
+  font-family: 'PN Thin';
 }
 
 #content_row {
@@ -117,6 +129,94 @@ body {
   cursor: pointer;
   transform: scale(1.5);
   transition: .5s ease;
+}
+
+#edit_row {
+  width: 100%;
+  background-color: lightblue;
+  margin: 2%;
+  padding: 2% 5% 2% 5%;
+  border: 1px dotted black;
+  border-radius: 30px;
+  -webkit-box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+}
+
+#edit_row > form {
+  width: 100%;
+  margin-left: 15px;
+}
+
+#edit_username_row {
+  border-bottom: 1px dotted black;
+}
+
+#edit_username_row > h3 {
+  padding-top: 2%;
+  padding-bottom: 2%;
+  font-family: 'PN Alt Bold';
+}
+
+.edit_quote_wrapper {
+  margin-top: 2%;
+  padding-left: 5%;
+  border: 1px dotted black;
+  border-radius: 0px 20px 20px 0px;
+  background-color: black;
+}
+
+#edit_reply_quote > label {
+  font-family: 'PN Alt Bold';
+}
+
+#edit_reply_quote > img {
+  margin-left: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+#edit_reply_quote > img:hover {
+  cursor: pointer;
+  transform: scale(1.5);
+  transition: 0.5s ease-in-out;
+}
+
+#edit_reply_quote > textarea {
+  background-color: #0B1A51;
+  color: white;
+  font-family: 'PN Alt Light';
+  overflow: hidden;
+  height: 100px;
+}
+
+#edit_quote_owner > p {
+  margin-top: 1%;
+  color: white;
+  font-family: 'PN Light';
+  /*font-family: 'PN Regular';*/
+}
+
+#edit_quote_content > p {
+  color: white;
+  font-family: 'PN Thin';
+}
+
+#edit_content_row {
+  margin: 1% 0% 1% 0%;
+  max-height: 500px;
+}
+
+#edit_content_row > textarea {
+  padding-top: 1%;
+  padding-bottom: 1%;
+  word-wrap: break-word;
+  overflow-y: auto;
+  font-family: 'PN Thin';
+}
+
+.row#edit_row > form > .btn-light {
+  margin-left: 20px;
 }
 
 #extra_row {
@@ -177,7 +277,7 @@ body {
   width: 100%;
 }
 
-.row > .watch {
+.row > .bookmark {
   margin-left: 2%;
 }
 
@@ -185,30 +285,30 @@ body {
   margin-left: 2%;
 }
 
-#add-button, #watch-button {
+#add-button, #bookmark-button {
   border-radius: 0px 30px 30px 0px;
 }
 
-#add-button > img, #watch-button > img, #return-button > img {
+#add-button > img, #bookmark-button > img, #return-button > img {
   width: 30px;
   height: 30px;
 }
 
-#add-button > h5, #watch-button > h5, #return-button > h5 {
+#add-button > h5, #bookmark-button > h5, #return-button > h5 {
   padding-top: 4%;
   margin-left: 5px;
   font-family: 'PN Extrabold';
 }
 
-#add-button > h5, #watch-button > h5 {
+#add-button > h5, #bookmark-button > h5 {
   margin-left: 30px;
 }
 
-#add-button, #watch-button {
+#add-button, #bookmark-button {
   position: relative;
 }
 
-#add-button > img, #watch-button > img {
+#add-button > img, #bookmark-button > img {
   position: absolute;
   left: 0;
   margin-left: 5px;
@@ -231,19 +331,19 @@ body {
   opacity: 1;
 }
 
-#watch-button > img:first-child {
+#bookmark-button > img:first-child {
   opacity: 1;
 }
 
-#watch-button > img:nth-child(2) {
+#bookmark-button > img:nth-child(2) {
   opacity: 0;
 }
 
-#watch-button > img.transparent {
+#bookmark-button > img.transparent {
   opacity: 0;
 }
 
-#watch-button > img.opaque {
+#bookmark-button > img.opaque {
   opacity: 1;
 }
 

@@ -26,31 +26,27 @@ block content
             .row#username_row
               h3 #{post.username}
             if post.quote
-              .row#quote_row
-                h3 #{post.quote.quote_owner}
-                h3 #{post.quote.quote_content}
+              .quote_wrapper
+                .row#quote_owner
+                  p #{post.quote.quote_owner}
+                .row#quote_content
+                  p #{post.quote.quote_content}
             .row#content_row
               h5 #{post.content}
           .filler
-        .row#extra_row
+        .row.extra_row#extra_row
           .quote
             button#quote_button(type="submit" name="returnarrow" value=index+";1")
               img.float-left#quote(src='/images/quote.png' alt="ReplyButton")
               h5.float-left Quote
           .report
-            form.float-left(method = 'POST' action = '#')
-              input(type="hidden" name="threadid" value=threadid)
-              input(type="hidden" name="coursecode" value=coursecode)
-              button#report_button(type="submit" name="reportarrow" value=index+";2")
-                img.float-left#report(src='/images/report.png' alt="ReportButton")
-                h5.float-left Report
+            button#report_button(type="submit" name="reportarrow" value=index+";2")
+              img.float-left#report(src='/images/report.png' alt="ReportButton")
+              h5.float-left Report
           .edit
-            form.float-left(method = 'POST' action = '/editpost')
-              input(type="hidden" name="threadid" value=threadid)
-              input(type="hidden" name="coursecode" value=coursecode)
-              button#edit_button(type="submit" name="editarrow" value=index+";4")
-                img.float-left#edit(src='/images/edit.png' alt="EditButton")
-                h5.float-left Edit Post
+            button#edit_button(type="submit" name="editarrow" value=index+";4")
+              img.float-left#edit(src='/images/edit.png' alt="EditButton")
+              h5.float-left Edit Post
           .delete
             form.float-left(method = 'POST' action = '/deletepost')
               input(type="hidden" name="threadid" value=threadid)
@@ -58,7 +54,23 @@ block content
               button#delete_button(type="submit" name="deletearrow" value=index+";5")
                 img.float-left#delete(src='/images/delete-bin.png' alt="DeleteButton")
                 h5.float-left Delete Post
-
+        .row.edit_row#edit_row
+          h3 Editing Post
+          form.float-left(method = 'POST' action = '/editpost')
+            input(type="hidden" name="threadid" value=threadid)
+            input(type="hidden" name="coursecode" value=coursecode)
+            .row#edit_username_row
+              h3 #{post.username}
+            if post.quote
+              .edit_quote_wrapper
+                .row#edit_quote_owner
+                  p #{post.quote.quote_owner}
+                .row#edit_quote_content
+                  p #{post.quote.quote_content}
+            .row#edit_content_row
+              textarea.form-control(name='content') #{post.content}
+            button.btn.btn-primary(type='submit') Confirm
+            button.btn.btn-light(type='button') Cancel
   br
   .container-fluid#thread_buttons
     .row
@@ -67,8 +79,8 @@ block content
           img.float-left(src="/images/add.png" alt="AddButton")
           img.float-left(src="/images/minus.png" alt="MinusButton")
           h5.float-left Add Reply
-      .watch
-        button.btn.btn-primary#watch-button(type='submit') 
+      .bookmark
+        button.btn.btn-primary#bookmark-button(type='submit') 
           img.float-left(src="/images/add_bookmark.png" alt="UnWatchButton")
           img.float-left(src="/images/remove_bookmark.png" alt="WatchButton")
           h5.float-left Bookmark
@@ -95,8 +107,115 @@ block content
   script.
 
     $(document).ready(function() {
+      $(".row#edit_row").hide();
+
+      $(".quote").click(function() {
+        $.each($(".row#edit_row"), function(){
+          if($(this).children("form").children("#edit_reply_quote").length) {
+            $(this).children("form").children("#edit_reply_quote").remove();
+          }
+        });
+
+        var isEditing = false;
+        var edit_row = null;
+        $.each($(".row#edit_row"), function(){
+          if(!$(this).is(":hidden")) {
+            edit_row = $(this);
+            isEditing = true;
+          }
+        });
+
+        if(isEditing) {
+          var quote_text = $(this).parent().parent().children().children(".content").children("#username_row").text() + " - " + $(this).parent().parent().children().children(".content").children("#content_row").text();
+          console.log(edit_row.children("form").children("#edit_reply_quote").children("textarea"));
+          if(edit_row.children("form").children("#edit_reply_quote").length) {
+            edit_row.children("form").children("#edit_reply_quote").children("textarea").text(quote_text);
+          } else {  
+            edit_row.children("form").children("#edit_content_row").before("<div id='edit_reply_quote' class='form-group'><label>Quoting</label><img id='close_quote' src='/images/cancel.png'><textarea id='edit_quote_text' class='form-control' type='text' name='quote' disabled>" + quote_text + "</textarea><br/></div>");
+            $("#close_quote").click(function() {
+              $("#edit_reply_quote").remove();
+            });
+          }
+        } else {
+          $("#add-button").addClass("btn-light");
+          $("#add-button > img:first-child").addClass("transparent");
+          $("#add-button > img:nth-child(2)").addClass("opaque");
+          $("#add-button > h5").text("Cancel");
+
+          if(!$("#reply_quote").length){
+            var quote_text = $(this).parent().parent().children().children(".content").children("#username_row").text() + " - " + $(this).parent().parent().children().children(".content").children("#content_row").text();
+            $("#reply-content > label").before("<div id='reply_quote' class='form-group'><label>Quoting</label><img id='close_quote' src='/images/cancel.png'><textarea id='quote_text' class='form-control' type='text' name='quote' disabled>" + quote_text + "</textarea><br/></div>");
+            
+            $("#close_quote").click(function() {
+              $("#reply_quote").remove();
+            });
+          } else {
+            var quote_text = $(this).parent().parent().children().children(".content").children("#username_row").text() + " - " + $(this).parent().parent().children().children(".content").children("#content_row").text();
+            $("#quote_text").val(quote_text);
+          }
+          
+          $(".reply > form").addClass("opaque");
+          $("#reply-content > textarea").removeAttr("disabled");
+          $("#confirm-button").removeAttr("disabled");
+        }
+      });
+
+      $(".report").click(function() {
+        alert("Report sent to System Administrator.");
+      });
+
+      $(".edit").click(function() {
+        $(".edit_row").hide();
+        $(".extra_row").show();
+
+        if($("#add-button > h5").text() == "Cancel") {
+          $("#add-button").toggleClass("btn-light");
+          $("#add-button > img:first-child").toggleClass("transparent");
+          $("#add-button > img:nth-child(2)").toggleClass("opaque");
+          $(".reply > form").toggleClass("opaque");
+          $("#add-button > h5").text("Add Reply");
+          if($("#reply_quote").length){
+            $("#reply_quote").remove();
+          }
+          $("#reply-content > textarea").val("");
+          $("#reply-content > textarea").attr("disabled", "true");
+          $("#confirm-button").attr("disabled", "true");
+        }
+        
+        $(this).parent().hide();
+        $(this).parent().next().show();
+        
+        if($(this).parent().next().children("form").children(".edit_quote_wrapper").length) {
+          if(!$(this).parent().next().children("form").children("#edit_reply_quote").length) {
+
+            $(this).parent().next().children("form").children(".edit_quote_wrapper").hide();
+            var quote_text = $(this).parent().next().children("form").children(".edit_quote_wrapper").children("#edit_quote_owner").text() + " - " + $(this).parent().next().children("form").children(".edit_quote_wrapper").children("#edit_quote_content").text();
+            $(this).parent().next().children("form").children("#edit_content_row").before("<div id='edit_reply_quote' class='form-group'><label>Quoting</label><img id='close_quote' src='/images/cancel.png'><textarea id='edit_quote_text' class='form-control' type='text' name='quote' disabled>" + quote_text + "</textarea><br/></div>");
+          
+            $("#close_quote").click(function() {
+              $("#edit_reply_quote").remove();
+            });
+          }
+        }
+      });
+
+      $(".row#edit_row > form > .btn-light").click(function() {
+        $(this).parent().parent().hide();
+        if($(".edit_quote_wrapper").length) {
+          $(this).parent().children("#edit_reply_quote").remove();
+        }
+        $(this).parent().parent().parent().children(".row#extra_row").show();
+      });
 
       $("#add-button").click(function() {
+        $(".edit_row").hide();
+        $(".extra_row").show();
+        $.each($(".row#edit_row"), function(){
+          if($(this).children("form").children("#edit_reply_quote").length) {
+            $(this).children("form").children("#edit_reply_quote").remove();
+          }
+        });
+
         $("#add-button").toggleClass("btn-light");
         $("#add-button > img:first-child").toggleClass("transparent");
         $("#add-button > img:nth-child(2)").toggleClass("opaque");
@@ -119,38 +238,15 @@ block content
         }
       });
 
-      $(".quote").click(function() {
-        $("#add-button").addClass("btn-light");
-        $("#add-button > img:first-child").addClass("transparent");
-        $("#add-button > img:nth-child(2)").addClass("opaque");
-        $("#add-button > h5").text("Cancel");
+      $("#bookmark-button").click(function() {
+        $("#bookmark-button").toggleClass("btn-light");
+        $("#bookmark-button > img:first-child").toggleClass("transparent");
+        $("#bookmark-button > img:nth-child(2)").toggleClass("opaque");
 
-        if(!$("#reply_quote").length){
-          var quote_text = $($($($($($(this).parent().get(0)).parent().get(0)).children().get(0)).children().get(2)).children().get(0)).text() + " - " + $($($($($($(this).parent().get(0)).parent().get(0)).children().get(0)).children().get(2)).children().get(1)).text();
-          $("#reply-content > label").before("<div id='reply_quote' class='form-group'><label>Quoting</label><img id='close_quote' src='/images/cancel.png'><textarea id='quote_text' class='form-control' type='text' name='quote' disabled>" + quote_text + "</textarea><br/></div>");
-          
-          $("#close_quote").click(function() {
-            $("#reply_quote").remove();
-          });
+        if($("#bookmark-button > h5").text() == "Bookmark") {
+          $("#bookmark-button > h5").text("Remove");
         } else {
-          var quote_text = $($($($($($(this).parent().get(0)).parent().get(0)).children().get(0)).children().get(2)).children().get(0)).text() + " - " + $($($($($($(this).parent().get(0)).parent().get(0)).children().get(0)).children().get(2)).children().get(1)).text();
-          $("#quote_text").val(quote_text);
-        }
-        
-        $(".reply > form").addClass("opaque");
-        $("#reply-content > textarea").removeAttr("disabled");
-        $("#confirm-button").removeAttr("disabled");
-      });
-
-      $("#watch-button").click(function() {
-        $("#watch-button").toggleClass("btn-light");
-        $("#watch-button > img:first-child").toggleClass("transparent");
-        $("#watch-button > img:nth-child(2)").toggleClass("opaque");
-
-        if($("#watch-button > h5").text() == "Bookmark") {
-          $("#watch-button > h5").text("Remove");
-        } else {
-          $("#watch-button > h5").text("Bookmark");
+          $("#bookmark-button > h5").text("Bookmark");
         }
       });
     });
