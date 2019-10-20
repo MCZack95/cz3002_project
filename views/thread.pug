@@ -64,9 +64,7 @@ block content
           form.float-left(method = 'POST' action = '/editpost')
             input(type="hidden" name="threadid" value=threadid)
             input(type="hidden" name="coursecode" value=coursecode)
-            input(type="hidden" name="quote" value="")
-            input(type="hidden" name="quote_owner" value="")
-            input(type="hidden" name="quote_content" value="")
+            input(type="hidden" name="editarrow" value=index+";4")
             .row#edit_username_row
               h3 #{post.username}
             if post.quote
@@ -75,10 +73,17 @@ block content
                   p #{post.quote.quote_owner}
                 .row#edit_quote_content
                   p #{post.quote.quote_content}
+              input(type="hidden" name="quote" value="true")
+              input(type="hidden" name="quote_owner" value=post.quote.quote_owner)
+              input(type="hidden" name="quote_content" value=post.quote.quote_content)
+            else
+              input(type="hidden" name="quote" value="false")
+              input(type="hidden" name="quote_owner" value="")
+              input(type="hidden" name="quote_content" value="")
             .row#edit_content_row
               textarea.form-control(name='content') #{post.content}
             //button.btn.btn-primary(type='submit' name="editarrow" value=index+";4") Confirm
-            button.btn.btn-primary.edit_confirm_button(type='submit' name="editarrow" value=index+";4") Confirm
+            button.btn.btn-primary.edit_confirm_button(type='button') Confirm
             button.btn.btn-light(type='button') Cancel
   br
   .container-fluid#thread_buttons
@@ -137,27 +142,33 @@ block content
           }
         });
 
-        if(isEditing) {
+        if(isEditing) { // If in Edit Post Context
           var quote_owner = $(this).parent().parent().children().children(".content").children("#username_row").text();
           var quote_content = $(this).parent().parent().children().children(".content").children("#content_row").text();
           var quote_text =  quote_owner + " - " + quote_content;
           
-          $(edit_row.children("form").children().get(2)).val("true");
-          $(edit_row.children("form").children().get(3)).val(quote_owner);
-          $(edit_row.children("form").children().get(4)).val(quote_content);
-
-          if(edit_row.children("form").children("#edit_reply_quote").length) {
-            edit_row.children("form").children("#edit_reply_quote").children("textarea").text(quote_text);
-          } else {  
-            edit_row.children("form").children("#edit_content_row").before("<div id='edit_reply_quote' class='form-group'><label>Quoting</label><img id='close_quote' src='/images/cancel.png'><textarea id='edit_quote_text' class='form-control' type='text' name='quote' disabled>" + quote_text + "</textarea><br/></div>");
+          // If Post already has a Quote
+          if(edit_row.children("form").children(".edit_quote_wrapper").length) {
+            $(edit_row.children("form").children().get(5)).val("true");
+            $(edit_row.children("form").children().get(6)).val(quote_owner);
+            $(edit_row.children("form").children().get(7)).val(quote_content);
+            edit_row.children("form").children("#edit_content_row").before("<div id='edit_reply_quote' class='form-group'><label>Quoting</label><img id='close_quote' src='/images/cancel.png'><input id='edit_quote_owner' type='hidden' value='" + quote_owner + "'><input id='edit_quote_content' type='hidden' value='" + quote_content + "'><textarea id='edit_quote_text' class='form-control' type='text' name='quote' disabled>" + quote_text + "</textarea><br/></div>");
+            $("#close_quote").click(function() {
+              $("#edit_reply_quote").remove();
+            });
+          } else { // If Post originally has no Quote
+            $(edit_row.children("form").children().get(4)).val("true");
+            $(edit_row.children("form").children().get(5)).val(quote_owner);
+            $(edit_row.children("form").children().get(6)).val(quote_content);
+            edit_row.children("form").children("#edit_content_row").before("<div id='edit_reply_quote' class='form-group'><label>Quoting</label><img id='close_quote' src='/images/cancel.png'><input id='edit_quote_owner' type='hidden' value='" + quote_owner + "'><input id='edit_quote_content' type='hidden' value='" + quote_content + "'><textarea id='edit_quote_text' class='form-control' type='text' name='quote' disabled>" + quote_text + "</textarea><br/></div>");
             $("#close_quote").click(function() {
               $("#edit_reply_quote").remove();
             });
           }
-        } else {
-          $($(this).parent().next().children("form").children().get(2)).val("false");
-          $($(this).parent().next().children("form").children().get(3)).val("");
-          $($(this).parent().next().children("form").children().get(4)).val("");
+        } else { // If not in Edit Post Context
+          $($(this).parent().next().children("form").children().get(4)).val("false");
+          $($(this).parent().next().children("form").children().get(5)).val("");
+          $($(this).parent().next().children("form").children().get(6)).val("");
 
           $("#add-button").addClass("btn-light");
           $("#add-button > img:first-child").addClass("transparent");
@@ -221,6 +232,15 @@ block content
             $(this).parent().next().children("form").children("#edit_content_row").before("<div id='edit_reply_quote' class='form-group'><label>Quoting</label><img id='close_quote' src='/images/cancel.png'><textarea id='edit_quote_text' class='form-control' type='text' name='quote' disabled>" + quote_text + "</textarea><br/></div>");
           
             $("#close_quote").click(function() {
+              if($(this).parent().parent().children(".edit_quote_wrapper").length) {
+                $($(this).parent().parent().children().get(5)).val("false");
+                $($(this).parent().parent().children().get(6)).val("");
+                $($(this).parent().parent().children().get(7)).val("");
+              } else {
+                $($(this).parent().parent().children().get(4)).val("false");
+                $($(this).parent().parent().children().get(5)).val("");
+                $($(this).parent().parent().children().get(6)).val("");
+              }
               $("#edit_reply_quote").remove();
             });
           }
@@ -277,26 +297,36 @@ block content
           $("#bookmark-button > h5").text("Bookmark");
         }
       });
-
+      
       $(".edit_confirm_button").click(function() {
         console.log("Edit Confirm");
 
         if($(this).parent().children("#edit_reply_quote").length) {
-          var quote_data = $(this).parent().children("#edit_reply_quote").children("textarea").val().split("-");
-          var quote_owner = quote_data[0];
-          var quote_content = quote_data[1];
-          $($(this).parent().children().get(2)).val("true");
-          $($(this).parent().children().get(3)).val(quote_owner);
-          $($(this).parent().children().get(4)).val(quote_content);
-          $(this).parent().get(0).submit();
+          if($(this).parent().children(".edit_quote_wrapper").length) {
+            var quote_owner = $($(this).parent().children().get(6)).val();
+            var quote_content = $($(this).parent().children().get(7)).val();
+
+            $($(this).parent().children().get(5)).val("true");
+            $($(this).parent().children().get(6)).val(quote_owner);
+            $($(this).parent().children().get(7)).val(quote_content);
+            $(this).parent().get(0).submit();
+          } else {
+            var quote_owner = $($(this).parent().children().get(5)).val();
+            var quote_content = $($(this).parent().children().get(6)).val();
+
+            $($(this).parent().children().get(4)).val("true");
+            $($(this).parent().children().get(5)).val(quote_owner);
+            $($(this).parent().children().get(6)).val(quote_content);
+            $(this).parent().get(0).submit();
+          }          
         } else {
-          $($(this).parent().children().get(2)).val("false");
-          $($(this).parent().children().get(3)).val("");
-          $($(this).parent().children().get(4)).val("");
+          $($(this).parent().children().get(5)).val("false");
+          $($(this).parent().children().get(6)).val("");
+          $($(this).parent().children().get(7)).val("");
           $(this).parent().get(0).submit();
         }
       });
-
+      
       $("#confirm-button").click(function() {
         console.log("Confirm");
         if($(this).parent().children("#reply-content").children("#reply_quote").length) {
