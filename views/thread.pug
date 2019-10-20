@@ -90,7 +90,6 @@ block content
               input(type="hidden" name="quote_content" value="")
             .row#edit_content_row
               textarea.form-control(name='content') #{post.content}
-            //button.btn.btn-primary(type='submit' name="editarrow" value=index+";4") Confirm
             button.btn.btn-primary.edit_confirm_button(type='button') Confirm
             button.btn.btn-light(type='button') Cancel
   br
@@ -121,13 +120,11 @@ block content
           input(type="hidden" name="quote_owner" value="")
           input(type="hidden" name="quote_content" value="")
           br
-          //.form-group#reply-title
-            label Title
-            input.form-control(type='text' name='title')
           .form-group#reply-content
             label Reply
             textarea.form-control(name='content' placeholder="Write something here...")
           button.btn.btn-primary#confirm-button(type='button') Confirm
+    br
 
   script.
 
