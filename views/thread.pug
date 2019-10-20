@@ -25,6 +25,14 @@ block content
           .content
             .row#username_row
               h3 #{post.username}
+              if post.username == "admin"
+                img(src='/images/user1.png')
+              else if post.username == "admin1"
+                img(src='/images/user2.png')
+              else if post.username == "admin2"
+                img(src='/images/user3.png')
+              else
+                img(src='/images/user4.png')
             if post.quote
               .quote_wrapper
                 .row#quote_owner
