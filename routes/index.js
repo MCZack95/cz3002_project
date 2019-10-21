@@ -65,7 +65,7 @@ router.post('/main', function(req, res, next) {
 
   var threaddetails1 = firebase.database().ref('CZ3002/threads');
   var threaddetails2 = firebase.database().ref('CZ3003/threads');
-  var threaddetails3 = firebase.database().ref('CZ4047/threads');
+  var threaddetails3 = firebase.database().ref('CZ4067/threads');
 
 //Get threads in each course code
   threaddetails1.on('value',
@@ -122,7 +122,7 @@ router.post('/main', function(req, res, next) {
               finalthread_dict = Object.assign({},finalthread_dict,thread_dict2);
               break;
             }
-            case "CZ4047":{
+            case "CZ4067":{
               finalthread_dict = Object.assign({},finalthread_dict,thread_dict3);
               break;
             }
