@@ -322,9 +322,6 @@ module.exports.getStudySession = (coursecode) =>
     console.log("Study Session for Course Code  : " + coursecode + " | " + JSON.stringify(snapshot.val()));   
     return details_dict;
   })
-
-  
-
 }
 
 
@@ -352,7 +349,18 @@ module.exports.joinStudySession = (username,coursecode,studysession) =>
     console.log("New Attendees : " + attendees);
     details.child("attendees").set(attendees);
   })
+}
 
-  
 
+module.exports.getCompletedQuiz = (coursecode) => 
+{
+  details_dict = {}
+  var details = firebase.database().ref('/'+ coursecode + "/donequizzes");
+
+  return details.once('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    console.log("Past quizzes for Course Code  : " + coursecode + " | " + JSON.stringify(snapshot.val()));   
+    return details_dict;
+  })
 }

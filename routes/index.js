@@ -515,7 +515,7 @@ router.post('/newstudy', function(req, res, next) {
     //coursecode = ["CZ3002","CZ3003"]
 
     setTimeout(function() { 
-      details_dict = {};
+    details_dict = {};
     details_dict1 = {};
     var promises = courses.map(function(element) {
       return db.getStudySession(element).then((value) => {
@@ -726,7 +726,8 @@ router.post('/attemptquiz', function(req, res, next) {
 });
 
 router.post('/quizdone', function(req, res, next) {
-  console.log("Post to attempt quiz")
+  console.log("Post to view Quiz Result")
+
   var cc = "CZ3002";
   var quizno = "Quiz1";
   var details_dict = {};
@@ -742,11 +743,11 @@ router.post('/quizdone', function(req, res, next) {
   details2.once('value',
   function(snapshot) {
     details_dict = snapshot.val();
-    console.log("READ : " + details_dict);
+    console.log("Done Quizzes : " + details_dict);
     //get actual answers in an array
     var answerkey1 = details_dict["answerkey"];
     answerkey = answerkey1.split(" ");
-    console.log("LOL " + answerkey);
+    console.log("Answer keys : " + answerkey);
 
     var answer1 = details_dict["answer"];
     answer = answer1.split(" ");
@@ -779,43 +780,8 @@ router.post('/quizdone', function(req, res, next) {
 
   })
 
- 
-
 });
 
-/**router.get('/attemptquiz', function(req, res, next) {
-  console.log("Get to attempt quiz")
-  //console.log("Course code : " + req.body.coursecode +  " | " +  "Quiz No : " + req.body.quizno);
-  details_dict = {};
-  //Need to add in dynamic coursecode and quiz number
-  if (req.body.coursecode!= null){
-    this.coursecode = req.body.coursecode
-  } 
-  else {
-    this.coursecode = coursecode
-  }
-  if (req.body.quizno !=null){
-    this.quizno = req.body.quizno
-  }
-  else{
-    this.quizno = quizno
-  }
-
-
- var details = firebase.database().ref('/'+ this.coursecode + "/quizzes/" + this.quizno);
- details.once('value',
- function(snapshot) {
-   details_dict = snapshot.val();
-   console.log("Quiz retrieved: " + snapshot.val());
-   var title = details_dict.Title;
-   delete details_dict.Title;
-   console.log("New Quiz to pass : "+ details_dict);
-   res.render('attemptquiz', { quiz: details_dict, title: title, coursecode: this.coursecode, quizno: this.quizno});
-
- }) 
-
-});
-**/
 //up vote and down vote
 router.post('/votepost', isLoggedIn, function(req, res, next) {
   threadid = req.body.threadid;
@@ -1015,10 +981,29 @@ Promise.all(promises).then(function(values) {
   delete details_dict1.Quiz1;
 });
 
-  setTimeout(function() { 
+details_dict3 = {};
+details_dict4 = {};
+var promises1 = courses.map(function(element) {
+    return db.getCompletedQuiz(element).then((value) => {
+    return value;
+    });
+});
+  
+Promise.all(promises1).then(function(values) {
+  var y = 0;
+  //details_dict = {};
+  //details_dict1 = {};
+  values.forEach(function(value) {
+  details_dict3[courses[y]] = value.val(); 
+  details_dict4 = Object.assign({},details_dict4,details_dict3);
+  console.log("After combining dict for completed quizzes :  " + y + JSON.stringify(details_dict4));
+  y = y + 1;
+});});
+
+setTimeout(function() { 
     if (username != null) {
-      console.log("Final value : " + JSON.stringify(details_dict1))
-      res.render('quiz',{data : details_dict1,role: role});
+      //console.log("Final value : " + JSON.stringify(details_dict1))
+      res.render('quiz',{completedquiz : details_dict4 ,data : details_dict1,role: role});
     } else {
       res.render('error404');
     }
