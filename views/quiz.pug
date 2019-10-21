@@ -38,10 +38,10 @@ block content
               each completequiz, index1 in course
                 .modcont 
                   button.quizcont #{index1}
-                  form(method='POST', action='/quizdone')
-                    input(type="hidden" name="coursecode" value = index) 
-                    input(type="hidden" name="quizno" value = index1)
-                    button.content(type='submit' name='completedquiz') View Completed Quiz
+                    form(method='POST', action='/quizdone')
+                      input(type="hidden" name="coursecode" value = index) 
+                      input(type="hidden" name="quizno" value = index1)
+                      button.content(type='submit' name='completedquiz') View Completed Quiz
                    
 
 
