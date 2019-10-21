@@ -43,7 +43,8 @@ html
       });
 
       $(document).mousedown(function(e) {
-        if($('.navbutt').hasClass('open') && !$(e.target).hasClass("menu open") && !$($(e.target).parent().parent().parent().get(0)).hasClass("menu open")) {
+        console.log(e.target);
+        if($('.navbutt').hasClass('open') && !$(e.target).hasClass("navbutt open") && !$(e.target).hasClass("menu open") && !$($(e.target).parent().parent().parent().get(0)).hasClass("menu open")) {
           $('.menu').toggleClass('open');
           $('.navbutt').toggleClass('open');
         }
