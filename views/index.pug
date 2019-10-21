@@ -10,15 +10,18 @@ link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/
     .passwordcontainer
       input#password(type='password' name='password' placeholder='password' required)
       button#showpassword(type='button' onclick='showPassword()' maxlength='12') SHOW
-    a#forgotpassword(href='https://www.mayoclinic.org/diseases-conditions/amnesia/symptoms-causes/syc-20353360') Forgot your password?
-    br
     button.btn#loginbutt(type='submit') 
       span Log In
+    a#forgotpassword(href="#" onclick="javascript:openForm()") Forgot your password? 
+    div(class = 'form-popup',id = 'myForm')
+      form(action = '/action_page.php', class = 'form-container')
+        input(type='text',placeholder='Enter Email Address',name='email')
+        button(type = 'button',class = 'btn submit',onclick="refresh()") Submit
+        button(type = 'button',class = 'btn cancel',onclick="closeForm()") Close
 
 script.
 
   function showPassword() {
-    var password = document.getElementById("password");
     var showPasswordButton = document.getElementById("showpassword");
     if (password.type === "password") {
       password.type = "text";
@@ -27,6 +30,21 @@ script.
       password.type = "password";
       showPasswordButton.innerHTML = "SHOW";
     }
+  }
+
+  function openForm() {
+    document.getElementById("myForm").style.display = "block";
+  }
+
+  function closeForm() {
+    document.getElementById("myForm").style.display = "none";
+    window.location.href = '/';
+  }
+
+  function refresh(){
+    document.getElementById("myForm").style.display = "none";
+    window.alert('An email to change password has been sent to your account!');
+    window.location.href = '/';
   }
 
 
