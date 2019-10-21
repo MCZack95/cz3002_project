@@ -32,7 +32,21 @@ html
       $('.navbutt').click(function() {
         $('.menu').toggleClass('open');
         $(this).toggleClass('open');
-        console.log('pressed');
+        console.log("Navbar triggered");
+      });
+
+      $(document).keyup(function(e){
+        if(e.key === "Escape" && $('.navbutt').hasClass('open')) {
+          $('.menu').toggleClass('open');
+          $('.navbutt').toggleClass('open');
+        }
+      });
+
+      $(document).mousedown(function(e) {
+        if($('.navbutt').hasClass('open') && !$(e.target).hasClass("menu open") && !$($(e.target).parent().parent().parent().get(0)).hasClass("menu open")) {
+          $('.menu').toggleClass('open');
+          $('.navbutt').toggleClass('open');
+        }
       });
 
     block content

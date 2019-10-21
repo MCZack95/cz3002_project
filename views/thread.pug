@@ -180,7 +180,7 @@ block content
           $("#add-button > img:nth-child(2)").addClass("opaque");
           $("#add-button > h5").text("Cancel");
 
-          if(!$("#reply_quote").length){
+          if(!$("#reply_quote").length){ // No Quotes
             var quote_owner = $(this).parent().parent().children().children(".content").children("#username_row").text();
             var quote_content = $(this).parent().parent().children().children(".content").children("#content_row").text();
             var quote_text = quote_owner + " - " + quote_content;
@@ -189,7 +189,7 @@ block content
             $("#close_quote").click(function() {
               $("#reply_quote").remove();
             });
-          } else {
+          } else { // Has Quotes
             var quote_owner = $(this).parent().parent().children().children(".content").children("#username_row").text();
             var quote_content = $(this).parent().parent().children().children(".content").children("#content_row").text();
             var quote_text = quote_owner + " - " + quote_content;
@@ -306,7 +306,9 @@ block content
       $(".edit_confirm_button").click(function() {
         console.log("Edit Confirm");
 
+        // Has Quote
         if($(this).parent().children("#edit_reply_quote").length) {
+          // Post has Quote Initially
           if($(this).parent().children(".edit_quote_wrapper").length) {
             var quote_owner = $($(this).parent().children().get(6)).val();
             var quote_content = $($(this).parent().children().get(7)).val();
@@ -315,7 +317,7 @@ block content
             $($(this).parent().children().get(6)).val(quote_owner);
             $($(this).parent().children().get(7)).val(quote_content);
             $(this).parent().get(0).submit();
-          } else {
+          } else { // Post did not have quotes to begin with.
             var quote_owner = $($(this).parent().children().get(5)).val();
             var quote_content = $($(this).parent().children().get(6)).val();
 
@@ -324,7 +326,7 @@ block content
             $($(this).parent().children().get(6)).val(quote_content);
             $(this).parent().get(0).submit();
           }          
-        } else {
+        } else { // No Quote
           $($(this).parent().children().get(5)).val("false");
           $($(this).parent().children().get(6)).val("");
           $($(this).parent().children().get(7)).val("");
@@ -334,6 +336,7 @@ block content
       
       $("#confirm-button").click(function() {
         console.log("Confirm");
+        // Has Quote
         if($(this).parent().children("#reply-content").children("#reply_quote").length) {
           var reply_quote = $(this).parent().children("#reply-content").children("#reply_quote");
           var quote_owner = reply_quote.children("#confirm_quote_owner").val();
@@ -342,7 +345,7 @@ block content
           $($(this).parent().children().get(3)).val(quote_owner);
           $($(this).parent().children().get(4)).val(quote_content);
           $(this).parent().get(0).submit();
-        } else {
+        } else { // No Quote
           $($(this).parent().children().get(2)).val("false");
           $($(this).parent().children().get(3)).val("");
           $($(this).parent().children().get(4)).val("");
