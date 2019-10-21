@@ -8,7 +8,7 @@ block content
                 h1.calendar-left-side-day
                 .calendar-left-side-day-of-week
             .current-day-events
-                div Current Consultation slots:
+                div Current Consultation Slots:
                 
                 ul.current-day-events-list
             .add-event-day
@@ -16,7 +16,7 @@ block content
             if user == "admin2"
                 form.cont(method='POST' action='/coursefilter')
                
-                    h6 Filter by course: #{user} #{course}
+                    h6#unqh6 Filter by course: #{user} #{course}
                     //input(id="cc" type="text" name="courseselected" value="1" hidden) 
                     select(id="options" name="coursefilter" onchange="this.form.submit()")
                         if course == "CZ4067"
@@ -167,8 +167,6 @@ block content
                     if(y=="date"){
                         continue;
                     }else{
-                    
-                      //is student
                       if(username=="admin2"){
                             if(!(dict[x][y]["booked"]=="1" && dict[x][y]["bookedby"]!=username)){
 
@@ -262,16 +260,16 @@ block content
                                     eventTemplate += `<li class="booked" id="${dateno} ${conno}">&nbsp&nbsp ${eventList[x]} &nbsp&nbsp
                                     <form method="POST" action="/cancelcon">
                                     <input id="cancel" type="text" name="dateno1" value="${dateno} ${conno}" hidden></input>
-                                    <input type="submit" value="Cancel"></input></form></li>
+                                    <input type="submit" value="Cancel" class='special' style='background: white; color:#3C677B;'></input></form></li>
                                     `;
                                     bookedbyuser = false;
 
                                 }else{
 
-                                eventTemplate += `<li id="${dateno} ${conno}">&nbsp&nbsp ${eventList[x]} &nbsp&nbsp
+                                eventTemplate += `<li id="${dateno} ${conno}" class='booklist'>&nbsp&nbsp ${eventList[x]} &nbsp&nbsp
                                     <form method="POST" action="/bookcon">
                                     <input id="lol" type="text" name="dateno" value="${dateno} ${conno}" hidden></input>   
-                                    <input type="submit" value="Book"></input></form></li>
+                                    <input type="submit" value="Book" class='special'></input></form></li>
                                     `; 
 
                                 }

@@ -458,8 +458,6 @@ router.post('/deletecon', function(req, res, next) {
     //console.log(snapshot.val());
     var details = firebase.database().ref('/consultations/dates/' + dateno + '/' + conno);
     details.remove();
-
-  
     res.redirect(req.get('referer'));
     
     
@@ -467,6 +465,53 @@ router.post('/deletecon', function(req, res, next) {
 
 });
 
+
+router.post('/study', function(req, res, next) {
+
+  console.log("gg " + courses);
+  res.render("hoststudy", {courses1: courses});
+
+
+});
+
+router.post('/newstudy', function(req, res, next) {
+
+  var details_dict = {};
+  var details = firebase.database().ref(req.body.course + '/study');
+
+    details.once('value',
+    function(snapshot) {
+      console.log("start");
+      details_dict = snapshot.val();
+      var index;
+      if (snapshot.val()!= null){
+        var index = Object.keys(details_dict).length+1;
+      }
+      else{
+        var index = 1;
+      }
+      
+      var newStudy = 
+      {
+        hostedby: username,
+        location: req.body.location,
+        pax: req.body.pax,
+        time: req.body.time,
+        attendees: " ",
+        vacancies: req.body.pax,
+        topic: req.body.topic,
+        
+      }
+      
+          var details2 = firebase.database().ref(req.body.course + '/study/study' + index);
+          details2.set(newStudy);
+    
+    })
+
+  res.render("hoststudy", {courses1: courses});
+
+
+});
 
 
 //calendar test
