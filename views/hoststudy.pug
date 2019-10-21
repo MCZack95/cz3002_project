@@ -1,70 +1,51 @@
 extends layout
 
 block content
-        
-     
+  link(rel='stylesheet', href='/stylesheets/quiz.css')
+  .overallcont 
     form.cont(method='POST' action='/newstudy')
-        .quizcont 
-            #titlecourse
-                h3 Topic 
-                br
-                input(type='text' name='topic' placeholder='topic' contenteditable='true' required)
+      #avaquiz
+        img(src='/svg/tick.svg' style='margin-left: 5px; margin-bottom: 8px;')
+        span#avatext New Study Session
+          #titlecourse
+            h3 Topic 
+            br
+            input(type='text' name='topic' placeholder='topic' contenteditable='true' required)
+            h3 Course Code
+            br 
+            select(id="options" name="course")
+              each x in courses1
+                option(value=`${x}`) #{x}
 
-                h3 Course Code
-                br 
-                select(id="options" name="course")
-                    each x in courses1
-                        option(value=`${x}`) #{x}
+            h3 Location
+            br 
+            input(type='text' name='location' placeholder='Location' contenteditable='true' required)
 
-                h3 Location
-                br 
-                input(type='text' name='location' placeholder='Location' contenteditable='true' required)
+            h3 Max. Participants
+            br 
+            select(id="options2" name="pax") 
+              option(value="5") 5
+              option(value="10") 10
+              option(value="15") 15
+              option(value="20") 20
 
-                h3 Max. Participants
-                br 
-                select(id="options2" name="pax") 
-                    option(value="5") 5
-                    option(value="10") 10
-                    option(value="15") 15
-                    option(value="20") 20
-
-                h3 Date of Session
-                br
-                input(type="date" name="bday")
-
-                h3 Time of Session
-                select(id="options3" name="time") 
-                    option(value="8.00AM to 9:00AM") 8.00AM - 9:00AM
-                   
-                    option(value="9.00AM to 10:00AM") 9.00AM - 10:00AM
-                       
-                    option(value="10.00AM to 11:00AM") 10.00AM - 11:00AM
-                        
-                    option(value="11.00AM to 12:00PM") 11.00AM - 12:00PM
-                        
-                    option(value="12.00PM to 1:00PM") 12.00PM - 1:00PM
-                      
-                    option(value="1.00PM to 2:00PM") 1.00PM - 2:00PM
-                        
-                    option(value="2.00PM to 3:00PM") 2.00PM - 3:00PM
-                        
-                    option(value="3.00PM to 4:00PM") 3.00PM - 4:00PM
-                        
-                    option(value="4.00PM to 5:00PM") 4.00PM - 5:00PM
-
-
-                       
-                
-
-                    
-
-                
-
-                        
-
-        .buttcont
-            button.btn.btn-primary(type='submit' style='margin-right: 10px;' onclick='') Create Study Session
-            button.btn.btn-light(onclick='goBack()') Cancel
+            h3 Date of Session
+            br
+            input(type="date" name="bday")
+            h3 Time of Session
+            select(id="options3" name="time") 
+              option(value="8.00AM to 9:00AM") 8.00AM - 9:00AM
+              option(value="9.00AM to 10:00AM") 9.00AM - 10:00AM               
+              option(value="10.00AM to 11:00AM") 10.00AM - 11:00AM
+              option(value="11.00AM to 12:00PM") 11.00AM - 12:00PM                     
+              option(value="12.00PM to 1:00PM") 12.00PM - 1:00PM                
+              option(value="1.00PM to 2:00PM") 1.00PM - 2:00PM
+              option(value="2.00PM to 3:00PM") 2.00PM - 3:00PM                    
+              option(value="3.00PM to 4:00PM") 3.00PM - 4:00PM                    
+              option(value="4.00PM to 5:00PM") 4.00PM - 5:00PM
+      .buttcont
+        button.btn.btn-primary(type='submit' style='margin-right: 10px;' onclick='') Create Study Session
+        button.btn.btn-light(onclick='goBack()') Cancel
 
    
 
