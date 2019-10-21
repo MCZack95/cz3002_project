@@ -26,7 +26,8 @@ block content
                         input(type="hidden" name="coursecode" value = index) 
                         input(type="hidden" name="studysession" value = index1)
                         input(type="hidden" name="username" value = username)
-                        if (role==="student" || username !== studysession["hostedby"])
+                        //if (!studysession["attendees"].includes(username))
+                        if (role==="student" && username !== studysession["hostedby"] && !studysession["attendees"].includes(username))
                           button.btn.fakebtn(type='submit') Join
 
     link(rel='stylesheet', href='/stylesheets/studysession.css')
