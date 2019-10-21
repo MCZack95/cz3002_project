@@ -320,6 +320,74 @@ router.post('/bookcon', function(req, res, next) {
 });
 
 
+router.get('/studysession',isLoggedIn, function(req, res, next) {
+
+  console.log("Getting study session")
+
+  //courses = req.body.courses
+  //coursecode = ["CZ3002","CZ3003"]
+  details_dict = {};
+  details_dict1 = {};
+  var promises = courses.map(function(element) {
+    return db.getStudySession(element).then((value) => {
+      return value;
+     });
+  });
+
+  Promise.all(promises).then(function(values) {
+    var x = 0;
+    details_dict = {};
+    details_dict1 = {};
+    values.forEach(function(value) {
+    details_dict[courses[x]] = value.val(); 
+    details_dict1 = Object.assign({},details_dict1,details_dict);
+    console.log("After combining dict :  " + x + JSON.stringify(details_dict1));
+    x = x + 1;
+  });
+  
+});
+
+setTimeout(function() { 
+  if (username != null) {
+    console.log("Final Dict : " + JSON.stringify(details_dict1));
+    res.render('studysession', {username : username , data : details_dict1});
+  } else {
+    res.render('error404');
+  }
+  
+}, 1000);
+  
+});
+
+//Join study session
+router.post('/joinstudysession',isLoggedIn, function(req, res, next) {
+
+  console.log("Posting into Join Study Session : " + req.body.coursecode + req.body.studysession + req.body.username);
+  userattending = req.body.username
+  coursecode = req.body.coursecode
+  studysession = req.body.studysession
+  details_dict = {};
+
+  db.joinStudySession(userattending,coursecode,studysession);
+
+setTimeout(function() { 
+  if (username != null) {
+    //console.log("Final Dict : " + JSON.stringify(details_dict1));
+    res.redirect(req.get('referer'));
+  } else {
+    res.render('error404');
+  }
+  
+}, 1000);
+  
+});
+
+
+
+
+
+
+
 //cancel consult
 router.post('/cancelcon', function(req, res, next) {
 
