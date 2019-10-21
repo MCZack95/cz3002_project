@@ -320,6 +320,74 @@ router.post('/bookcon', function(req, res, next) {
 });
 
 
+router.get('/studysession',isLoggedIn, function(req, res, next) {
+
+  console.log("Getting study session")
+
+  //courses = req.body.courses
+  //coursecode = ["CZ3002","CZ3003"]
+  details_dict = {};
+  details_dict1 = {};
+  var promises = courses.map(function(element) {
+    return db.getStudySession(element).then((value) => {
+      return value;
+     });
+  });
+
+  Promise.all(promises).then(function(values) {
+    var x = 0;
+    details_dict = {};
+    details_dict1 = {};
+    values.forEach(function(value) {
+    details_dict[courses[x]] = value.val(); 
+    details_dict1 = Object.assign({},details_dict1,details_dict);
+    console.log("After combining dict :  " + x + JSON.stringify(details_dict1));
+    x = x + 1;
+  });
+  
+});
+
+setTimeout(function() { 
+  if (username != null) {
+    console.log("Final Dict : " + JSON.stringify(details_dict1));
+    res.render('studysession', {username : username , data : details_dict1});
+  } else {
+    res.render('error404');
+  }
+  
+}, 1000);
+  
+});
+
+//Join study session
+router.post('/joinstudysession',isLoggedIn, function(req, res, next) {
+
+  console.log("Posting into Join Study Session : " + req.body.coursecode + req.body.studysession + req.body.username);
+  userattending = req.body.username
+  coursecode = req.body.coursecode
+  studysession = req.body.studysession
+  details_dict = {};
+
+  db.joinStudySession(userattending,coursecode,studysession);
+
+setTimeout(function() { 
+  if (username != null) {
+    //console.log("Final Dict : " + JSON.stringify(details_dict1));
+    res.redirect(req.get('referer'));
+  } else {
+    res.render('error404');
+  }
+  
+}, 1000);
+  
+});
+
+
+
+
+
+
+
 //cancel consult
 router.post('/cancelcon', function(req, res, next) {
 
@@ -400,7 +468,7 @@ router.post('/deletecon', function(req, res, next) {
 
 router.post('/study', function(req, res, next) {
 
-  console.log("gg " + courses);
+  console.log("Courses to host : " + courses);
   res.render("hoststudy", {courses1: courses});
 
 
@@ -429,7 +497,6 @@ router.post('/newstudy', function(req, res, next) {
         location: req.body.location,
         pax: req.body.pax,
         time: req.body.time,
-        attendees: " ",
         vacancies: req.body.pax,
         topic: req.body.topic,
         
@@ -440,11 +507,42 @@ router.post('/newstudy', function(req, res, next) {
     
     })
 
-  res.render("hoststudy", {courses1: courses});
 
 
+    //console.log("Getting study session")
+
+    //courses = req.body.courses
+    //coursecode = ["CZ3002","CZ3003"]
+
+    setTimeout(function() { 
+    details_dict = {};
+    details_dict1 = {};
+    var promises = courses.map(function(element) {
+      return db.getStudySession(element).then((value) => {
+        return value;
+       });
+    });
+  
+    Promise.all(promises).then(function(values) {
+      var x = 0;
+      details_dict = {};
+      details_dict1 = {};
+      values.forEach(function(value) {
+      details_dict[courses[x]] = value.val(); 
+      details_dict1 = Object.assign({},details_dict1,details_dict);
+      console.log("After combining dict :  " + x + JSON.stringify(details_dict1));
+      x = x + 1;
+    });
+    
+    if (username != null) {
+      console.log("Final Dict : " + JSON.stringify(details_dict1));
+      res.render('studysession', {username : username , data : details_dict1});
+    } else {
+      res.render('error404');
+    }
+  });      
+    }, 2000);
 });
-
 
 //calendar test
 router.post('/setconsult', function(req, res, next) {
@@ -585,6 +683,18 @@ router.post('/quizscore', function(req, res, next) {
 
     console.log("AAA " + answer);
 
+    var details2 = firebase.database().ref('/'+ cc + "/donequizzes/");
+    var newdone = {
+      answer: answer.join(" "),
+      answerkey: answerkey.join(" "),
+      score: score,
+      quesnos: req.body.testing,
+
+    }
+    details2.child(quizno).set(newdone);
+
+
+
     res.render('quizscore', {answers: answer, answerkey: answerkey, details: details_dict, title: title, score: score, quesnos: req.body.testing});
 
   })
@@ -592,7 +702,7 @@ router.post('/quizscore', function(req, res, next) {
 
 });
 
-//post to attemot quiz
+//post to attempt quiz
 router.post('/attemptquiz', function(req, res, next) {
   console.log("Post to attempt quiz")
   console.log("Course code : " + req.body.coursecode +  " | " +  "Quiz No : " + req.body.quizno);
@@ -615,39 +725,63 @@ router.post('/attemptquiz', function(req, res, next) {
 
 });
 
-/**router.get('/attemptquiz', function(req, res, next) {
-  console.log("Get to attempt quiz")
-  //console.log("Course code : " + req.body.coursecode +  " | " +  "Quiz No : " + req.body.quizno);
-  details_dict = {};
-  //Need to add in dynamic coursecode and quiz number
-  if (req.body.coursecode!= null){
-    this.coursecode = req.body.coursecode
-  } 
-  else {
-    this.coursecode = coursecode
-  }
-  if (req.body.quizno !=null){
-    this.quizno = req.body.quizno
-  }
-  else{
-    this.quizno = quizno
-  }
+router.post('/quizdone', function(req, res, next) {
+  console.log("Post to view Quiz Result")
+
+  var cc = "CZ3002";
+  var quizno = "Quiz1";
+  var details_dict = {};
+  //fetch answers
+
+  var title;
+  var score;
+  var quesnos;
+  var answerkey;
+  var answer;
+
+  var details2 = firebase.database().ref('/'+ cc + "/donequizzes/" +quizno);
+  details2.once('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    console.log("Done Quizzes : " + details_dict);
+    //get actual answers in an array
+    var answerkey1 = details_dict["answerkey"];
+    answerkey = answerkey1.split(" ");
+    console.log("Answer keys : " + answerkey);
+
+    var answer1 = details_dict["answer"];
+    answer = answer1.split(" ");
+
+    score = details_dict["score"];
+    quesnos = details_dict["quesnos"];
+
+  })
 
 
- var details = firebase.database().ref('/'+ this.coursecode + "/quizzes/" + this.quizno);
- details.once('value',
- function(snapshot) {
-   details_dict = snapshot.val();
-   console.log("Quiz retrieved: " + snapshot.val());
-   var title = details_dict.Title;
-   delete details_dict.Title;
-   console.log("New Quiz to pass : "+ details_dict);
-   res.render('attemptquiz', { quiz: details_dict, title: title, coursecode: this.coursecode, quizno: this.quizno});
+  var details = firebase.database().ref('/'+ cc + "/quizzes/" +quizno);
+  details.once('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    //console.log(snapshot.val());
+    title = details_dict.Title;
+    console.log(title);
+    delete details_dict.Title;
+    console.log(details_dict);
 
- }) 
+     //get actual answers in an array
+    var answerkey = [1,1,1,1,1];
+
+    console.log("LOL " + answerkey);
+
+    //store user's answers in an array 
+    var answer = [2,1,1,1,1];
+
+    res.render('quizscore', {answers: answer, answerkey: answerkey, details: details_dict, title: title, score: score, quesnos: quesnos});
+
+  })
 
 });
-**/
+
 //up vote and down vote
 router.post('/votepost', isLoggedIn, function(req, res, next) {
   threadid = req.body.threadid;
@@ -847,10 +981,29 @@ Promise.all(promises).then(function(values) {
   delete details_dict1.Quiz1;
 });
 
-  setTimeout(function() { 
+details_dict3 = {};
+details_dict4 = {};
+var promises1 = courses.map(function(element) {
+    return db.getCompletedQuiz(element).then((value) => {
+    return value;
+    });
+});
+  
+Promise.all(promises1).then(function(values) {
+  var y = 0;
+  //details_dict = {};
+  //details_dict1 = {};
+  values.forEach(function(value) {
+  details_dict3[courses[y]] = value.val(); 
+  details_dict4 = Object.assign({},details_dict4,details_dict3);
+  console.log("After combining dict for completed quizzes :  " + y + JSON.stringify(details_dict4));
+  y = y + 1;
+});});
+
+setTimeout(function() { 
     if (username != null) {
-      console.log("Final value : " + JSON.stringify(details_dict1))
-      res.render('quiz',{data : details_dict1,role: role});
+      //console.log("Final value : " + JSON.stringify(details_dict1))
+      res.render('quiz',{completedquiz : details_dict4 ,data : details_dict1,role: role});
     } else {
       res.render('error404');
     }

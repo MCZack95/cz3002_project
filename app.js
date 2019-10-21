@@ -29,6 +29,7 @@ app.use('/createthread', createThreadRouter);
 app.use('/createquiz', createQuizRouter);
 app.use('/quiz', indexRouter);
 app.use('/attemptquiz',indexRouter);
+app.use('/studysession',indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
