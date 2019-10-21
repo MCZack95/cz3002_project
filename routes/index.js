@@ -15,6 +15,7 @@ var role = null;
 var courses = null;
 var searchFilter = null;
 var courseFilter = null;
+var filter = null;
 
 function isLoggedIn(req, res, next) {
   if(username == null) {
@@ -163,6 +164,7 @@ router.get('/calendar', function(req, res, next) {
   
     var details_dict = {};
     var details = firebase.database().ref('/consultations/dates');
+    var course1 = null;
    
   
     details.once('value',
@@ -170,11 +172,31 @@ router.get('/calendar', function(req, res, next) {
       details_dict = snapshot.val();
       console.log("\n");
       console.log(snapshot.val());
-   
-      console.log("ASGS: " + JSON.stringify(details_dict));
   
+      console.log("ASGS: " + JSON.stringify(details_dict));
+
+      if(filter!=null){
+
+        course1 = filter;
+        for(var x in details_dict){
+            for(var y in details_dict[x]){
+  
+                if(y.includes("con")){
+  
+                  if(details_dict[x][y]["course"]!=course1){
+  
+                    delete details_dict[x][y];
+  
+                  }
+  
+                }
+  
+            }
+        }
+    }
+
       if (username != null) {
-        res.render('calendar', {dict: JSON.stringify(details_dict), user: username, role: role, course: courses});
+        res.render('calendar', {dict: JSON.stringify(details_dict), user: username, role: role, course: courses, course1: course1});
       } else {
         res.render('error404');
       }
@@ -194,6 +216,7 @@ router.get('/coursefilter', function(req, res, next) {
   
     var details_dict = {};
     var details = firebase.database().ref('/consultations/dates');
+    var course1 = null;
    
   
     details.once('value',
@@ -203,9 +226,30 @@ router.get('/coursefilter', function(req, res, next) {
       console.log(snapshot.val());
    
       console.log("ASGS: " + JSON.stringify(details_dict));
+
+      if(filter!=null){
+
+        course1 = filter;
+        for(var x in details_dict){
+            for(var y in details_dict[x]){
+  
+                if(y.includes("con")){
+  
+                  if(details_dict[x][y]["course"]!=course1){
+  
+                    delete details_dict[x][y];
+  
+                  }
+  
+                }
+  
+            }
+        }
+    }
+
   
       if (username != null) {
-        res.render('calendar', {dict: JSON.stringify(details_dict), user: username, role: role, course: courses});
+        res.render('calendar', {dict: JSON.stringify(details_dict), user: username, role: role, course: courses, course1: course1});
       } else {
         res.render('error404');
       }
@@ -236,6 +280,7 @@ router.post('/coursefilter', function(req, res, next) {
   var course = req.body.coursefilter;
   var details_dict = {};
   var details = firebase.database().ref('/consultations/dates');
+  filter = course;
   
   details.once('value',
   function(snapshot) {
@@ -258,6 +303,9 @@ router.post('/coursefilter', function(req, res, next) {
 
           }
       }
+  }else if(course=="all"){
+
+    filter = null;
   }
 
   
@@ -580,7 +628,7 @@ router.post('/setconsult', function(req, res, next) {
         prof: username,
         timefrom: from,
         timeto: to,
-        course: "CZ4047",
+        course: "CZ4067",
         booked: 0,
         bookedby: " ",
         
