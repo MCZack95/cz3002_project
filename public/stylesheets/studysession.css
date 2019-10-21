@@ -19,7 +19,7 @@ body {
 
 #createsscont {
     float: right;
-    /* margin-top: 1px; */
+    margin-top: -6px;
 }
 
 .fakebtn {
@@ -60,11 +60,13 @@ body {
     margin-left: 5px;
     /* color: #D8D8D8; */
     font-size: 20px;
+    line-height: 20px;
 }
 
 .title {
     font-family: 'PN Bold';
     font-size: 20px;
+    margin-top: 20px;
 }
 
 .sscont {
@@ -87,4 +89,132 @@ body {
 
 .active:before {
     content: "⮟  "; 
+}
+
+/* test */
+
+/*
+ CSS for the main interaction
+*/
+.accordion > input[type="checkbox"] {
+    position: absolute;
+    left: -100vw;
+  }
+  
+  .accordion .content {
+    overflow-y: hidden;
+    height: 0;
+    transition: height 0.3s ease;
+    font-family: 'PN Regular';
+    font-size: 12px;
+  }
+  
+  .accordion > input[type="checkbox"]:checked ~ .content {
+    height: auto;
+    overflow: visible;
+  }
+  
+  .accordion label {
+    display: block;
+  }
+  
+  /*
+   Styling
+  */
+  body {
+    font: 16px/1.5em "Overpass", "Open Sans", Helvetica, sans-serif;
+    color: #333;
+    font-weight: 300;
+  }
+  
+  .accordion {
+    /* margin-bottom: 1em; */
+  }
+  
+  .accordion > input[type="checkbox"]:checked ~ .content {
+    padding: 5px;
+    border: 1px solid #e8e8e8;
+    border-top: 0;
+  }
+  
+  .accordion .handle {
+    margin: 0;
+    font-size: 1.125em;
+    line-height: 1.2em;
+  }
+  
+  .accordion label {
+    color: #333;
+    cursor: pointer;
+    font-weight: normal;
+    padding: 8px;
+    background: #E6E6FA;
+    font-family: 'PN Regular';
+    font-size: 12px;
+    margin-top: 5px;
+    margin-bottom: 0px;
+  }
+  
+  .accordion label:hover,
+  .accordion label:focus {
+    background: #60AFFE;
+  }
+  
+  .accordion .handle label:before {
+    /* font-family: 'fontawesome'; */
+    content: "⮞";
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 1em;
+    line-height: 1.556em;
+    vertical-align: middle;
+  }
+  
+  .accordion > input[type="checkbox"]:checked ~ .handle label:before {
+    content: "⮟";
+  }
+  
+  
+  /*
+   Demo purposes only
+  */
+  *,
+  *:before,
+  *:after {
+    box-sizing: border-box;
+  }
+  
+  body {
+    padding: 40px;
+  }
+  
+  a {
+    color: #06c;
+  }
+  
+  p {
+    margin: 0 0 1em;
+  }
+  
+  h1 {
+    margin: 0 0 1.5em;
+    font-weight: 600;
+    font-size: 1.5em;
+  }
+  
+  .accordion {
+    max-width: 65em;
+  }
+  
+  .accordion p:last-child {
+    margin-bottom: 0;
+  }
+
+button.content {
+    border: none;
+    background-color: transparent;
+}
+
+.buttcont {
+    text-align: right;
 }

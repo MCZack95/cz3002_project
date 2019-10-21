@@ -7,24 +7,25 @@ block content
            form(method = 'POST' action = '/study')
              button.btn.fakebtn(type='submit') Host Study Session  
           #ssquiz 
-            img(src='/svg/tick.svg' style='margin-left: 5px; margin-bottom: 8px;')
+            img(src='/svg/open-book.svg' style='margin-left: 5px; margin-bottom: 8px; height: 15px; width: 15px; line-height: 15px;')
             span#sstext Study Sessions
           each course, index in data
             .title #{index}  
-            each studysession, index1 in course
-                button.sscont #{studysession["topic"]}
-                form(method='POST', action='/joinstudysession')
-                  .contentforss Hosted by : #{studysession["hostedby"]}
-                  .contentforss Location : #{studysession["location"]}
-                  .contentforss Time : #{studysession["time"]}
-                  .contentforss Vacancies Left : #{studysession["vacancies"]}
-                  input(type="hidden" name="coursecode" value = index) 
-                  input(type="hidden" name="studysession" value = index1)
-                  input(type="hidden" name="username" value = username)
-                  button(type='submit') Join this Study Session
-
-        
-
+            each studysession, index1 in course                  
+                section.accordion 
+                  input(type='checkbox', name='collapse', id='handle'+index1)
+                  h2.handle
+                    label(for='handle' + index1) #{studysession["topic"]}
+                  .content Hosted by : #{studysession["hostedby"]}
+                  .content Location : #{studysession["location"]}
+                  .content Time : #{studysession["time"]}
+                  .content
+                    .buttcont
+                      form(method='POST', action='/joinstudysession')
+                        input(type="hidden" name="coursecode" value = index) 
+                        input(type="hidden" name="studysession" value = index1)
+                        input(type="hidden" name="username" value = username)
+                        button.btn.fakebtn(type='submit') Join
 
     link(rel='stylesheet', href='/stylesheets/studysession.css')
 
