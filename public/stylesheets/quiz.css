@@ -154,3 +154,20 @@ button.content:hover:before, button.content:hover:after {
     transition: 800ms ease all;
 }
 
+.cquizcont {
+    /* border: 1px black solid; */
+    margin-left: 25px;
+    border: none;
+    background: none;
+    display: block;
+    /* margin-bottom: 5px; */
+}
+
+.active, .cquizcont:hover {
+    font-family: 'PN Bold';
+}
+
+.cquizcont:before {
+    content: '⮞  '; 
+    color: black;
+}

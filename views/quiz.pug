@@ -30,18 +30,18 @@ block content
                 button.content(onclick="window.location.href='notes.pdf'") View Materials
         br
         if role === "student"
-          #avaquiz 
-            img(src='/svg/tick.svg' style='margin-left: 5px; margin-bottom: 8px;')
+          #avaquiz(style='height: 37.33px;') 
+            img(src='/svg/open-book.svg' style='margin-left: 5px; margin-bottom: 8px; margin-right: 5px; width: 16px; height: 16px;')
             span#avatext Completed Quizzes
-            each course, index in completedquiz
-              .title #{index}  
-              each completequiz, index1 in course
-                //.modcont 
-                button.quizcont #{index1} : #{completequiz.Title} 
+          each course, index in completedquiz
+            .title #{index}  
+            each completequiz, index1 in course
+              .modcont 
+                button.cquizcont #{index1} : #{completequiz.Title} 
                   form(method='POST', action='/quizdone')
                     input(type="hidden" name="coursecode" value = index) 
                     input(type="hidden" name="quizno" value = index1)
-                    button.content(type='submit' name='completedquiz') View Completed Quiz
+                    button.content(type='submit' name='completedquiz' style='width: 130px;') View Completed Quiz
                    
 
 
@@ -66,6 +66,21 @@ block content
                     contentnext.style.display = 'none';
                 } else {
                     contentnext.style.display = 'block';
+                }
+            });
+        }
+
+        var cquizzes = document.getElementsByClassName('cquizcont');
+        var i;
+
+        for (i = 0; i < cquizzes.length; i++) {
+            cquizzes[i].addEventListener('click', function() {
+                this.classList.toggle('active');
+                var content = this.nextElementSibling;
+                if (content.style.display === 'block') {
+                    content.style.display = 'none';
+                } else {
+                    content.style.display = 'block';
                 }
             });
         }
