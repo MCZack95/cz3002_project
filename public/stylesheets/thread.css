@@ -104,6 +104,15 @@ body {
   /*font-family: 'PN Regular';*/
 }
 
+#quote_owner > img {
+  margin-top: 1%;
+  margin-left: 1%;
+  width: 20px;
+  height: 20px;
+  border: 1px dotted darkslategrey;
+  border-radius: 5px;
+}
+
 #quote_content > p {
   font-family: 'PN Thin';
 }
