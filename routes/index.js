@@ -585,6 +585,18 @@ router.post('/quizscore', function(req, res, next) {
 
     console.log("AAA " + answer);
 
+    var details2 = firebase.database().ref('/'+ cc + "/donequizzes/");
+    var newdone = {
+      answer: answer.join(" "),
+      answerkey: answerkey.join(" "),
+      score: score,
+      quesnos: req.body.testing,
+
+    }
+    details2.child(quizno).set(newdone);
+
+
+
     res.render('quizscore', {answers: answer, answerkey: answerkey, details: details_dict, title: title, score: score, quesnos: req.body.testing});
 
   })
@@ -592,7 +604,7 @@ router.post('/quizscore', function(req, res, next) {
 
 });
 
-//post to attemot quiz
+//post to attempt quiz
 router.post('/attemptquiz', function(req, res, next) {
   console.log("Post to attempt quiz")
   console.log("Course code : " + req.body.coursecode +  " | " +  "Quiz No : " + req.body.quizno);
@@ -612,6 +624,64 @@ router.post('/attemptquiz', function(req, res, next) {
    res.render('attemptquiz', {quiz: details_dict, title: title, coursecode: coursecode, quizno: quizno, role: role});
 
  }) 
+
+});
+
+router.post('/quizdone', function(req, res, next) {
+  console.log("Post to attempt quiz")
+  var cc = "CZ3002";
+  var quizno = "Quiz1";
+  var details_dict = {};
+  //fetch answers
+
+  var title;
+  var score;
+  var quesnos;
+  var answerkey;
+  var answer;
+
+  var details2 = firebase.database().ref('/'+ cc + "/donequizzes/" +quizno);
+  details2.once('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    console.log("READ : " + details_dict);
+    //get actual answers in an array
+    var answerkey1 = details_dict["answerkey"];
+    answerkey = answerkey1.split(" ");
+    console.log("LOL " + answerkey);
+
+    var answer1 = details_dict["answer"];
+    answer = answer1.split(" ");
+
+    score = details_dict["score"];
+    quesnos = details_dict["quesnos"];
+
+  })
+
+
+  var details = firebase.database().ref('/'+ cc + "/quizzes/" +quizno);
+  details.once('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    //console.log(snapshot.val());
+    title = details_dict.Title;
+    console.log(title);
+    delete details_dict.Title;
+    console.log(details_dict);
+
+     //get actual answers in an array
+    var answerkey = [1,1,1,1,1];
+
+    console.log("LOL " + answerkey);
+
+    //store user's answers in an array 
+    var answer = [2,1,1,1,1];
+
+    res.render('quizscore', {answers: answer, answerkey: answerkey, details: details_dict, title: title, score: score, quesnos: quesnos});
+
+  })
+
+ 
 
 });
 
