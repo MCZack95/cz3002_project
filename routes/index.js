@@ -336,8 +336,8 @@ router.post('/bookcon', function(req, res, next) {
   var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'liyiase3002@gmail.com',
-      pass: 'Liyi@ase123'
+      user: 'ewhiteboardsystem@gmail.com',
+      pass: 'liyi3002'
     }
   });
 
@@ -346,8 +346,8 @@ router.post('/bookcon', function(req, res, next) {
   var date = datearr.join("/");
   
   var mailOptions = {
-    from: 'liyiase3002@gmail.com',
-    to: 'cr7roxdswk@gmail.com',
+    from: 'ewhiteboardsystem@gmail.com',
+    to: 'ntu.prof.liyi@gmail.com',
     subject: 'Consultation Booked',
     text: 'Consultation on ' + date + " is booked by " + username + "."
   };
@@ -459,8 +459,8 @@ router.post('/cancelcon', function(req, res, next) {
     var transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'liyiase3002@gmail.com',
-        pass: 'Liyi@ase123'
+        user: 'ewhiteboardsystem@gmail.com',
+        pass: 'liyi3002'
       }
     });
     
@@ -469,9 +469,9 @@ router.post('/cancelcon', function(req, res, next) {
     var date = datearr.join("/");
 
     var mailOptions = {
-      from: 'liyiase3002@gmail.com',
-      to: 'cr7roxdswk@gmail.com',
-      subject: 'Consultation Booked',
+      from: 'ewhiteboardsystem@gmail.com',
+      to: 'ntu.prof.liyi@gmail.com',
+      subject: 'Consultation Cancelled',
       text: 'Consultation on ' + date + " is cancelled by " + username + "."
     };
     
@@ -665,15 +665,15 @@ router.post('/email', function(req, res, next) {
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'liyiase3002@gmail.com',
-    pass: 'Liyi@ase123'
+    user: 'ewhiteboardsystem@gmail.com',
+    pass: 'liyi3002'
   }
 });
 content = "User : " + req.body.username + " has been reported for the post : \n " + req.body.postcontent + " \n Please take note!"
 var mailOptions = {
-  from: 'liyiase3002@gmail.com',
-  to: 'cr7roxdswk@gmail.com',
-  subject: 'ShanJing is a Paypal Scholar',
+  from: 'ewhiteboardsystem@gmail.com',
+  to: 'ewhiteboardmoderator@gmail.com',
+  subject: 'Post reported',
   text: content,
 };
 
