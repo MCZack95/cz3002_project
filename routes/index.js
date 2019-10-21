@@ -542,6 +542,7 @@ router.post('/newstudy', function(req, res, next) {
       var newStudy = 
       {
         hostedby: username,
+        attendees: " ",
         location: req.body.location,
         pax: req.body.pax,
         time: req.body.time,
