@@ -1003,56 +1003,51 @@ router.get('/quiz', function(req, res, next){
   //details_dict = db.getQuizzes(courses[0]);
   //details_dict1 = db.getQuizzes(courses[1]);
 
-  setTimeout(function() { 
-    var promises = courses.map(function(element) {
-      return db.getQuizzes(element).then((value) => {
-        return value;
-       });
-   });
-  
-  //initial index
-  var x = 0;
-  Promise.all(promises).then(function(values) {
-    details_dict = {};
-    details_dict1 = {};
-    values.forEach(function(value) {
-      details_dict[courses[x]] = value.val();
-      console.log("Before putting key : " + JSON.stringify(value.val()))
-      console.log("In final dict : " + JSON.stringify(details_dict1));
-      //console.log("X Value " + x + "Course : " + courses[x]); 
-      console.log("After putting key : " + " | " + courses[x] + " | " + JSON.stringify(details_dict));
-      details_dict1 = Object.assign({},details_dict1,details_dict);
-      console.log("After combining dict :  " + x + JSON.stringify(details_dict1));
-      x = x + 1;
-    });
-    console.log("Dict Final Value for CZ3002 : " + JSON.stringify(details_dict1["CZ3002"]));
-    console.log("Dict Final Value for CZ3003 : " + JSON.stringify(details_dict1["CZ3003"]));
-    // i dont know why got additional quiz 1 appearing
-    delete details_dict1.Quiz1;
-  });
-  
-  details_dict3 = {};
-  details_dict4 = {};
-  var promises1 = courses.map(function(element) {
-      return db.getCompletedQuiz(element).then((value) => {
+  var promises = courses.map(function(element) {
+    return db.getQuizzes(element).then((value) => {
       return value;
-      });
-  });
-    
-  Promise.all(promises1).then(function(values) {
-    var y = 0;
-    //details_dict = {};
-    //details_dict1 = {};
-    values.forEach(function(value) {
-    details_dict3[courses[y]] = value.val(); 
-    details_dict4 = Object.assign({},details_dict4,details_dict3);
-    console.log("After combining dict for completed quizzes :  " + y + JSON.stringify(details_dict4));
-    y = y + 1;
-  });});
-  
-    
-  }, 2000);
+     });
+ });
 
+//initial index
+var x = 0;
+Promise.all(promises).then(function(values) {
+  details_dict = {};
+  details_dict1 = {};
+  values.forEach(function(value) {
+    details_dict[courses[x]] = value.val();
+    console.log("Before putting key : " + JSON.stringify(value.val()))
+    console.log("In final dict : " + JSON.stringify(details_dict1));
+    //console.log("X Value " + x + "Course : " + courses[x]); 
+    console.log("After putting key : " + " | " + courses[x] + " | " + JSON.stringify(details_dict));
+    details_dict1 = Object.assign({},details_dict1,details_dict);
+    console.log("After combining dict :  " + x + JSON.stringify(details_dict1));
+    x = x + 1;
+  });
+  console.log("Dict Final Value for CZ3002 : " + JSON.stringify(details_dict1["CZ3002"]));
+  console.log("Dict Final Value for CZ3003 : " + JSON.stringify(details_dict1["CZ3003"]));
+  // i dont know why got additional quiz 1 appearing
+  delete details_dict1.Quiz1;
+});
+
+details_dict3 = {};
+details_dict4 = {};
+var promises1 = courses.map(function(element) {
+    return db.getCompletedQuiz(element).then((value) => {
+    return value;
+    });
+});
+  
+Promise.all(promises1).then(function(values) {
+  var y = 0;
+  //details_dict = {};
+  //details_dict1 = {};
+  values.forEach(function(value) {
+  details_dict3[courses[y]] = value.val(); 
+  details_dict4 = Object.assign({},details_dict4,details_dict3);
+  console.log("After combining dict for completed quizzes :  " + y + JSON.stringify(details_dict4));
+  y = y + 1;
+});});
   
 setTimeout(function() { 
     if (username != null) {

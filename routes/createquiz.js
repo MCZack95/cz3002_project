@@ -49,7 +49,10 @@ router.post('/newquiz', function(req, res, next) {
     
   }
   )
-  res.redirect('/quiz');
+  setTimeout(function() { 
+    res.redirect('/quiz');
+  }, 2000);
+  
   //res.redirect('/createquiz/newquiz');
 });
 
