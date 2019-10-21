@@ -8,6 +8,10 @@ block content
                 h1.calendar-left-side-day
                 .calendar-left-side-day-of-week
 
+            .current-day-events
+                div.ccs Current Consultation Slots:
+                ul.current-day-events-list  
+
             .add-event-day
 
             if role == "student"
@@ -55,9 +59,7 @@ block content
                     button.btn.btn-primary(type='submit') Save Slot
                     //span.fa.fa-plus-circle.cursor-pointer.add-event-day-field-btn 
                     
-            .current-day-events
-                div.ccs Current Consultation Slots:
-                ul.current-day-events-list    
+
 
         .right-side
             .text-right.calendar-change-year
