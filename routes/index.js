@@ -262,7 +262,7 @@ router.post('/coursefilter', function(req, res, next) {
 
   
     console.log("Filtered cons: " + JSON.stringify(details_dict));
-    res.render('calendar', {dict: JSON.stringify(details_dict), user: username, role: role, course: courses});   
+    res.render('calendar', {dict: JSON.stringify(details_dict), user: username, role: role, course1: course, course: courses});   
   });
 });
 

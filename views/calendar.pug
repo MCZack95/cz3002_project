@@ -13,44 +13,15 @@ block content
             if role == "student"
                 form.cont(method='POST' action='/coursefilter')
                
-                    h6#unqh6 Filter by Course: #{user} #{course}
-                    .sel.sel--dropdown
-                        select(id="options" name="coursefilter" onchange="this.form.submit()")
-                            if course == "CZ4067"
+                    h6#unqh6 Filter by Course: #{user} #{course} #{course1}
+                        .sel.sel--dropdown
+                            select(id="options" name="coursefilter" onchange="this.form.submit()")
                                 option(value="all") View All
-                                option(value="CZ3002") CZ3002
-                                option(value="CZ3003") CZ3003
-                                option(value="CZ4067" selected="selected") CZ4067
-                                option(value="CZ4047") CZ4047
-
-                            else if course == "CZ3002"
-                                option(value="all") View All
-                                option(value="CZ3002" selected="selected") CZ3002
-                                option(value="CZ3003") CZ3003
-                                option(value="CZ4067") CZ4067
-                                option(value="CZ4047") CZ4047
-
-                            else if course == "CZ3003"
-                                option(value="all") View All
-                                option(value="CZ3002") CZ3002
-                                option(value="CZ3003" selected="selected") CZ3003
-                                option(value="CZ4067") CZ4067
-                                option(value="CZ4047") CZ4047
-
-                            else if course == "CZ4047"
-                                option(value="all") View All
-                                option(value="CZ3002") CZ3002
-                                option(value="CZ3003") CZ3003
-                                option(value="CZ4067") CZ4067
-                                option(value="CZ4047" selected="selected") CZ4047
-
-                            else
-                                option(value="all" selected="selected") View All
-                                option(value="CZ3002") CZ3002
-                                option(value="CZ3003") CZ3003
-                                option(value="CZ4067") CZ4067
-                                option(value="CZ4047") CZ4047
-
+                                    for x in course
+                                        if x == course1
+                                            option(value=x selected="selected") #{x}
+                                        else
+                                            option(value=x) #{x}
 
             if role == "professor"
                 form.cont(method='POST' action='/setconsult')
