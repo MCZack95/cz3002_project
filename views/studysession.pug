@@ -10,12 +10,18 @@ block content
             img(src='/svg/open-book.svg' style='margin-left: 5px; margin-bottom: 8px; height: 15px; width: 15px; line-height: 15px;')
             span#sstext Study Sessions
           each course, index in data
-            .title #{index}  
+            .title #{index} 
             each studysession, index1 in course                  
                 section.accordion 
                   input(type='checkbox', name='collapse', id='handle'+index+index1)
-                  h2.handle
-                    label(for='handle'+index+index1) #{studysession["topic"]}
+                  if studysession["attendees"].includes(username)
+                    h2.handle
+                      label(for='handle'+index+index1) #{studysession["topic"]} 
+                        b (Attending)
+                
+                  else
+                    h2.handle
+                      label(for='handle'+index+index1) #{studysession["topic"]}
                   .content Hosted by : #{studysession["hostedby"]}
                   .content Location : #{studysession["location"]}
                   .content Date : #{studysession["date"]}
