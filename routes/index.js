@@ -497,6 +497,7 @@ router.post('/newstudy', function(req, res, next) {
         location: req.body.location,
         pax: req.body.pax,
         time: req.body.time,
+        date: req.body.date,
         vacancies: req.body.pax,
         topic: req.body.topic,
         
