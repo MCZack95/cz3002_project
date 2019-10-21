@@ -542,6 +542,7 @@ router.post('/newstudy', function(req, res, next) {
       var newStudy = 
       {
         hostedby: username,
+        attendees: " ",
         location: req.body.location,
         pax: req.body.pax,
         time: req.body.time,
@@ -738,6 +739,7 @@ router.post('/quizscore', function(req, res, next) {
       answerkey: answerkey.join(" "),
       score: score,
       quesnos: req.body.testing,
+      Title: title,
 
     }
     details2.child(quizno).set(newdone);

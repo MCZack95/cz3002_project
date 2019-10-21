@@ -47,7 +47,7 @@ body {
     border-color: rgba(0,0,0,.9);
 }
     
-#ssquiz {
+#avass {
     width: 100%;
     margin-bottom: 20px;
     /* border-bottom: 1px #D8D8D8 solid; */
@@ -55,7 +55,7 @@ body {
     border-bottom-width: 3px;
 }
 
-#sstext {
+#avatext {
     font-family: 'PN Extrabold';
     margin-left: 5px;
     /* color: #D8D8D8; */
