@@ -91,6 +91,24 @@ module.exports.editPost = (coursecode,threadid,postid,content,username,hasquote,
     details.child("quote").set(quote);
   })
   }
+  else{
+    console.log("Removing quotes")
+    var details = firebase.database().ref('/'+ coursecode + "/threads/" + coursecode+"Thread"+newthreadid + "/Post" + postid);
+    //console.log(req.body.coursecode);
+    details.once('value',
+    function(snapshot) {
+      details_dict = snapshot.val();
+      console.log(snapshot.val());
+      //delete quotes
+      if (snapshot.hasChild("quote")){
+        console.log("Quotes exists : " + details["quote"]);
+        details.child("quote").set(null);
+      }
+      else{
+        console.log("Quotes do not exists");
+      }
+  });
+}
 
   //update thread details
   this.updateThreadDetails(coursecode,threadid,username);

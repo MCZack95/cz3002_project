@@ -7,52 +7,49 @@ block content
             .current-day.text-center
                 h1.calendar-left-side-day
                 .calendar-left-side-day-of-week
-            .current-day-events
-                div Current Consultation Slots:
-                
-                ul.current-day-events-list
+
             .add-event-day
 
             if role == ""
                 form.cont(method='POST' action='/coursefilter')
                
-                    h6#unqh6 Filter by course: #{user} #{course}
-                    //input(id="cc" type="text" name="courseselected" value="1" hidden) 
-                    select(id="options" name="coursefilter" onchange="this.form.submit()")
-                        if course == "CZ4067"
-                            option(value="all") View All
-                            option(value="CZ3002") CZ3002
-                            option(value="CZ3003") CZ3003
-                            option(value="CZ4067" selected="selected") CZ4067
-                            option(value="CZ4047") CZ4047
+                    h6#unqh6 Filter by Course: #{user} #{course}
+                    .sel.sel--dropdown
+                        select(id="options" name="coursefilter" onchange="this.form.submit()")
+                            if course == "CZ4067"
+                                option(value="all") View All
+                                option(value="CZ3002") CZ3002
+                                option(value="CZ3003") CZ3003
+                                option(value="CZ4067" selected="selected") CZ4067
+                                option(value="CZ4047") CZ4047
 
-                        else if course == "CZ3002"
-                            option(value="all") View All
-                            option(value="CZ3002" selected="selected") CZ3002
-                            option(value="CZ3003") CZ3003
-                            option(value="CZ4067") CZ4067
-                            option(value="CZ4047") CZ4047
+                            else if course == "CZ3002"
+                                option(value="all") View All
+                                option(value="CZ3002" selected="selected") CZ3002
+                                option(value="CZ3003") CZ3003
+                                option(value="CZ4067") CZ4067
+                                option(value="CZ4047") CZ4047
 
-                        else if course == "CZ3003"
-                            option(value="all") View All
-                            option(value="CZ3002") CZ3002
-                            option(value="CZ3003" selected="selected") CZ3003
-                            option(value="CZ4067") CZ4067
-                            option(value="CZ4047") CZ4047
+                            else if course == "CZ3003"
+                                option(value="all") View All
+                                option(value="CZ3002") CZ3002
+                                option(value="CZ3003" selected="selected") CZ3003
+                                option(value="CZ4067") CZ4067
+                                option(value="CZ4047") CZ4047
 
-                        else if course == "CZ4047"
-                            option(value="all") View All
-                            option(value="CZ3002") CZ3002
-                            option(value="CZ3003") CZ3003
-                            option(value="CZ4067") CZ4067
-                            option(value="CZ4047" selected="selected") CZ4047
+                            else if course == "CZ4047"
+                                option(value="all") View All
+                                option(value="CZ3002") CZ3002
+                                option(value="CZ3003") CZ3003
+                                option(value="CZ4067") CZ4067
+                                option(value="CZ4047" selected="selected") CZ4047
 
-                        else
-                            option(value="all") View All
-                            option(value="CZ3002") CZ3002
-                            option(value="CZ3003") CZ3003
-                            option(value="CZ4067") CZ4067
-                            option(value="CZ4047") CZ4047
+                            else
+                                option(value="all" selected="selected") View All
+                                option(value="CZ3002") CZ3002
+                                option(value="CZ3003") CZ3003
+                                option(value="CZ4067") CZ4067
+                                option(value="CZ4047") CZ4047
 
 
             if role == "professor"
@@ -85,7 +82,11 @@ block content
                     |&nbsp &nbsp &nbsp
                     button.btn.btn-primary(type='submit') Save Slot
                     //span.fa.fa-plus-circle.cursor-pointer.add-event-day-field-btn 
-                
+                    
+            .current-day-events
+                div.ccs Current Consultation Slots:
+                ul.current-day-events-list    
+
         .right-side
             .text-right.calendar-change-year
                 .calendar-change-year-slider
@@ -517,3 +518,50 @@ block content
                 id: "calendar"
             })
         })();
+
+    script.
+        $('.sel').each(function() {
+            $(this).children('select').css('display', 'none');
+
+            var $current = $(this);
+
+            $(this).find('option').each(function(i) {
+                if (i == 0) {
+                    $current.prepend($('<div>', {
+                        class: $current.attr('class').replace(/sel/g, 'sel__box')
+                    }));
+
+                    var placeholder = $(this).text();
+                    $current.prepend($('<span>', {
+                        class: $current.attr('class').replace(/sel/g, 'sel__placeholder'),
+                        text: placeholder,
+                        'data-placeholder': placeholder
+                    }));
+
+                    return;
+                }
+
+                $current.children('div').append($('<span>', {
+                    class: $current.attr('class').replace(/sel/g, 'sel__box__options'),
+                    text: $(this).text()
+                }));
+            });
+        });
+
+        // Toggling the `.active` state on the `.sel`.
+        $('.sel').click(function() {
+            $(this).toggleClass('active');
+        });
+
+        // Toggling the `.selected` state on the options.
+        $('.sel__box__options').click(function() {
+            var txt = $(this).text();
+            var index = $(this).index();
+
+            $(this).siblings('.sel__box__options').removeClass('selected');
+            $(this).addClass('selected');
+
+            var $currentSel = $(this).closest('.sel');
+            $currentSel.children('.sel__placeholder').text(txt);
+            $currentSel.children('select').prop('selectedIndex', index + 1);
+        });
