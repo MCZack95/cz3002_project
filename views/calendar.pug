@@ -13,7 +13,7 @@ block content
                 ul.current-day-events-list
             .add-event-day
 
-            if user == "admin2"
+            if role == ""
                 form.cont(method='POST' action='/coursefilter')
                
                     h6#unqh6 Filter by course: #{user} #{course}
@@ -55,7 +55,7 @@ block content
                             option(value="CZ4047") CZ4047
 
 
-            if user == "admin"
+            if role == "professor"
                 form.cont(method='POST' action='/setconsult')
                     input(id="date" type="text" name="datetoday" value="1" hidden) 
                 
@@ -154,6 +154,7 @@ block content
                 var events = {};
                 var newdict = "#{dict}";
                 var username = "#{user}";
+                var role = "#{role}";
                 var newdict2 = newdict.replace(/&quot;/g, '"');
                 var newdict3 = newdict2.replace(/-/g, "/");
                 
@@ -167,7 +168,7 @@ block content
                     if(y=="date"){
                         continue;
                     }else{
-                      if(username=="admin2"){
+                      if(role=="student"){
                             if(!(dict[x][y]["booked"]=="1" && dict[x][y]["bookedby"]!=username)){
 
                                 if(dict[x][y]["bookedby"]==username){
@@ -243,7 +244,7 @@ block content
                 var dateno = "";
                 var conno = "";
                 //student
-                if(username=="admin2"){
+                if(role=="student"){
                     for(var x=0;x<eventList.length;x++){
                 
                         if(x%2==0){
