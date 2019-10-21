@@ -36,8 +36,8 @@ block content
             each course, index in completedquiz
               .title #{index}  
               each completequiz, index1 in course
-                .modcont 
-                  button.quizcont #{index1} : #{completequiz.Title} 
+                //.modcont 
+                button.quizcont #{index1} : #{completequiz.Title} 
                   form(method='POST', action='/quizdone')
                     input(type="hidden" name="coursecode" value = index) 
                     input(type="hidden" name="quizno" value = index1)
