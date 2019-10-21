@@ -208,7 +208,7 @@ body {
 .current-day-events {
   border: 2px white solid;
   min-height: 50%;
-  margin-top: 60px;
+  margin-top: 13px;
 }
 
 /* dropdown */
@@ -354,4 +354,8 @@ body {
   margin-top: 1px;
   font-family: 'PN Bold';
   font-size: 15px;
+}
+
+button, select {
+  margin-top: 10px;
 }

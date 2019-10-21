@@ -11,10 +11,11 @@ block content
             .add-event-day
 
             if role == "student"
-                form.cont(method='POST' action='/coursefilter')
                
-                    h6#unqh6 Filter by Course: #{user} #{course} #{course1}
-                        .sel.sel--dropdown
+                h6#unqh6 Filter by Course: #{user} #{course} #{course1}
+                        //- .sel.sel--dropdown
+
+                        form.cont(method='POST' action='/coursefilter')
                             select(id="options" name="coursefilter" onchange="this.form.submit()")
                                 option(value="all") View All
                                     for x in course
