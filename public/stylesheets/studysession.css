@@ -4,10 +4,6 @@ body {
     background-image: url('/images/plain-background.png');
 }
 
-button:focus {
-    outline: 0;
-}
-
 .overallcont {
     background-color: white;
     padding: 20px;
@@ -17,7 +13,11 @@ button:focus {
     box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
 }
 
-#createquizcont {
+.contentforss {
+    border: 1px black solid;
+}
+
+#createsscont {
     float: right;
     /* margin-top: 1px; */
 }
@@ -47,7 +47,7 @@ button:focus {
     border-color: rgba(0,0,0,.9);
 }
     
-#avaquiz {
+#ssquiz {
     width: 100%;
     margin-bottom: 20px;
     /* border-bottom: 1px #D8D8D8 solid; */
@@ -55,18 +55,11 @@ button:focus {
     border-bottom-width: 3px;
 }
 
-#avatext {
+#sstext {
     font-family: 'PN Extrabold';
     margin-left: 5px;
     /* color: #D8D8D8; */
     font-size: 20px;
-}
-
-.coursecont {
-    /* border: 1px black solid; */
-    width: 100%;
-    margin-bottom: 20px;
-    padding: 5px;
 }
 
 .title {
@@ -74,14 +67,7 @@ button:focus {
     font-size: 20px;
 }
 
-.modcont {
-    /* border: 1px black solid; */
-    width: 100%;
-    font-family: 'PN Regular';
-    margin-bottom: 5px;
-}
-
-.quizcont {
+.sscont {
     /* border: 1px black solid; */
     margin-left: 25px;
     border: none;
@@ -90,11 +76,11 @@ button:focus {
     /* margin-bottom: 5px; */
 }
 
-.active, .quizcont:hover {
+.active, .sscont:hover {
     font-family: 'PN Bold';
 }
 
-.quizcont:before {
+.sscont:before {
     content: '⮞  '; 
     color: black;
 }
@@ -102,53 +88,3 @@ button:focus {
 .active:before {
     content: "⮟  "; 
 }
-
-.content {
-    display: none;
-    overflow: hidden;
-}
-
-button.content {
-    margin-left: 47px;
-    background: #fff;
-    color: #000033;
-    border: none;
-    position: relative;
-    height: 20px;
-    font-size: .6em;
-    padding: 0 2em;
-    cursor: pointer;
-    transition: 800ms ease all;
-    outline: none;
-    text-transform: uppercase;
-    width: 100px;
-}
-
-button.content:hover {
-    background: #000033;
-    color: #fff;
-}
-
-button.content:before, button.content:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 2px;
-    width: 0;
-    background: #fff;
-    transition: 400ms ease all;
-}
-
-button.content:after {
-    right: inherit;
-    top: inherit;
-    left: 0;
-    bottom: 0;
-}
-
-button.content:hover:before, button.content:hover:after {
-    width: 100%;
-    transition: 800ms ease all;
-}
-
