@@ -8,7 +8,7 @@ block content
                 h1.calendar-left-side-day
                 .calendar-left-side-day-of-week
             .current-day-events
-                div Current Consultation slots:
+                div Current Consultation Slots:
                 
                 ul.current-day-events-list
             .add-event-day
@@ -262,16 +262,16 @@ block content
                                     eventTemplate += `<li class="booked" id="${dateno} ${conno}">&nbsp&nbsp ${eventList[x]} &nbsp&nbsp
                                     <form method="POST" action="/cancelcon">
                                     <input id="cancel" type="text" name="dateno1" value="${dateno} ${conno}" hidden></input>
-                                    <input type="submit" value="Cancel"></input></form></li>
+                                    <input type="submit" value="Cancel" class='special' style='background: white; color:#3C677B;'></input></form></li>
                                     `;
                                     bookedbyuser = false;
 
                                 }else{
 
-                                eventTemplate += `<li id="${dateno} ${conno}">&nbsp&nbsp ${eventList[x]} &nbsp&nbsp
+                                eventTemplate += `<li id="${dateno} ${conno}" class='booklist'>&nbsp&nbsp ${eventList[x]} &nbsp&nbsp
                                     <form method="POST" action="/bookcon">
                                     <input id="lol" type="text" name="dateno" value="${dateno} ${conno}" hidden></input>   
-                                    <input type="submit" value="Book"></input></form></li>
+                                    <input type="submit" value="Book" class='special'></input></form></li>
                                     `; 
 
                                 }
