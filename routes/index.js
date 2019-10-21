@@ -468,7 +468,7 @@ router.post('/deletecon', function(req, res, next) {
 
 router.post('/study', function(req, res, next) {
 
-  console.log("gg " + courses);
+  console.log("Courses to host : " + courses);
   res.render("hoststudy", {courses1: courses});
 
 
@@ -497,7 +497,6 @@ router.post('/newstudy', function(req, res, next) {
         location: req.body.location,
         pax: req.body.pax,
         time: req.body.time,
-        attendees: " ",
         vacancies: req.body.pax,
         topic: req.body.topic,
         
@@ -508,11 +507,42 @@ router.post('/newstudy', function(req, res, next) {
     
     })
 
-  res.render("hoststudy", {courses1: courses});
 
 
+    //console.log("Getting study session")
+
+    //courses = req.body.courses
+    //coursecode = ["CZ3002","CZ3003"]
+
+    setTimeout(function() { 
+      details_dict = {};
+    details_dict1 = {};
+    var promises = courses.map(function(element) {
+      return db.getStudySession(element).then((value) => {
+        return value;
+       });
+    });
+  
+    Promise.all(promises).then(function(values) {
+      var x = 0;
+      details_dict = {};
+      details_dict1 = {};
+      values.forEach(function(value) {
+      details_dict[courses[x]] = value.val(); 
+      details_dict1 = Object.assign({},details_dict1,details_dict);
+      console.log("After combining dict :  " + x + JSON.stringify(details_dict1));
+      x = x + 1;
+    });
+    
+    if (username != null) {
+      console.log("Final Dict : " + JSON.stringify(details_dict1));
+      res.render('studysession', {username : username , data : details_dict1});
+    } else {
+      res.render('error404');
+    }
+  });      
+    }, 2000);
 });
-
 
 //calendar test
 router.post('/setconsult', function(req, res, next) {
