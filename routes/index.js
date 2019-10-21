@@ -738,6 +738,7 @@ router.post('/quizscore', function(req, res, next) {
       answerkey: answerkey.join(" "),
       score: score,
       quesnos: req.body.testing,
+      Title: title,
 
     }
     details2.child(quizno).set(newdone);

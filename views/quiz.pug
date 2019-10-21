@@ -19,7 +19,7 @@ block content
           .title #{index}  
           each quiz, index1 in course
             .modcont 
-              button.quizcont #{index1}
+              button.quizcont #{index1} : #{quiz.Title}
                 form(method='POST', action='/attemptquiz')
                   input(type="hidden" name="coursecode" value = index) 
                   input(type="hidden" name="quizno" value = index1)
@@ -27,7 +27,7 @@ block content
                     button.content(type='submit' name='attemptquiz') Attempt Quiz 
                   else 
                     button.content(type='submit' name='attemptquiz') View Quiz
-                  button.content View Materials
+                button.content(onclick="window.location.href='notes.pdf'") View Materials
         br
         if role === "student"
           #avaquiz 
@@ -36,12 +36,12 @@ block content
             each course, index in completedquiz
               .title #{index}  
               each completequiz, index1 in course
-                .modcont 
-                  button.quizcont #{index1}
-                    form(method='POST', action='/quizdone')
-                      input(type="hidden" name="coursecode" value = index) 
-                      input(type="hidden" name="quizno" value = index1)
-                      button.content(type='submit' name='completedquiz') View Completed Quiz
+                //.modcont 
+                button.quizcont #{index1} : #{completequiz.Title} 
+                  form(method='POST', action='/quizdone')
+                    input(type="hidden" name="coursecode" value = index) 
+                    input(type="hidden" name="quizno" value = index1)
+                    button.content(type='submit' name='completedquiz') View Completed Quiz
                    
 
 
