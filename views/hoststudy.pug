@@ -46,15 +46,15 @@ block content
             option(value="3.00PM to 4:00PM") 3.00PM - 4:00PM                    
             option(value="4.00PM to 5:00PM") 4.00PM - 5:00PM
 
-    .buttcont
-      button.btn.fakebtn(type='submit' style='margin-right: 10px;' onclick='') Create Study Session
-      button.btn.fakebtn(onclick='goBack()' style='background-color:white; color:#3C677B;') Cancel
+      .buttcont
+        button.btn.fakebtn(type='submit' style='margin-right: 10px;' onclick='alertforStudy()') Create Study Session
+        button.btn.fakebtn(onclick='goBack()' style='background-color:white; color:#3C677B;') Cancel
 
    
 
   script.
-      function alertforQuiz(){
-          alert("Quiz has been successfully created!");
+      function alertforStudy(){
+          alert("Study Session has been successfully created!");
       }
       function goBack() {
           window.history.back();
