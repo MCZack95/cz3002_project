@@ -174,7 +174,7 @@ router.get('/calendar', function(req, res, next) {
       console.log("ASGS: " + JSON.stringify(details_dict));
   
       if (username != null) {
-        res.render('calendar', {dict: JSON.stringify(details_dict), user: username, role: role});
+        res.render('calendar', {dict: JSON.stringify(details_dict), user: username, role: role, course: courses});
       } else {
         res.render('error404');
       }
@@ -205,7 +205,7 @@ router.get('/coursefilter', function(req, res, next) {
       console.log("ASGS: " + JSON.stringify(details_dict));
   
       if (username != null) {
-        res.render('calendar', {dict: JSON.stringify(details_dict), user: username, role: role});
+        res.render('calendar', {dict: JSON.stringify(details_dict), user: username, role: role, course: courses});
       } else {
         res.render('error404');
       }
@@ -227,7 +227,7 @@ router.post('/calendar', function(req, res, next) {
     details_dict = snapshot.val();
     console.log("\n");
     console.log(snapshot.val());
-    res.render('calendar', {dict: JSON.stringify(details_dict), user: username, role: role});   
+    res.render('calendar', {dict: JSON.stringify(details_dict), user: username, role: role, course: courses});   
   });
 });
 
@@ -262,7 +262,7 @@ router.post('/coursefilter', function(req, res, next) {
 
   
     console.log("Filtered cons: " + JSON.stringify(details_dict));
-    res.render('calendar', {dict: JSON.stringify(details_dict), user: username, role: role, course: course});   
+    res.render('calendar', {dict: JSON.stringify(details_dict), user: username, role: role, course: courses});   
   });
 });
 
