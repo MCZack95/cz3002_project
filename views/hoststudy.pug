@@ -1,12 +1,14 @@
 extends layout
 
 block content
-  link(rel='stylesheet', href='/stylesheets/quiz.css')
+
+  link(rel='stylesheet', href='/stylesheets/hoststudy.css')
+
   .overallcont 
-    form.cont(method='POST' action='/newstudy')
-      #avaquiz
+    form(method='POST' action='/newstudy')
+      #hsstitle
         img(src='/svg/tick.svg' style='margin-left: 5px; margin-bottom: 8px;')
-        span#avatext New Study Session
+        span#hsstext New Study Session
           #titlecourse
             h3 Topic 
             br
