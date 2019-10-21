@@ -3,39 +3,34 @@ extends layout
 
 block content
     .overallcont
-          #createquizcont
+          #createsscont
            form(method = 'POST' action = '/study')
              button.btn.fakebtn(type='submit') Host Study Session  
-          #avaquiz 
+          #ssquiz 
             img(src='/svg/tick.svg' style='margin-left: 5px; margin-bottom: 8px;')
-            span#avatext Study Sessions
-          //h1 #{Object.keys(data)} 
+            span#sstext Study Sessions
           each course, index in data
             .title #{index}  
             each studysession, index1 in course
-              .modcont 
-                button.quizcont #{studysession["topic"]}
-                  form(method='POST', action='/joinstudysession')
-                    button.content Hosted by : #{studysession["hostedby"]}
-                    button.content Location : #{studysession["location"]}
-                    button.content Time : #{studysession["time"]}
-                    button.content Vacancies Left : #{studysession["vacancies"]}
-                    //h5 Test for attendees : #{studysession["attendees"]}
-                    //if Object.keys((studysession["attendees"])).length !== 0
-                      h5 Attendees : #{studysession["attendees"]}
-                    input(type="hidden" name="coursecode" value = index) 
-                    input(type="hidden" name="studysession" value = index1)
-                    input(type="hidden" name="username" value = username)
-                    button.content(type='submit') Join this Study Session
-                    //button.content(type='submit' name='attemptquiz') View Quiz
+                button.sscont #{studysession["topic"]}
+                form(method='POST', action='/joinstudysession')
+                  .contentforss Hosted by : #{studysession["hostedby"]}
+                  .contentforss Location : #{studysession["location"]}
+                  .contentforss Time : #{studysession["time"]}
+                  .contentforss Vacancies Left : #{studysession["vacancies"]}
+                  input(type="hidden" name="coursecode" value = index) 
+                  input(type="hidden" name="studysession" value = index1)
+                  input(type="hidden" name="username" value = username)
+                  button(type='submit') Join this Study Session
+
         
 
 
-    link(rel='stylesheet', href='/stylesheets/quiz.css')
+    link(rel='stylesheet', href='/stylesheets/studysession.css')
 
 
     script.
-        var quizzes = document.getElementsByClassName('quizcont');
+        var quizzes = document.getElementsByClassName('sscont');
         var i;
 
         for (i = 0; i < quizzes.length; i++) {
@@ -47,11 +42,11 @@ block content
                 } else {
                     content.style.display = 'block';
                 }
-                var contentnext = content.nextElementSibling;
-                if (contentnext.style.display === 'block') {
-                    contentnext.style.display = 'none';
-                } else {
-                    contentnext.style.display = 'block';
-                }
+                //- var contentnext = content.nextElementSibling;
+                //- if (contentnext.style.display === 'block') {
+                //-     contentnext.style.display = 'none';
+                //- } else {
+                //-     contentnext.style.display = 'block';
+                //- }
             });
         }
