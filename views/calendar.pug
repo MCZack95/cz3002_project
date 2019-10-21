@@ -17,42 +17,42 @@ block content
                 form.cont(method='POST' action='/coursefilter')
                
                     h6#unqh6 Filter by course: #{user} #{course}
-                    //input(id="cc" type="text" name="courseselected" value="1" hidden) 
-                    select(id="options" name="coursefilter" onchange="this.form.submit()")
-                        if course == "CZ4067"
-                            option(value="all") View All
-                            option(value="CZ3002") CZ3002
-                            option(value="CZ3003") CZ3003
-                            option(value="CZ4067" selected="selected") CZ4067
-                            option(value="CZ4047") CZ4047
+                    .sel.sel--black-panther
+                        select(id="options" name="coursefilter" onchange="this.form.submit()")
+                            if course == "CZ4067"
+                                option(value="all") View All
+                                option(value="CZ3002") CZ3002
+                                option(value="CZ3003") CZ3003
+                                option(value="CZ4067" selected="selected") CZ4067
+                                option(value="CZ4047") CZ4047
 
-                        else if course == "CZ3002"
-                            option(value="all") View All
-                            option(value="CZ3002" selected="selected") CZ3002
-                            option(value="CZ3003") CZ3003
-                            option(value="CZ4067") CZ4067
-                            option(value="CZ4047") CZ4047
+                            else if course == "CZ3002"
+                                option(value="all") View All
+                                option(value="CZ3002" selected="selected") CZ3002
+                                option(value="CZ3003") CZ3003
+                                option(value="CZ4067") CZ4067
+                                option(value="CZ4047") CZ4047
 
-                        else if course == "CZ3003"
-                            option(value="all") View All
-                            option(value="CZ3002") CZ3002
-                            option(value="CZ3003" selected="selected") CZ3003
-                            option(value="CZ4067") CZ4067
-                            option(value="CZ4047") CZ4047
+                            else if course == "CZ3003"
+                                option(value="all") View All
+                                option(value="CZ3002") CZ3002
+                                option(value="CZ3003" selected="selected") CZ3003
+                                option(value="CZ4067") CZ4067
+                                option(value="CZ4047") CZ4047
 
-                        else if course == "CZ4047"
-                            option(value="all") View All
-                            option(value="CZ3002") CZ3002
-                            option(value="CZ3003") CZ3003
-                            option(value="CZ4067") CZ4067
-                            option(value="CZ4047" selected="selected") CZ4047
+                            else if course == "CZ4047"
+                                option(value="all") View All
+                                option(value="CZ3002") CZ3002
+                                option(value="CZ3003") CZ3003
+                                option(value="CZ4067") CZ4067
+                                option(value="CZ4047" selected="selected") CZ4047
 
-                        else
-                            option(value="all") View All
-                            option(value="CZ3002") CZ3002
-                            option(value="CZ3003") CZ3003
-                            option(value="CZ4067") CZ4067
-                            option(value="CZ4047") CZ4047
+                            else
+                                option(value="all") View All
+                                option(value="CZ3002") CZ3002
+                                option(value="CZ3003") CZ3003
+                                option(value="CZ4067") CZ4067
+                                option(value="CZ4047") CZ4047
 
 
             if user == "admin"
