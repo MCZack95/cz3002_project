@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var index = require('./index')
 var main_page = require('./main_page');
 var firebase = require('firebase');
 
@@ -49,9 +49,8 @@ router.post('/newquiz', function(req, res, next) {
     
   }
   )
-  res.redirect('/main');
-  //res.redirect(req.get('referer'));
-
+  res.redirect('/quiz');
+  //res.redirect('/createquiz/newquiz');
 });
 
 
