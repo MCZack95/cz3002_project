@@ -10,10 +10,8 @@ link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/
     .passwordcontainer
       input#password(type='password' name='password' placeholder='password' required)
       button#showpassword(type='button' onclick='showPassword()' maxlength='12') SHOW
-    br
     button.btn#loginbutt(type='submit') 
       span Log In
-    
     a#forgotpassword(href="#" onclick="javascript:openForm()") Forgot your password? 
     div(class = 'form-popup',id = 'myForm')
       form(action = '/action_page.php', class = 'form-container')
