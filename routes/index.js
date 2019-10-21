@@ -398,7 +398,7 @@ router.get('/studysession',isLoggedIn, function(req, res, next) {
 setTimeout(function() { 
   if (username != null) {
     console.log("Final Dict : " + JSON.stringify(details_dict1));
-    res.render('studysession', {username : username , data : details_dict1});
+    res.render('studysession', {role: role,username : username , data : details_dict1});
   } else {
     res.render('error404');
   }
@@ -585,7 +585,7 @@ router.post('/newstudy', function(req, res, next) {
     
     if (username != null) {
       console.log("Final Dict : " + JSON.stringify(details_dict1));
-      res.render('studysession', {username : username , data : details_dict1});
+      res.render('studysession', {role: role, username : username , data : details_dict1});
     } else {
       res.render('error404');
     }
