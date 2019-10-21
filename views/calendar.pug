@@ -8,6 +8,10 @@ block content
                 h1.calendar-left-side-day
                 .calendar-left-side-day-of-week
 
+            .current-day-events
+                div.ccs Current Consultation Slots:
+                ul.current-day-events-list  
+
             .add-event-day
 
             if role == "student"
@@ -57,7 +61,8 @@ block content
                     
             .current-day-events
                 div.ccs Current Consultation Slots:
-                ul.current-day-events-list    
+                ul.current-day-events-list
+                            
 
         .right-side
             .text-right.calendar-change-year
@@ -161,14 +166,14 @@ block content
 
                             }
                       }else{
-                          //is professor, get course code?
-                          if(dict[x][y]["booked"]=="0"){
+                          
+                          if(dict[x][y]["booked"]=="0" && dict[x][y]["prof"]=="ProfLiYi"){
                             if(events[dict[x]["date"]]==null){
                                     events[dict[x]["date"]] = ["0 " + x + " " + y, dict[x][y]["course"] +  " : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"]] ;
                                 }else{
                                     events[dict[x]["date"]].push("0 " + x + " " + y, dict[x][y]["course"] + " : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"]) ;
                                 }
-                          }else{
+                          }else if(dict[x][y]["prof"]=="ProfLiYi"){
                              if(events[dict[x]["date"]]==null){
                                     events[dict[x]["date"]] = ["1 " + x + " " + y, dict[x][y]["course"] +  " : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"] + " (Booked by " +  dict[x][y]["bookedby"] + ")"] ;
                                 }else{
@@ -213,6 +218,7 @@ block content
                 let eventList = this.eventList[calendar.active.formatted] || ['No slots on this day'];
                 let eventTemplate = "";
                 var username = "#{user}";
+                var role = "#{role}";
                 var bookedbyuser = false;
                 var dateno = "";
                 var conno = "";
@@ -252,7 +258,6 @@ block content
 
 
                             }   
-                        
 
                     }   
             }else{
@@ -263,14 +268,31 @@ block content
                             var res = eventList[x].split(" ");
                             dateno = res[1];
                             conno = res[2];
+                             if(eventList[x].charAt(0)==1){
+                                bookedbyuser = true;
+                            }
 
                         }else{
-                        
-                                eventTemplate += `<li id="${dateno} ${conno}">&nbsp&nbsp ${eventList[x]} &nbsp&nbsp
+
+                                if(bookedbyuser){
+                                    eventTemplate += `<li class="booked" id="${dateno} ${conno}">&nbsp&nbsp ${eventList[x]} &nbsp&nbsp
+                                    <form method="POST" action="/deletecon">
+                                    <input id="cancel" type="text" name="dateno1" value="${dateno} ${conno}" hidden></input>
+                                    <input type="submit" value="Remove Slot" class='special' style='background: white; color:#3C677B;'></input></form></li>
+                                `;
+                                    bookedbyuser = false;
+
+                                }else{
+
+                                  eventTemplate += `<li id="${dateno} ${conno}">&nbsp&nbsp ${eventList[x]} &nbsp&nbsp
                                <form method="POST" action="/deletecon">
                                 <input id="cancel" type="text" name="dateno1" value="${dateno} ${conno}" hidden></input>
-                               <input type="submit" value="Remove Slot"></input></form></li>
+                               <input type="submit" value="Remove Slot" class='special' style='background: white; color:#3C677B;'></input></form></li>
                                 `;
+
+                                }
+
+                            dateno = "";
 
 
                             }   
