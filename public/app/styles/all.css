@@ -59,7 +59,8 @@ body {
     color: white; }
   .calendar .calendar-left-side-day-of-week, .calendar .calendar-week {
     text-transform: uppercase; 
-    margin-bottom: 2%;}
+    margin-bottom: 6%;
+  font-family: 'PN Bold';}
 
   .calendar .right-side, .calendar .left-side {
     padding: 30px;
@@ -81,7 +82,9 @@ body {
       position: absolute;
       left: 3px; }
   .calendar h1.calendar-left-side-day {
-    font-size: 92px; }
+    font-size: 92px; 
+    margin-top: -15px; 
+  font-family: 'PN Bold';}
   .calendar .add-event-day {
     border-bottom: 1px solid white; }
     .calendar .add-event-day .add-event-day-field {
@@ -167,7 +170,7 @@ body {
       line-height: 30px; }
 
 #unqh6 {
-  margin-top: 2%;
+  margin-top: 4%;
   color: white;
   font-family: 'PN Regular';
 }
@@ -185,6 +188,7 @@ body {
   -webkit-border-radius: 5px;
   border: 1px solid rgba(0,0,0,.3);
   border-bottom-width: 3px;
+  margin-left: 10px;
 }
 
 .special:hover {
@@ -202,30 +206,33 @@ body {
 }
 
 .current-day-events {
-  /* border: 1px white solid; */
+  border: 2px white solid;
   min-height: 50%;
+  margin-top: 60px;
 }
 
-/* test */
+/* dropdown */
 
 .sel {
-  font-size: 1rem;
+  font-size: 10px;
   display: inline-block;
   margin: 3em 2em;
-  width: 350px;
+  width: 120px;
   background-color: transparent;
   position: relative;
   cursor: pointer;
+  z-index: 50;
 }
 
 .sel::before {
   position: absolute;
   content: '\f063';
   font-family: 'FontAwesome';
-  font-size: 2em;
+  font-size: 15px;
   color: #FFF;
-  right: 20px;
+  right: 7px;
   top: calc(50% - 0.5em);
+  line-height: 15px;
 }
 
 .sel.active::before {
@@ -234,9 +241,9 @@ body {
 
 .sel__placeholder {
   display: block;
-  font-family: 'Quicksand';
-  font-size: 2.3em;
-  color: #838e95;
+  font-family: 'PN Bold';
+  font-size: 15px;
+  color: #fff;
   padding: 0.2em 0.5em;
   text-align: left;
   pointer-events: none;
@@ -270,10 +277,11 @@ body {
   display: none;
   list-style-type: none;
   text-align: left;
-  font-size: 1em;
+  font-size: 15px;
   background-color: #FFF;
   width: calc(100% + 8px);
   box-sizing: border-box;
+  font-family: 'PN Bold';
 }
 
 .sel.active .sel__box {
@@ -283,9 +291,9 @@ body {
 
 .sel__box__options {
   display: list-item;
-  font-family: 'Quicksand';
-  font-size: 1.5em;
-  color: #838e95;
+  font-family: 'PN Regular';
+  font-size: 15px;
+  color: #404040;
   padding: 0.5em 1em;
   user-select: none;
 }
@@ -303,16 +311,19 @@ body {
 }
 
 .sel__box__options:hover {
-  background-color: #ebedef;
+  background-color: #E6E6FA;
 }
 
 /* ----- Select Box Black Panther ----- */
 .sel {
-  border-bottom: 4px solid rgba(0, 0, 0, 0.3);
+  border: 2px solid white;
 }
 
-.sel--black-panther {
-  z-index: 3;
+.sel--dropdown {
+  z-index: 50;
+  top: 180px;
+  left: 10px;
+  position: absolute;
 }
 
 /* ===== Keyframes ===== */
@@ -336,4 +347,11 @@ body {
   to {
     opacity: 0;
   }
+}
+
+.ccs {
+  margin-left: 5px;
+  margin-top: 1px;
+  font-family: 'PN Bold';
+  font-size: 15px;
 }
