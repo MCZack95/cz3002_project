@@ -19,7 +19,7 @@ block content
           .title #{index}  
           each quiz, index1 in course
             .modcont 
-              button.quizcont #{index1}
+              button.quizcont #{index1} : #{quiz.Title}
                 form(method='POST', action='/attemptquiz')
                   input(type="hidden" name="coursecode" value = index) 
                   input(type="hidden" name="quizno" value = index1)
@@ -37,11 +37,11 @@ block content
               .title #{index}  
               each completequiz, index1 in course
                 .modcont 
-                  button.quizcont #{index1}
-                    form(method='POST', action='/quizdone')
-                      input(type="hidden" name="coursecode" value = index) 
-                      input(type="hidden" name="quizno" value = index1)
-                      button.content(type='submit' name='completedquiz') View Completed Quiz
+                  button.quizcont #{index1} : #{completequiz.Title} 
+                  form(method='POST', action='/quizdone')
+                    input(type="hidden" name="coursecode" value = index) 
+                    input(type="hidden" name="quizno" value = index1)
+                    button.content(type='submit' name='completedquiz') View Completed Quiz
                    
 
 
