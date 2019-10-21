@@ -16,7 +16,7 @@ block content
             if user == "admin2"
                 form.cont(method='POST' action='/coursefilter')
                
-                    h6 Filter by course: #{user} #{course}
+                    h6#unqh6 Filter by course: #{user} #{course}
                     //input(id="cc" type="text" name="courseselected" value="1" hidden) 
                     select(id="options" name="coursefilter" onchange="this.form.submit()")
                         if course == "CZ4067"
