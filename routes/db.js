@@ -310,3 +310,49 @@ module.exports.getQuizzes = (coursecode) =>
   
 
 }
+
+module.exports.getStudySession = (coursecode) => 
+{
+  details_dict = {}
+  var details = firebase.database().ref('/'+ coursecode + "/study");
+
+  return details.once('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    console.log("Study Session for Course Code  : " + coursecode + " | " + JSON.stringify(snapshot.val()));   
+    return details_dict;
+  })
+
+  
+
+}
+
+
+module.exports.joinStudySession = (username,coursecode,studysession) => 
+{
+  details_dict = {}
+  details_dict1 = {};
+  var details = firebase.database().ref('/'+ coursecode + "/study/" + studysession);
+  details.once('value',
+  function(snapshot) {
+    details_dict = snapshot.val();
+    console.log("Editing Study Session for Course Code  : " + coursecode + " | " + JSON.stringify(snapshot.val()));   
+    slots = details_dict["vacancies"];
+    slots -= 1;
+    details.child("vacancies").set(slots);
+    
+    console.log("Attendees : " + details_dict["attendees"]);
+
+    if (details_dict["attendees"] != null){
+      var attendees = details_dict["attendees"] + "," + username;
+    }
+    else{
+      var attendees = username;
+    }
+    console.log("New Attendees : " + attendees);
+    details.child("attendees").set(attendees);
+  })
+
+  
+
+}
