@@ -6,9 +6,9 @@ block content
           #createsscont
            form(method = 'POST' action = '/study')
              button.btn.fakebtn(type='submit') Host Study Session  
-          #ssquiz 
-            img(src='/svg/open-book.svg' style='margin-left: 5px; margin-bottom: 8px; height: 15px; width: 15px; line-height: 15px;')
-            span#sstext Study Sessions
+          #avass 
+            img(src='/svg/tick.svg' style='margin-left: 5px; margin-bottom: 8px;')
+            span#avatext Study Sessions
           each course, index in data
             .title #{index}  
             each studysession, index1 in course                  
