@@ -26,6 +26,7 @@ block content
                         input(type="hidden" name="coursecode" value = index) 
                         input(type="hidden" name="studysession" value = index1)
                         input(type="hidden" name="username" value = username)
-                        button.btn.fakebtn(type='submit') Join
+                        if (role==="student")
+                          button.btn.fakebtn(type='submit') Join
 
     link(rel='stylesheet', href='/stylesheets/studysession.css')
