@@ -1,0 +1,74 @@
+@import 'fonts.css';
+
+body {
+    background-image: url('/images/plain-background.png');
+}
+
+.buttcont {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.overallcont {
+    background-color: white;
+    padding: 20px;
+    width: 100%;
+    -webkit-box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.75);
+    margin-bottom: 50px;
+}
+
+#hsstext {
+    font-family: 'PN Extrabold';
+    margin-left: 5px;
+    font-size: 20px;
+}
+
+input {
+    background-color: #BBFFFF;
+    border: none;
+}
+
+#minicont {
+    margin-top: 20px;
+}
+
+.cont {
+    margin-bottom: 15px;
+    font-family: 'PN Bold';
+    font-size: 12px;
+}
+
+#topic, .coursecode, #location, .maxpart, .dateofsess, .timeofsess {
+    display: block;
+    font-size: 15px;
+    font-family: 'PN Regular';
+    width: 100%;
+    padding: 5px;
+}
+
+.fakebtn {
+    display: inline-block;
+    color: #FFF;
+    background-color: #699DB6;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 8px;
+    padding: 5px 15px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: 1px solid rgba(0,0,0,.3);
+    border-bottom-width: 3px;
+}
+
+.fakebtn:hover {
+    background-color: #4F87A2;
+    border-color: rgba(0,0,0,.5);
+}
+
+.fakebtn:active {
+    background-color: #3C677B;
+    border-color: rgba(0,0,0,.9);
+}

@@ -27,16 +27,36 @@ block content
               h3 #{post.username}
               if post.username == "admin"
                 img(src='/images/user1.png')
-              else if post.username == "admin1"
+              else if post.username == "Darien"
                 img(src='/images/user2.png')
-              else if post.username == "admin2"
+              else if post.username == "Shan Jing (PM)"
                 img(src='/images/user3.png')
-              else
+              else if post.username == "Andrew"
                 img(src='/images/user4.png')
+              else if post.username == "Christopher"
+                img(src='/images/user5.png')
+              else if post.username == "Qi Yuan"
+                img(src='/images/user6.png')
+              else
+                img(src='/images/user7.png')
             if post.quote
               .quote_wrapper
                 .row#quote_owner
                   p #{post.quote.quote_owner}
+                  if post.quote.quote_owner == "admin"
+                    img(src='/images/user1.png')
+                  else if post.quote.quote_owner == "Darien"
+                    img(src='/images/user2.png')
+                  else if post.quote.quote_owner == "Shan Jing (PM)"
+                    img(src='/images/user3.png')
+                  else if post.quote.quote_owner == "Andrew"
+                    img(src='/images/user4.png')
+                  else if post.quote.quote_owner == "Christopher"
+                    img(src='/images/user5.png')
+                  else if post.quote.quote_owner == "Qi Yuan"
+                    img(src='/images/user6.png')
+                  else
+                    img(src='/images/user7.png')
                 .row#quote_content
                   p #{post.quote.quote_content}
             .row#content_row

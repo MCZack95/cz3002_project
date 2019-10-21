@@ -13,11 +13,12 @@ block content
             .title #{index}  
             each studysession, index1 in course                  
                 section.accordion 
-                  input(type='checkbox', name='collapse', id='handle'+index1)
+                  input(type='checkbox', name='collapse', id='handle'+index+index1)
                   h2.handle
-                    label(for='handle' + index1) #{studysession["topic"]}
+                    label(for='handle'+index+index1) #{studysession["topic"]}
                   .content Hosted by : #{studysession["hostedby"]}
                   .content Location : #{studysession["location"]}
+                  .content Date : #{studysession["date"]}
                   .content Time : #{studysession["time"]}
                   .content
                     .buttcont
@@ -28,26 +29,3 @@ block content
                         button.btn.fakebtn(type='submit') Join
 
     link(rel='stylesheet', href='/stylesheets/studysession.css')
-
-
-    script.
-        var quizzes = document.getElementsByClassName('sscont');
-        var i;
-
-        for (i = 0; i < quizzes.length; i++) {
-            quizzes[i].addEventListener('click', function() {
-                this.classList.toggle('active');
-                var content = this.nextElementSibling;
-                if (content.style.display === 'block') {
-                    content.style.display = 'none';
-                } else {
-                    content.style.display = 'block';
-                }
-                //- var contentnext = content.nextElementSibling;
-                //- if (contentnext.style.display === 'block') {
-                //-     contentnext.style.display = 'none';
-                //- } else {
-                //-     contentnext.style.display = 'block';
-                //- }
-            });
-        }

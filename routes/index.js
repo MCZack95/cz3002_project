@@ -1072,13 +1072,11 @@ router.get('/profile', function(req, res, next){
 })
 
 router.get('/bookmarks', function(req, res, next){
-
-  username = 'admin';
+  console.log("Listing Bookmarks...");
   finalthread_dict = {}
   tmpthread_dict = {}
 
   courseArray = main_page.UniqueCourse(username);
-  console.log(courseArray);
   for (var x = 0; x < courseArray.length; x++){
     tmpthread_dict = db.getAllThreadsinOneCourse(courseArray[x]);
     finalthread_dict = Object.assign({}, finalthread_dict, tmpthread_dict);
