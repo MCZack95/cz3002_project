@@ -779,8 +779,8 @@ router.post('/attemptquiz', function(req, res, next) {
 router.post('/quizdone', function(req, res, next) {
   console.log("Post to view Quiz Result")
 
-  var cc = "CZ3002";
-  var quizno = "Quiz1";
+  var cc = req.body.coursecode;
+  var quizno = req.body.quizno;
   var details_dict = {};
   //fetch answers
 

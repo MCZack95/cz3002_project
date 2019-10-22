@@ -12,7 +12,7 @@ block content
 
             if role == "student"
                
-                h6#unqh6 Filter by Course: #{user} #{course} #{course1}
+                h6#unqh6 Filter by Course: 
                         //- .sel.sel--dropdown
 
                         form.cont(method='POST' action='/coursefilter')
@@ -28,7 +28,7 @@ block content
                 form.cont(method='POST' action='/setconsult')
                     input(id="date" type="text" name="datetoday" value="1" hidden) 
                 
-                    h6 Select timeslot: #{user}
+                    h6 Select timeslot:
 
                     select(id="options" name="time")
                         option(value="8.00AM 8:30AM") 8.00AM - 8:30AM
