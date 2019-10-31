@@ -160,7 +160,6 @@ router.get('/calendar', function(req, res, next) {
   setTimeout(function(){
 
     console.log("Getting calender ");
-    var events = {"11/10/2019": ["test","damn","gg"]}; 
   
     var details_dict = {};
     var details = firebase.database().ref('/consultations/dates');
@@ -599,9 +598,9 @@ router.post('/setconsult', function(req, res, next) {
   console.log('SET!');
   var details_dict = {};
   var details = firebase.database().ref('/consultations/dates');
-  var times = req.body.time.split(" ");
-  var from = times[0];
-  var to = times[1];
+  var from = req.body.time1;
+  var to = req.body.time2;
+  var pax = req.body.pax;
 
     details.once('value',
     function(snapshot) {
@@ -632,7 +631,7 @@ router.post('/setconsult', function(req, res, next) {
         course: "CZ4067",
         booked: 0,
         bookedby: " ",
-        
+        pax: pax,
       }
       
       if(dateno!=""){

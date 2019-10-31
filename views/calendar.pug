@@ -27,28 +27,23 @@ block content
             if role == "professor"
                 form.cont(method='POST' action='/setconsult')
                     input(id="date" type="text" name="datetoday" value="1" hidden) 
-                
+
                     h6 Select timeslot:
 
-                    select(id="options" name="time")
-                        option(value="8.00AM 8:30AM") 8.00AM - 8:30AM
-                        option(value="8.30AM 9:00AM") 8.30AM - 9:00AM
-                        option(value="9.00AM 9:30AM") 9.00AM - 9:30AM
-                        option(value="9.30AM 10:00AM") 9.30AM - 10:00AM
-                        option(value="10.00AM 10:30AM") 10.00AM - 10:30AM
-                        option(value="10.30AM 11:00AM") 10.30AM - 11:00AM
-                        option(value="11.00AM 11:30AM") 11.00AM - 11:30AM
-                        option(value="11.30AM 12:00PM") 11.30AM - 12:00PM
-                        option(value="12.00PM 12:30PM") 12.00PM - 12:30PM
-                        option(value="12.30PM 1:00PM") 12.30PM - 1:00PM
-                        option(value="1.00PM 1:30PM") 1.00PM - 1:30PM
-                        option(value="1.30PM 2:00PM") 1.30PM - 2:00PM
-                        option(value="2.00PM 2:30PM") 2.00PM - 2:30PM
-                        option(value="2.30PM 3:00PM") 2.30PM - 3:00PM
-                        option(value="3.00PM 3:30PM") 3.00PM - 3:30PM
-                        option(value="3.30PM 4:00PM") 3.30PM - 4:00PM
-                        option(value="4.00PM 4:30PM") 4.00PM - 4:30PM
-                        option(value="4.30PM 5:00PM") 4.30PM - 5:00PM
+                    |Start Time:
+                    |&nbsp 
+                    input(type="time" id="appt1" name="time1" min="08:00" max="18:00" required)
+                    br  
+                    |End Time:
+                    |&nbsp 
+                    input(type="time" id="appt2" name="time2" min="08:00" max="18:00" required)
+
+                    br
+                    |No. of Students:
+                    |&nbsp 
+                    input(id="pax" type="text" name="pax") 
+                        
+                    
 
                     //input.add-event-day-field(type='text' placeholder='Create an Event')
                     |&nbsp &nbsp &nbsp
@@ -143,37 +138,36 @@ block content
                         continue;
                     }else{
                       if(role=="student"){
-                            if(!(dict[x][y]["booked"]=="1" && dict[x][y]["bookedby"]!=username)){
+                                     //change to include?
 
                                 if(dict[x][y]["bookedby"]==username){
                                     if(events[dict[x]["date"]]==null){
-                                        events[dict[x]["date"]] = ["1 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"]] ;
+                                        events[dict[x]["date"]] = ["1 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"] + " [Slots left: " + dict[x][y]["pax"] + "]"];
                                     }else{
-                                        events[dict[x]["date"]].push("1 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"]);
+                                        events[dict[x]["date"]].push("1 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"] + " [Slots left: " + dict[x][y]["pax"] + "]");
                                     }
                                 }else{
                                     if(events[dict[x]["date"]]==null){
-                                        events[dict[x]["date"]] = ["0 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"]] ;
+                                        events[dict[x]["date"]] = ["0 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"] + " [Slots left: " + dict[x][y]["pax"] + "]"];
                                     }else{
-                                        events[dict[x]["date"]].push("0 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"]) ;
+                                        events[dict[x]["date"]].push("0 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"] + " [Slots left: " + dict[x][y]["pax"] + "]");
                                     }
                                 
                                 }
 
-                            }
                       }else{
                           
                           if(dict[x][y]["booked"]=="0" && dict[x][y]["prof"]=="ProfLiYi"){
                             if(events[dict[x]["date"]]==null){
-                                    events[dict[x]["date"]] = ["0 " + x + " " + y, dict[x][y]["course"] +  " : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"]] ;
+                                    events[dict[x]["date"]] = ["0 " + x + " " + y, dict[x][y]["course"] +  " : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"] + " [Slots left: " + dict[x][y]["pax"] + "]"] ;
                                 }else{
-                                    events[dict[x]["date"]].push("0 " + x + " " + y, dict[x][y]["course"] + " : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"]) ;
+                                    events[dict[x]["date"]].push("0 " + x + " " + y, dict[x][y]["course"] + " : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"] + " [Slots left: " + dict[x][y]["pax"] + "]") ;
                                 }
                           }else if(dict[x][y]["prof"]=="ProfLiYi"){
                              if(events[dict[x]["date"]]==null){
-                                    events[dict[x]["date"]] = ["1 " + x + " " + y, dict[x][y]["course"] +  " : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"] + " (Booked by " +  dict[x][y]["bookedby"] + ")"] ;
+                                    events[dict[x]["date"]] = ["1 " + x + " " + y, dict[x][y]["course"] +  " : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"] + " (Booked by " +  dict[x][y]["bookedby"] + ")"+ " [Slots left: " + dict[x][y]["pax"] + "]"] ;
                                 }else{
-                                    events[dict[x]["date"]].push("1 " + x + " " + y, dict[x][y]["course"] + " : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"] + " (Booked by " +  dict[x][y]["bookedby"] + ")") ;
+                                    events[dict[x]["date"]].push("1 " + x + " " + y, dict[x][y]["course"] + " : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"] + " (Booked by " +  dict[x][y]["bookedby"] + ")" + " [Slots left: " + dict[x][y]["pax"] + "]") ;
                                 }
 
                           }
