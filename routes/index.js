@@ -323,13 +323,20 @@ router.post('/bookcon', function(req, res, next) {
   var details = firebase.database().ref('/consultations/dates/' + dateno);
   details.once('value',
   function(snapshot) {
+    //logic for multiple students
     details_dict = snapshot.val();
     console.log("BOOKCON\n");
     console.log(snapshot.val());
-    var details = firebase.database().ref('/consultations/dates/' + dateno + '/' + conno);
-    details.child("booked").set("1");
-    details.child("bookedby").set(username);
-
+    if(details_dict[conno]["booked"]=="0"){
+      var details = firebase.database().ref('/consultations/dates/' + dateno + '/' + conno);
+      details.child("booked").set("1");
+      details.child("bookedby").set(username);
+      details.child("pax").set(details_dict[conno]["pax"]-1);
+    }else{
+      var details = firebase.database().ref('/consultations/dates/' + dateno + '/' + conno);
+      details.child("bookedby").set(details_dict[conno]["bookedby"] + ", " + username);
+      details.child("pax").set(details_dict[conno]["pax"]-1);
+    }
     var nodemailer = require('nodemailer');
 
   var transporter = nodemailer.createTransport({
@@ -446,13 +453,29 @@ router.post('/cancelcon', function(req, res, next) {
   details.once('value',
   function(snapshot) {
     details_dict = snapshot.val();
-    console.log("CANCELCON\n" + req.body.dateno);
-    //console.log(snapshot.val());
-    var details = firebase.database().ref('/consultations/dates/' + dateno + '/' + conno);
-    details.child("booked").set("0");
-    details.child("bookedby").set(" ");
-
-
+    console.log("CANCELCON\n");
+    console.log(snapshot.val());
+    var temp = details_dict[conno]["bookedby"];
+    console.log("BOOK " + temp);
+    //check for other ppl
+   
+    if(temp.includes(",")){
+        var details = firebase.database().ref('/consultations/dates/' + dateno + '/' + conno);
+        var temp1 = "";
+        if(temp.includes(", " + username)){
+          temp1 = temp.replace(", " + username, "");
+        }else{
+          temp1 = temp.replace(username + ", ", "");  
+        }
+        details.child("bookedby").set(temp1);
+        details.child("pax").set(details_dict[conno]["pax"] + 1);
+    }else{
+      var details = firebase.database().ref('/consultations/dates/' + dateno + '/' + conno);
+      details.child("booked").set("0");
+      details.child("bookedby").set(" ");
+      details.child("pax").set(details_dict[conno]["pax"] + 1);
+    }
+ 
     var nodemailer = require('nodemailer');
 
     var transporter = nodemailer.createTransport({

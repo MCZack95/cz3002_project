@@ -139,14 +139,13 @@ block content
                     }else{
                       if(role=="student"){
                                      //change to include?
-
-                                if(dict[x][y]["bookedby"]==username){
+                                if(dict[x][y]["bookedby"].includes(username)){
                                     if(events[dict[x]["date"]]==null){
                                         events[dict[x]["date"]] = ["1 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"] + " [Slots left: " + dict[x][y]["pax"] + "]"];
                                     }else{
                                         events[dict[x]["date"]].push("1 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"] + " [Slots left: " + dict[x][y]["pax"] + "]");
                                     }
-                                }else{
+                                }else if(dict[x][y]["pax"]!=0){
                                     if(events[dict[x]["date"]]==null){
                                         events[dict[x]["date"]] = ["0 " + x + " " + y, dict[x][y]["course"] + " (" + dict[x][y]["prof"] + ") : " + dict[x][y]["timefrom"] + " - " +  dict[x][y]["timeto"] + " [Slots left: " + dict[x][y]["pax"] + "]"];
                                     }else{
