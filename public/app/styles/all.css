@@ -78,7 +78,7 @@ body {
     padding-left: 30px;
     list-style: none; }
     .calendar .current-day-events ul li::before {
-      content: '⮞';
+      content: '⮞ \00a0\00a0';
       position: absolute;
       left: 3px; }
   .calendar h1.calendar-left-side-day {
@@ -169,10 +169,19 @@ body {
       height: 30px;
       line-height: 30px; }
 
-#unqh6 {
+.unqh6 {
   margin-top: 4%;
   color: white;
   font-family: 'PN Regular';
+}
+
+.cont {
+  color: white;
+  font-family: 'PN Regular';
+}
+
+.cont > input {
+  width: 90px;
 }
 
 .special {
@@ -207,7 +216,7 @@ body {
 
 .current-day-events {
   border: 2px white solid;
-  min-height: 50%;
+  min-height: 29%;
   margin-top: 13px;
 }
 
@@ -358,4 +367,16 @@ body {
 
 button, select {
   margin-top: 10px;
+}
+
+#appt1 {
+  margin-left: 19%;
+}
+
+#appt2 {
+  margin-left: 21%;
+}
+
+#pax {
+  margin-left: 7%;
 }
