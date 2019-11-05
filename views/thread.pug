@@ -120,11 +120,14 @@ block content
           img.float-left(src="/images/add.png" alt="AddButton")
           img.float-left(src="/images/minus.png" alt="MinusButton")
           h5.float-left Add Reply
-      .bookmark
-        button.btn.btn-primary#bookmark-button(type='submit') 
-          img.float-left(src="/images/add_bookmark.png" alt="UnWatchButton")
-          img.float-left(src="/images/remove_bookmark.png" alt="WatchButton")
-          h5.float-left Bookmark
+      form.float-left(method = 'POST' action = '/bookmarkthread')
+        input(type="hidden" name="threadid" value=threadid)
+        input(type="hidden" name="coursecode" value=coursecode)
+        .bookmark
+          button.btn.btn-primary#bookmark-button(type='submit') 
+            img.float-left(src="/images/add_bookmark.png" alt="UnWatchButton")
+            img.float-left(src="/images/remove_bookmark.png" alt="WatchButton")
+            h5.float-left Bookmark
       .filler
       .return
         form(method='GET' action='/main')

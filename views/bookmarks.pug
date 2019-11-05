@@ -36,30 +36,31 @@ block content
         //th Rating
       tbody
         each thread in data
-          tr
-            td(data-href=`${thread["id"]}` id=`${thread["id"]}`)
-              - var course = `${thread['coursecode']}`
-              case course
-                when 'CZ3002'
-                  .coursetag(style='background-color: orange') #{thread["coursecode"]}
-                when 'CZ3003'
-                  .coursetag(style='background-color: green') #{thread["coursecode"]}
-                when 'CZ4047'
-                  .coursetag(style='background-color: black') #{thread["coursecode"]}
-                default
-                  .coursetag #{thread["coursecode"]}
-              span#titles #{thread["title"]}
-              #username #{thread["threadowner"]}
-            td
-              // 25/19/2019 00:00:00AM
-              - var convertDateTime = function(dt) { return moment(Number(dt)).format('DD MMM YYYY hh:mm A '); }
-              - var datetime = convertDateTime(`${thread["dateMod"]}`)
-              p#datetime= datetime
-              p#replier #{thread["lasteditedby"]}
-            td#tdreplies #{thread["noOfReplies"]}
-            td#tdviews #{thread["viewcount"]}
-            td.tdbookmark
-              img#bookmark(src='/images/delete_bookmark.png' alt='Bookmark')
+          if thread["bookmark"] == "true" 
+            tr
+              td(data-href=`${thread["id"]}` id=`${thread["id"]}`)
+                - var course = `${thread['coursecode']}`
+                case course
+                  when 'CZ3002'
+                    .coursetag(style='background-color: orange') #{thread["coursecode"]}
+                  when 'CZ3003'
+                    .coursetag(style='background-color: green') #{thread["coursecode"]}
+                  when 'CZ4047'
+                    .coursetag(style='background-color: black') #{thread["coursecode"]}
+                  default
+                    .coursetag #{thread["coursecode"]}
+                span#titles #{thread["title"]}
+                #username #{thread["threadowner"]}
+              td
+                // 25/19/2019 00:00:00AM
+                - var convertDateTime = function(dt) { return moment(Number(dt)).format('DD MMM YYYY hh:mm A '); }
+                - var datetime = convertDateTime(`${thread["dateMod"]}`)
+                p#datetime= datetime
+                p#replier #{thread["lasteditedby"]}
+              td#tdreplies #{thread["noOfReplies"]}
+              td#tdviews #{thread["viewcount"]}
+              td.tdbookmark
+                img#bookmark(src='/images/delete_bookmark.png' alt='Bookmark')
 
   form(method='GET' action='/main')
       button.btn.btn-light#return-button(type='submit')

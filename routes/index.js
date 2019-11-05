@@ -959,6 +959,24 @@ router.post('/makepost', isLoggedIn, function(req, res, next) {
   res.redirect(req.get('referer'));
 });
 
+//bookmark a post
+
+router.post('/bookmarkthread', function(req, res, next) {
+  
+  console.log('Booking marking thread');
+  console.log('Course Code : '+ req.body.coursecode + " | Thread ID : " + req.body.threadid);
+  var coursecode = req.body.coursecode;
+  var threadid = req.body.threadid;
+  db.setBookmark(coursecode,threadid);
+
+  //console.log(coursecode + ";" + threadid + ";" + postid);
+  //db.deletePost(coursecode,threadid,postid);
+
+  res.redirect(req.get('referer'));
+});
+
+
+
 // Post and Get Method for displaying of Posts on particular thread
 router.post('/main/:thread_id', isLoggedIn, function(req, res, next){
   console.log("Posting to particular thread");

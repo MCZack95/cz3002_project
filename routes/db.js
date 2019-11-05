@@ -267,6 +267,21 @@ module.exports.updateThreadDetails = (coursecode,threadid,username) =>
 }
 
 
+// like last modified by which user and which time for display on main page
+module.exports.setBookmark = (coursecode,threadid) => 
+{
+  console.log("Setting thread as bookmark");
+  details_dict = {}
+  threadid = threadid.split("CZ")[0];
+  var details = firebase.database().ref('/'+coursecode+'/threads/'+coursecode+'Thread'+threadid);
+  details.once('value',
+  function(snapshot) {
+    details_dict = snapshot.val()
+    details.child("bookmark").set("true");
+  });
+}
+
+
 module.exports.updateRepliesCount = (update,coursecode,threadid) => 
 {
   console.log("Update replies count");
